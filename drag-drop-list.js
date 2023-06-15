@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import "./DragDropTouch"
+// import "./DragDropTouch"
 class DragDropList extends LitElement {
 
     static get styles() {
