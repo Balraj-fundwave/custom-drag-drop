@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "http://Balraj-fundwave.github.io/custom-drag-drop",
+  "homepage": "http://balraj-fundwave.github.io/custom-drag-drop",
   "repository": {
-    "url": "git+https://github.com/Balraj-fundwave/custom-drag-drop.git"
+    "url": "git+https://github.com/balraj-fundwave/custom-drag-drop.git"
   },
   "scripts": {
     "webpack": "webpack --config webpack.dev.js",
