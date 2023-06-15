@@ -3,7 +3,6 @@ import '@polymer/iron-icons';
 import '@polymer/paper-button';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-icon-button';
-
 import  {BoxInputStyles} from './input-styles'
 import {CustomDndStyles,headerRowStyle,ItemRowStyle} from './styles/index'
 import './drag-drop-list'
@@ -105,8 +104,7 @@ export class CustomDndList extends LitElement{
                          @item-reordered=${(e)=>this.handleReorderTag(e.detail)}
                         .dragItemRenderer=${(item)=>this.renderListItem(item)}>
                     </drag-drop-list>
-                ${
-                  this._addTagFieldVisible?
+                ${this._addTagFieldVisible?
                   html`<div class='input-field-container'>
                         <paper-input class='box' style='padding-left:30px;' .value=${this._newTagPrimaryAttribute ? this._newTagPrimaryAttribute : ''} .noLabelFloat=${true}
                         @value-changed=${(e)=>{this._newTagPrimaryAttribute=e.target.value;}} class='paper-text-input' ></paper-input>
