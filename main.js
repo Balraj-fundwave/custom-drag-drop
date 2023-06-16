@@ -629,7 +629,7 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
     key: "render",
     value: function render() {
       var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <div>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .positionAttribute = ", "\n                .uniqueIdAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <drag-drop-list .list=", " .dragItemRenderer=", ">\n                </drag-drop-list>\n            </div>  \n        "])), this.list, 'name', 'description', 'position', 'id', 'Tag Name', 'Tag Description', function (e) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <div>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .positionAttribute = ", "\n                .uniqueIdAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n            </div>  \n        "])), this.list, 'name', 'description', 'position', 'id', 'Tag Name', 'Tag Description', function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
@@ -637,8 +637,6 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
         return _this2.handleReorder(e.detail);
       }, function (e) {
         return _this2.handleUpdate(e.detail);
-      }, this.list, function (it) {
-        return it.name;
       });
     }
   }], [{
