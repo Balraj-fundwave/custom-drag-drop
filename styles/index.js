@@ -32,7 +32,7 @@ export const CustomDndStyles = html`
             paper-icon-button{
                 color:var(--row-icons-color,#515151);
             }
-            @media screen and (max-width: 400px) {
+            @media screen and (max-width: 480px) {
                 .input-field-container{
                     display:inline-grid;
                     grid-template-columns:1fr minmax(50px,auto);
@@ -63,7 +63,7 @@ export const headerRowStyle = html`
                 font-size: var(--header-font-size,17px);
                 font-weight: bold;
                 }
-            @media screen and (max-width: 400px) {
+            @media screen and (max-width: 480px) {
                 .header-row{
                     display:inline-grid;
                     grid-template-columns:1fr auto;
@@ -111,7 +111,7 @@ export const ItemRowStyle = html`
         margin-left: 10px;
         width: 98%;
     }
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 480px) {
         .item-block{
             display:inline-grid;
             grid-template-columns:1fr minmax(50px,auto);
