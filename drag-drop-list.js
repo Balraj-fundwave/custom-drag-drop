@@ -1,5 +1,4 @@
 import {LitElement, html, css} from 'lit';
-import "./DragDropTouch"
 class DragDropList extends LitElement {
 
     static get styles() {
@@ -39,8 +38,8 @@ class DragDropList extends LitElement {
 
     drop(e) { 
         let dropzone = e.currentTarget;
+        dropzone.classList.remove('active-drag-over');
         this.startContainer=this.dragStartElement.getAttribute("containerName");
-
         if(dropzone.className=="drag-container-item"){
             this.endContainer=dropzone.getAttribute("containerName");
             dropzone= this.shadowRoot.getElementById(this.endContainer);
@@ -109,12 +108,17 @@ class DragDropList extends LitElement {
                 .drag-container-item{
                     cursor: grabbing;
                 }
+                .active-drag-over{
+                    /* border-bottom: 3px solid #8f8f8f; */
+                    opacity:0.3;
+                }
             </style>
             <div class="drag-test">
                 <div class="vertical-container" id=${this.headerName}  @dragover=${(e) =>this.allowDrop(e)} >
                     ${this.list && this.list.map((item, index) => {
                         return html`
-                            <div class="drag-container-item" id=${index} @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  @drop=${(e) => this.drop(e)} >
+                            <div class="drag-container-item" id=${index} @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  @drop=${(e) => this.drop(e)}
+                            @dragover=${(e)=>e.currentTarget.classList.add('active-drag-over')} @dragleave=${(e)=>e.currentTarget.classList.remove('active-drag-over')}>
                                 ${this.dragItemRenderer(item) }
                             </div>
                             
