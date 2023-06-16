@@ -3,6 +3,7 @@ import '@polymer/iron-icons';
 import '@polymer/paper-button';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-icon-button';
+import '@polymer/paper-dialog/paper-dialog'
 import  {BoxInputStyles} from './input-styles'
 import {CustomDndStyles,headerRowStyle,ItemRowStyle} from './styles/index'
 import './drag-drop-list'
@@ -43,7 +44,7 @@ export class CustomDndList extends LitElement{
     handleUpdateTag(itemId){
         const itemIndex = this._activeEditsDetails.findIndex((item)=> item[this.uniqueIdAttribute] === itemId);
         const updatedTag = this._activeEditsDetails[itemIndex];
-        if(updatedTag[this.primaryAttribute]===''){alert(`${this.primaryHeaderValue} is required`);return;}
+        if(updatedTag[this.primaryAttribute]===''){this.shadowRoot.querySelector('#edit-field-dialog').open();return;}
         const currentTag = this.list?.find((item)=> item[this.uniqueIdAttribute] === itemId);
 
         updatedTag[this.positionAttribute]= currentTag[this.positionAttribute];
@@ -60,7 +61,10 @@ export class CustomDndList extends LitElement{
         this.dispatchEvent(deleteEvent);
     }
     handleAddNewTag(){
-        if(this._newTagPrimaryAttribute.trim()===''){alert(`${this.primaryHeaderValue} is required`);return;}
+        if(this._newTagPrimaryAttribute.trim()===''){
+            this.shadowRoot.querySelector('#add-field-dialog').open()
+            return;
+        }
         let newTagObj = {};
         newTagObj[this.primaryAttribute]= this._newTagPrimaryAttribute;
         if(this.secondaryAttribute){newTagObj[this.secondaryAttribute] = this._newTagSecondaryAttribute};
@@ -117,6 +121,18 @@ export class CustomDndList extends LitElement{
                     <paper-button style='margin-top:15px;' noink raised @tap=${()=>{this._addTagFieldVisible=true;}}>
                     <iron-icon icon="add-circle-outline"></iron-icon>ADD</paper-button>
             </div>
+            <paper-dialog id="add-field-dialog" modal>
+                <p>${this.primaryHeaderValue} is required</p>
+                <div class='buttons'>
+                <paper-button no-ink dialog-confirm autofocus>Close Warning</paper-button>
+                </div>
+            </paper-dialog>
+            <paper-dialog id="edit-field-dialog" modal>
+                <p>${this.primaryAttribute} is required</p>
+                <div class='buttons'>
+                <paper-button no-ink dialog-confirm autofocus>Close Warning</paper-button>
+                </div>
+            </paper-dialog>
         
             `;
     }

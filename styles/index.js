@@ -87,7 +87,7 @@ export const ItemRowStyle = html`
         color:#fa3636;
     }
     .edit-btn:hover{
-        color:#04d115;
+        color:#07e3cd;
     }
     .item-block{
         width: 100%;
