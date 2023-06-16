@@ -107,10 +107,11 @@ class DragDropList extends LitElement {
             <style>
                 .drag-container-item{
                     cursor: grabbing;
+                    padding:5px 0px;
                 }
                 .active-drag-over{
-                    /* border-bottom: 3px solid #8f8f8f; */
-                    opacity:0.3;
+                    padding-bottom:1px;
+                    border-bottom: 4px solid var(--drag-over-line-color,#048edd8e);
                 }
             </style>
             <div class="drag-test">

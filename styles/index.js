@@ -102,7 +102,6 @@ export const ItemRowStyle = html`
         display: flex;
         cursor: default;
         min-height: max-content;
-        margin: 5px;
         align-items: center;
         color:var(--row-item-color);
         background:var(--row-item-background);

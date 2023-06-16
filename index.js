@@ -60,6 +60,8 @@ export class IndexClass extends LitElement{
                 @item-repositioned=${(e)=>this.handleReorder(e.detail)}
                 @item-updated=${(e)=>this.handleUpdate(e.detail)}
                 ></custom-dnd-list>
+                <drag-drop-list .list=${this.list} .dragItemRenderer=${(it)=>it.name}>
+                </drag-drop-list>
             </div>  
         `;
     }
