@@ -24,7 +24,7 @@ export const CustomDndStyles = html`
                 grid-template-columns: 1fr 2fr 40px 40px;
                 margin-left: 10px;
                 margin-bottom: 10px;
-                border-bottom: 2px solid var(--row-item-bottom-color,#515151);
+                border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);
                 border-radius: var(--border-radius,10px);
                 padding: 10px 0px;
                 align-items: center;
@@ -58,7 +58,7 @@ export const headerRowStyle = html`
                 width: calc( 99% - 50px );
                 padding: 0px 0px 5px 30px;
                 margin-left: 15px;
-                border-bottom: 3px solid var(--header-bottom-border-color,#515151);
+                border-bottom: var(--header-border-bottom-size,3px) solid var(--header-bottom-border-color,#515151);
                 border-radius: var(--border-radius,10px);
                 font-size: var(--header-font-size,17px);
                 font-weight: bold;
@@ -87,7 +87,7 @@ export const ItemRowStyle = html`
         color:#fa3636;
     }
     .edit-btn:hover{
-        color:#07e3cd;
+        color:#07e350;
     }
     .item-block{
         width: 100%;
@@ -105,7 +105,7 @@ export const ItemRowStyle = html`
         align-items: center;
         color:var(--row-item-color);
         background:var(--row-item-background);
-        border-bottom: 2px solid var(--row-item-bottom-color,#515151);
+        border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);
         border-radius: var(--border-radius,10px);
         margin-left: 10px;
         width: 98%;

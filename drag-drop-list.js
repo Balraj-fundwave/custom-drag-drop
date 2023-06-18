@@ -34,6 +34,7 @@ class DragDropList extends LitElement {
     dragStart(e) {
         this.dragStartElement= e.target;
         e.dataTransfer.setData("text", e.target);
+        e.target.style.opacity= 0.2;
     }
 
     drop(e) { 
@@ -119,7 +120,7 @@ class DragDropList extends LitElement {
                     ${this.list && this.list.map((item, index) => {
                         return html`
                             <div class="drag-container-item" id=${index} @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  @drop=${(e) => this.drop(e)}
-                            @dragover=${(e)=>e.currentTarget.classList.add('active-drag-over')} @dragleave=${(e)=>e.currentTarget.classList.remove('active-drag-over')}>
+                            @dragover=${(e)=>e.currentTarget.classList.add('active-drag-over')} @dragleave=${(e)=>e.currentTarget.classList.remove('active-drag-over')} @dragend=${(e)=> e.currentTarget.style.opacity=''}>
                                 ${this.dragItemRenderer(item) }
                             </div>
                             
