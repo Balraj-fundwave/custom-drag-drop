@@ -49,12 +49,12 @@ export class IndexClass extends LitElement{
             <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>
                 <custom-dnd-list
                 .list=${this.list}
-                .primaryAttribute=${'name'}
-                .secondaryAttribute=${'description'}
-                .positionAttribute = ${'position'}
-                .uniqueIdAttribute = ${'id'}
-                .primaryHeaderValue = ${'Tag Name'}
-                .secondaryHeaderValue = ${'Tag Description'}
+                .primaryAttribute=${'tagname'}
+                .secondaryAttribute=${'tagdesc'}
+                .positionAttribute = ${'tagorder'}
+                .uniqueIdAttribute = ${'identifier'}
+                .primaryHeaderValue = ${'Tag Name Header'}
+                .secondaryHeaderValue = ${'Tag Desscription header'}
                 @item-deleted=${(e)=>this.handleDelete(e.detail)}
                 @item-added=${(e)=>this.handleAdd(e.detail)}
                 @item-repositioned=${(e)=>this.handleReorder(e.detail)}
@@ -66,39 +66,39 @@ export class IndexClass extends LitElement{
 }
 const sampleDocumentTags = [
     {
-      id: "5ee9b297cc6c8cea31387c33",
-      name: "VA",
-      description: "Voting agreement",
-      position: 1024
+      identifier: "5ee9b297cc6c8cea31387c33",
+      tagname: "VA",
+      tagdesc: "Voting agreement",
+      tagorder: 1024
     },
     {
-      id: "62b56101904ca55d591af825",
-      name: "Term Sheet",
-      position: 2048
+      identifier: "62b56101904ca55d591af825",
+      tagname: "Term Sheet",
+      tagorder: 2048
     },
       {
-        id: "32rfew2f432a55d591af825",
-        name: "Subscription Agreement",
-        position: 4096
+        identifier: "32rfew2f432a55d591af825",
+        tagname: "Subscription Agreement",
+        tagorder: 4096
       },
       {
-      id: "60c2075225ecbda94db4a78d",
-      name: "IRA",
-      description: "Investor Right Agreement",
-      position: 3072
+      identifier: "60c2075225ecbda94db4a78d",
+      tagname: "IRA",
+      tagdesc: "Investor Right Agreement",
+      tagorder: 3072
     },
       {
-        id: "23rf3wf34225ecbda94db4a78d",
-        name: "RoFR",
-        description: "Right of First Refusal",
-        position: 5120
+        identifier: "23rf3wf34225ecbda94db4a78d",
+        tagname: "RoFR",
+        tagdesc: "Right of First Refusal",
+        tagorder: 5120
       }
   ]
 const singleItemList = [{
-      id: "5ee9b297cc6c8cea31387c33",
-      name: "VA",
-      description: "Voting agreement",
-      position: 1024
+      identifier: "5ee9b297cc6c8cea31387c33",
+      tagname: "VA",
+      tagdesc: "Voting agreement",
+      tagorder: 1024
     }];
 
 window.customElements.define('index-tag',IndexClass);

@@ -42,14 +42,14 @@ export class CustomDndList extends LitElement{
         this._activeEditsDetails.push(editTag);
     }
     handleUpdateTag(itemId){
-        const itemIndex = this._activeEditsDetails.findIndex((item)=> item[this.uniqueIdAttribute] === itemId);
-        const updatedTag = this._activeEditsDetails[itemIndex];
+        const updatedTag = this._activeEditsDetails.find((item)=> item[this.uniqueIdAttribute]===itemId)
         if(updatedTag[this.primaryAttribute]===''){this.shadowRoot.querySelector('#edit-field-dialog').open();return;}
         const currentTag = this.list?.find((item)=> item[this.uniqueIdAttribute] === itemId);
-
         updatedTag[this.positionAttribute]= currentTag[this.positionAttribute];
+        
         this._activeEditsDetails.splice(this._activeEditsDetails.findIndex((obj)=> obj[this.uniqueIdAttribute] === itemId), 1)
-
+        this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=itemId);
+        
         let updateEvent = new CustomEvent('item-updated',{detail:{data:updatedTag}});
         this.list= this.list?.filter((item)=> item[this.uniqueIdAttribute] !== itemId);
         this.list= [...this.list,updatedTag];
@@ -61,10 +61,7 @@ export class CustomDndList extends LitElement{
         this.dispatchEvent(deleteEvent);
     }
     handleAddNewTag(){
-        if(this._newTagPrimaryAttribute.trim()===''){
-            this.shadowRoot.querySelector('#add-field-dialog').open()
-            return;
-        }
+        if(this._newTagPrimaryAttribute.trim()===''){this.shadowRoot.querySelector('#add-field-dialog').open();return;}
         let newTagObj = {};
         newTagObj[this.primaryAttribute]= this._newTagPrimaryAttribute;
         if(this.secondaryAttribute){newTagObj[this.secondaryAttribute] = this._newTagSecondaryAttribute};
@@ -73,9 +70,8 @@ export class CustomDndList extends LitElement{
         newTagObj[this.positionAttribute]= maxPosition + 1024;
 
         let addEvent= new CustomEvent('item-added',{detail:{data:newTagObj}});
-
-        let apiResponseObj = {id:`${Math.random().toString().slice(2,11)}ecbda94db4a78d`,...newTagObj};
-        this.list= [...this.list, apiResponseObj];
+        let newItemWithID = {id:`${Math.random().toString().slice(2,11)}ecbda94db4a78d`,...newTagObj};
+        this.list= [...this.list, newItemWithID];
         this._newTagPrimaryAttribute='';this._newTagSecondaryAttribute='';this._addTagFieldVisible=false;
         this.dispatchEvent(addEvent);
     }
@@ -95,6 +91,32 @@ export class CustomDndList extends LitElement{
         this.list= [...this.list,updatedItem];
         this.dispatchEvent(positionUpdateEvent);
     }
+    // handletemp(eventDetails){
+    //     let updatedList = [...eventDetails.data];
+    //     let updateIndex ;
+    //     for(let i=0;i<updatedList.length;i++){
+    //         if( updatedList[i][this.positionAttribute] < ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) &&
+    //         updatedList[i][this.positionAttribute]<((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity))
+    //             {updateIndex=i;break;}
+    //         if( updatedList[i][this.positionAttribute]> ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) && 
+    //         updatedList[i][this.positionAttribute]>((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity) )
+    //             {updateIndex=i;break;}
+    //     }
+    //     let updatedItem = {...updatedList[updateIndex]};
+    //     if(updateIndex===0)
+    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex+1][this.positionAttribute]/2) }
+    //     else if(updateIndex==updatedList.length-1)
+    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute] + 1024)  }
+    //     else
+    //     {
+    //         updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute]+ updatedList[updateIndex+1][this.positionAttribute]) / 2;
+    //     }
+    //     console.log(updatedItem);
+    //     // this.list = this.list.filter((item)=> item[this.uniqueIdAttribute]!== updatedItem[this.uniqueIdAttribute]);
+    //     // console.log(updatedList.sort((a,b)=> a[this.positionAttribute]- b[this.positionAttribute]));
+    //     // this. list = [...this.list,updatedList]
+    //     // console.log(this.list);
+    // }
     render(){
         return html`
         ${BoxInputStyles}
@@ -105,7 +127,7 @@ export class CustomDndList extends LitElement{
                         .list=${this.list?.sort((a,b)=> a[this.positionAttribute] -b[this.positionAttribute])}
                         .customReactiveProperties=${[this._editTagFieldVisible]}
                         .headerName="custom-tag-table"
-                         @item-reordered=${(e)=>this.handleReorderTag(e.detail)}
+                         @item-reordered=${(e)=> this.handleReorderTag(e.detail)}
                         .dragItemRenderer=${(item)=>this.renderListItem(item)}>
                     </drag-drop-list>
                 ${this._addTagFieldVisible?
@@ -128,7 +150,7 @@ export class CustomDndList extends LitElement{
                 </div>
             </paper-dialog>
             <paper-dialog id="edit-field-dialog" modal>
-                <p>${this.primaryAttribute} is required</p>
+                <p>${this.primaryHeaderValue} is required</p>
                 <div class='buttons'>
                 <paper-button no-ink dialog-confirm autofocus>Close Warning</paper-button>
                 </div>
@@ -154,17 +176,15 @@ export class CustomDndList extends LitElement{
         <div class='item-block' draggable='true' @dragstart=${(e)=> {e.preventDefault();e.stopPropagation();}}>
             ${
                 this._editTagFieldVisible?.includes(item[this.uniqueIdAttribute])?
-                html`<paper-input .value=${item.name} .noLabelFloat=${true} class='box'
-                        @value-changed=${(e)=> { this._handleActiveEdit(item[this.uniqueIdAttribute],'name',e.target.value) }}></paper-input>
-                        ${this.secondaryAttribute && html`<paper-input .value=${item.description} .noLabelFloat=${true} class='box second-item'
-                        @value-changed=${(e)=> {this._handleActiveEdit(item[this.uniqueIdAttribute],'description',e.target.value)}}></paper-input>`}
-                        <paper-icon-button icon="check" 
-                        @tap=${()=> {this.handleUpdateTag(item[this.uniqueIdAttribute]);
-                                this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=item[this.uniqueIdAttribute]);}}></paper-icon-button>
+                html`<paper-input .value=${item[this.primaryAttribute]} .noLabelFloat=${true} class='box'
+                        @value-changed=${(e)=> { this._handleActiveEdit(item[this.uniqueIdAttribute],this.primaryAttribute,e.target.value) }}></paper-input>
+                        ${this.secondaryAttribute && html`<paper-input .value=${item[this.secondaryAttribute]} .noLabelFloat=${true} class='box second-item'
+                        @value-changed=${(e)=> {this._handleActiveEdit(item[this.uniqueIdAttribute],this.secondaryAttribute,e.target.value)}}></paper-input>`}
+                        <paper-icon-button icon="check" @tap=${()=> {this.handleUpdateTag(item[this.uniqueIdAttribute]);}}></paper-icon-button>
                         <paper-icon-button icon="cancel"
                             @tap=${()=>{ this._activeEditsDetails.splice(this._activeEditsDetails.findIndex((obj)=> obj[this.uniqueIdAttribute] === item[this.uniqueIdAttribute]),1)
                                 this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=item[this.uniqueIdAttribute]);}} ></paper-icon-button>    `
-                :html`<span>${item.name}</span>${this.secondaryAttribute && html`<span class='second-item'>${item.description}</span>`}
+                :html`<span>${item[this.primaryAttribute]}</span>${this.secondaryAttribute && html`<span class='second-item'>${item[this.secondaryAttribute]}</span>`}
                 <paper-icon-button class='edit-btn' icon="create" @tap=${()=>{this._editTagFieldVisible = [...this._editTagFieldVisible, item[this.uniqueIdAttribute]];}}></paper-icon-button>
                 <paper-icon-button class='delete-btn' icon="delete" @tap=${()=>{this.handleDeleteTag(item)}}></paper-icon-button>`}
         </div>
