@@ -53,8 +53,8 @@ export class IndexClass extends LitElement{
                 .secondaryAttribute=${'tagdesc'}
                 .positionAttribute = ${'tagorder'}
                 .uniqueIdAttribute = ${'identifier'}
-                .primaryHeaderValue = ${'Tag Name Header'}
-                .secondaryHeaderValue = ${'Tag Desscription header'}
+                .primaryHeaderValue = ${'Tag Name'}
+                .secondaryHeaderValue = ${'Tag Description'}
                 @item-deleted=${(e)=>this.handleDelete(e.detail)}
                 @item-added=${(e)=>this.handleAdd(e.detail)}
                 @item-repositioned=${(e)=>this.handleReorder(e.detail)}
