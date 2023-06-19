@@ -172,10 +172,9 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       var _this3 = this,
         _this$list,
         _this$list2;
-      var itemIndex = this._activeEditsDetails.findIndex(function (item) {
+      var updatedTag = this._activeEditsDetails.find(function (item) {
         return item[_this3.uniqueIdAttribute] === itemId;
       });
-      var updatedTag = this._activeEditsDetails[itemIndex];
       if (updatedTag[this.primaryAttribute] === '') {
         this.shadowRoot.querySelector('#edit-field-dialog').open();
         return;
@@ -187,6 +186,9 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       this._activeEditsDetails.splice(this._activeEditsDetails.findIndex(function (obj) {
         return obj[_this3.uniqueIdAttribute] === itemId;
       }), 1);
+      this._editTagFieldVisible = this._editTagFieldVisible.filter(function (id) {
+        return id != itemId;
+      });
       var updateEvent = new CustomEvent('item-updated', {
         detail: {
           data: updatedTag
@@ -236,10 +238,10 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
           data: newTagObj
         }
       });
-      var apiResponseObj = _objectSpread({
+      var newItemWithID = _objectSpread({
         id: "".concat(Math.random().toString().slice(2, 11), "ecbda94db4a78d")
       }, newTagObj);
-      this.list = [].concat(_toConsumableArray(this.list), [apiResponseObj]);
+      this.list = [].concat(_toConsumableArray(this.list), [newItemWithID]);
       this._newTagPrimaryAttribute = '';
       this._newTagSecondaryAttribute = '';
       this._addTagFieldVisible = false;
@@ -271,6 +273,32 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       this.list = [].concat(_toConsumableArray(this.list), [updatedItem]);
       this.dispatchEvent(positionUpdateEvent);
     }
+    // handletemp(eventDetails){
+    //     let updatedList = [...eventDetails.data];
+    //     let updateIndex ;
+    //     for(let i=0;i<updatedList.length;i++){
+    //         if( updatedList[i][this.positionAttribute] < ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) &&
+    //         updatedList[i][this.positionAttribute]<((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity))
+    //             {updateIndex=i;break;}
+    //         if( updatedList[i][this.positionAttribute]> ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) && 
+    //         updatedList[i][this.positionAttribute]>((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity) )
+    //             {updateIndex=i;break;}
+    //     }
+    //     let updatedItem = {...updatedList[updateIndex]};
+    //     if(updateIndex===0)
+    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex+1][this.positionAttribute]/2) }
+    //     else if(updateIndex==updatedList.length-1)
+    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute] + 1024)  }
+    //     else
+    //     {
+    //         updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute]+ updatedList[updateIndex+1][this.positionAttribute]) / 2;
+    //     }
+    //     console.log(updatedItem);
+    //     // this.list = this.list.filter((item)=> item[this.uniqueIdAttribute]!== updatedItem[this.uniqueIdAttribute]);
+    //     // console.log(updatedList.sort((a,b)=> a[this.positionAttribute]- b[this.positionAttribute]));
+    //     // this. list = [...this.list,updatedList]
+    //     // console.log(this.list);
+    // }
   }, {
     key: "render",
     value: function render() {
@@ -294,7 +322,7 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         _this7._addTagFieldVisible = false;
       }) : null, function () {
         _this7._addTagFieldVisible = true;
-      }, this.primaryHeaderValue, this.primaryAttribute);
+      }, this.primaryHeaderValue, this.primaryHeaderValue);
     }
   }, {
     key: "headerRow",
@@ -309,15 +337,12 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n        ", "\n        ", "\n        <div class='item-row-wrapper'>\n        <iron-icon id='drag-icon' icon=\"reorder\"></iron-icon>\n        <div class='item-block' draggable='true' @dragstart=", ">\n            ", "\n        </div>\n        </div>"])), _styles_index__WEBPACK_IMPORTED_MODULE_7__["ItemRowStyle"], _input_styles__WEBPACK_IMPORTED_MODULE_6__["BoxInputStyles"], function (e) {
         e.preventDefault();
         e.stopPropagation();
-      }, (_this$_editTagFieldVi = this._editTagFieldVisible) !== null && _this$_editTagFieldVi !== void 0 && _this$_editTagFieldVi.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<paper-input .value=", " .noLabelFloat=", " class='box'\n                        @value-changed=", "></paper-input>\n                        ", "\n                        <paper-icon-button icon=\"check\" \n                        @tap=", "></paper-icon-button>\n                        <paper-icon-button icon=\"cancel\"\n                            @tap=", " ></paper-icon-button>    "])), item.name, true, function (e) {
-        _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], 'name', e.target.value);
-      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<paper-input .value=", " .noLabelFloat=", " class='box second-item'\n                        @value-changed=", "></paper-input>"])), item.description, true, function (e) {
-        _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], 'description', e.target.value);
+      }, (_this$_editTagFieldVi = this._editTagFieldVisible) !== null && _this$_editTagFieldVi !== void 0 && _this$_editTagFieldVi.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<paper-input .value=", " .noLabelFloat=", " class='box'\n                        @value-changed=", "></paper-input>\n                        ", "\n                        <paper-icon-button icon=\"check\" @tap=", "></paper-icon-button>\n                        <paper-icon-button icon=\"cancel\"\n                            @tap=", " ></paper-icon-button>    "])), item[this.primaryAttribute], true, function (e) {
+        _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], _this8.primaryAttribute, e.target.value);
+      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<paper-input .value=", " .noLabelFloat=", " class='box second-item'\n                        @value-changed=", "></paper-input>"])), item[this.secondaryAttribute], true, function (e) {
+        _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], _this8.secondaryAttribute, e.target.value);
       }), function () {
         _this8.handleUpdateTag(item[_this8.uniqueIdAttribute]);
-        _this8._editTagFieldVisible = _this8._editTagFieldVisible.filter(function (id) {
-          return id != item[_this8.uniqueIdAttribute];
-        });
       }, function () {
         _this8._activeEditsDetails.splice(_this8._activeEditsDetails.findIndex(function (obj) {
           return obj[_this8.uniqueIdAttribute] === item[_this8.uniqueIdAttribute];
@@ -325,7 +350,7 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         _this8._editTagFieldVisible = _this8._editTagFieldVisible.filter(function (id) {
           return id != item[_this8.uniqueIdAttribute];
         });
-      }) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["<span>", "</span>", "\n                <paper-icon-button class='edit-btn' icon=\"create\" @tap=", "></paper-icon-button>\n                <paper-icon-button class='delete-btn' icon=\"delete\" @tap=", "></paper-icon-button>"])), item.name, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["<span class='second-item'>", "</span>"])), item.description), function () {
+      }) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["<span>", "</span>", "\n                <paper-icon-button class='edit-btn' icon=\"create\" @tap=", "></paper-icon-button>\n                <paper-icon-button class='delete-btn' icon=\"delete\" @tap=", "></paper-icon-button>"])), item[this.primaryAttribute], this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["<span class='second-item'>", "</span>"])), item[this.secondaryAttribute]), function () {
         _this8._editTagFieldVisible = [].concat(_toConsumableArray(_this8._editTagFieldVisible), [item[_this8.uniqueIdAttribute]]);
       }, function () {
         _this8.handleDeleteTag(item);
@@ -634,7 +659,7 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
     key: "render",
     value: function render() {
       var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <div>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .positionAttribute = ", "\n                .uniqueIdAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n            </div>  \n        "])), this.list, 'name', 'description', 'position', 'id', 'Tag Name', 'Tag Description', function (e) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <div>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .positionAttribute = ", "\n                .uniqueIdAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n            </div>  \n        "])), this.list, 'tagname', 'tagdesc', 'tagorder', 'identifier', 'Tag Name Header', 'Tag Desscription header', function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
@@ -655,34 +680,34 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
   return IndexClass;
 }(lit__WEBPACK_IMPORTED_MODULE_0__["LitElement"]);
 var sampleDocumentTags = [{
-  id: "5ee9b297cc6c8cea31387c33",
-  name: "VA",
-  description: "Voting agreement",
-  position: 1024
+  identifier: "5ee9b297cc6c8cea31387c33",
+  tagname: "VA",
+  tagdesc: "Voting agreement",
+  tagorder: 1024
 }, {
-  id: "62b56101904ca55d591af825",
-  name: "Term Sheet",
-  position: 2048
+  identifier: "62b56101904ca55d591af825",
+  tagname: "Term Sheet",
+  tagorder: 2048
 }, {
-  id: "32rfew2f432a55d591af825",
-  name: "Subscription Agreement",
-  position: 4096
+  identifier: "32rfew2f432a55d591af825",
+  tagname: "Subscription Agreement",
+  tagorder: 4096
 }, {
-  id: "60c2075225ecbda94db4a78d",
-  name: "IRA",
-  description: "Investor Right Agreement",
-  position: 3072
+  identifier: "60c2075225ecbda94db4a78d",
+  tagname: "IRA",
+  tagdesc: "Investor Right Agreement",
+  tagorder: 3072
 }, {
-  id: "23rf3wf34225ecbda94db4a78d",
-  name: "RoFR",
-  description: "Right of First Refusal",
-  position: 5120
+  identifier: "23rf3wf34225ecbda94db4a78d",
+  tagname: "RoFR",
+  tagdesc: "Right of First Refusal",
+  tagorder: 5120
 }];
 var singleItemList = [{
-  id: "5ee9b297cc6c8cea31387c33",
-  name: "VA",
-  description: "Voting agreement",
-  position: 1024
+  identifier: "5ee9b297cc6c8cea31387c33",
+  tagname: "VA",
+  tagdesc: "Voting agreement",
+  tagorder: 1024
 }];
 window.customElements.define('index-tag', IndexClass);
 
