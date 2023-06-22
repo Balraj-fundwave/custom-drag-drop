@@ -45,14 +45,14 @@ export class IndexClass extends LitElement{
     }
     render(){
         return html`
-            <div>
+            <div style='margin:auto; width:85%'>
             <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>
                 <custom-dnd-list
                 .list=${this.list}
-                .primaryAttribute=${'tagname'}
-                .secondaryAttribute=${'tagdesc'}
-                .positionAttribute = ${'tagorder'}
-                .uniqueIdAttribute = ${'identifier'}
+                .primaryAttribute=${'name'}
+                .secondaryAttribute=${'description'}
+                .uniqueIdAttribute = ${'id'}
+                .positionAttribute = ${'position'}
                 .primaryHeaderValue = ${'Tag Name'}
                 .secondaryHeaderValue = ${'Tag Description'}
                 @item-deleted=${(e)=>this.handleDelete(e.detail)}
@@ -60,45 +60,121 @@ export class IndexClass extends LitElement{
                 @item-repositioned=${(e)=>this.handleReorder(e.detail)}
                 @item-updated=${(e)=>this.handleUpdate(e.detail)}
                 ></custom-dnd-list>
+                <hr/>
+                <h3>Only with .primaryAttribute & .primaryHeaderValue </h3>
+                <custom-dnd-list
+                .list=${this.list}
+                .primaryAttribute=${'name'}
+                .uniqueIdAttribute = ${'id'}
+                .positionAttribute = ${'position'}
+                .primaryHeaderValue = ${'Tag Name'}
+                @item-deleted=${(e)=>this.handleDelete(e.detail)}
+                @item-added=${(e)=>this.handleAdd(e.detail)}
+                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
+                @item-updated=${(e)=>this.handleUpdate(e.detail)}
+                ></custom-dnd-list>
+                <hr/>
+                <h3>Without .positionAttribute </h3>
+                <h4>The Order reset to the list's order with any new addition/update</h4>
+                <custom-dnd-list
+                .list=${[...sampleDocumentTags]}
+                .primaryAttribute=${'name'}
+                .secondaryAttribute=${'description'}
+                .uniqueIdAttribute = ${'id'}
+                .primaryHeaderValue = ${'Tag Name'}
+                @item-deleted=${(e)=>this.handleDelete(e.detail)}
+                @item-added=${(e)=>this.handleAdd(e.detail)}
+                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
+                @item-updated=${(e)=>this.handleUpdate(e.detail)}
+                ></custom-dnd-list>
+                <hr/>
+                <h3>Without .primaryAttribute or .uniqueIdAttribute</h3>
+                <h4>list not displayed as both are required</h4>
+                <custom-dnd-list
+                .list=${this.list}
+                .positionAttribute = ${'position'}
+                .primaryHeaderValue = ${'Tag Name'}
+                .secondaryHeaderValue = ${'Tag Description'}
+                .positionAttribute = ${'position'}
+                @item-deleted=${(e)=>this.handleDelete(e.detail)}
+                @item-added=${(e)=>this.handleAdd(e.detail)}
+                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
+                @item-updated=${(e)=>this.handleUpdate(e.detail)}
+                ></custom-dnd-list>
+                <hr/>
+                <h3>Without .primaryHeaderValue</h3>
+                <custom-dnd-list
+                .list=${this.list}
+                .primaryAttribute=${'name'}
+                .uniqueIdAttribute = ${'id'}
+                .positionAttribute = ${'position'}
+                @item-deleted=${(e)=>this.handleDelete(e.detail)}
+                @item-added=${(e)=>this.handleAdd(e.detail)}
+                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
+                @item-updated=${(e)=>this.handleUpdate(e.detail)}
+                ></custom-dnd-list>
+                <hr/>
+                <h3>CSS VARIABLES Available</h3>
+                <div style='display: inline-grid;
+                            grid-template-columns: 1fr 1fr 1fr;
+                            gap: 0px 15px;'>
+                <p>--header-bottom-border-color</p>  
+                <p>--header-font-size</p>
+                <p>--header-border-bottom-size</p>
+                <p>--header-text-color</p>
+                <p>--row-item-font-size</p>
+                <p>--row-item-bottom-color</p>
+                <p>--border-radius</p>
+                <p>--row-item-color</p>
+                <p>--row-item-background</p>
+                <p>--row-icons-color</p>
+                <p>--item-border-bottom-size</p>
+                <p>--add-button-color</p>
+                <p>--add-button-background</p>
+                <p>--drag-over-line-color</p>
+                <div>
+                
+                </div>
             </div>  
         `;
     }
 }
 const sampleDocumentTags = [
-    {
-      identifier: "5ee9b297cc6c8cea31387c33",
-      tagname: "VA",
-      tagdesc: "Voting agreement",
-      tagorder: 1024
-    },
-    {
-      identifier: "62b56101904ca55d591af825",
-      tagname: "Term Sheet",
-      tagorder: 2048
-    },
+   
       {
-        identifier: "32rfew2f432a55d591af825",
-        tagname: "Subscription Agreement",
-        tagorder: 4096
+        id: "32rfew2f432a55d591af825",
+        name: "Subscription Agreement",
+        position: 4096
       },
       {
-      identifier: "60c2075225ecbda94db4a78d",
-      tagname: "IRA",
-      tagdesc: "Investor Right Agreement",
-      tagorder: 3072
+      id: "60c2075225ecbda94db4a78d",
+      name: "IRA",
+      description: "Investor Right Agreement",
+      position: 3072
     },
-      {
-        identifier: "23rf3wf34225ecbda94db4a78d",
-        tagname: "RoFR",
-        tagdesc: "Right of First Refusal",
-        tagorder: 5120
-      }
+    {
+        id: "23rf3wf34225ecbda94db4a78d",
+        name: "RoFR",
+        description: "Right of First Refusal",
+        position: 5120
+    },
+    {
+        id: "5ee9b297cc6c8cea31387c33",
+        name: "VA",
+        description: "Voting agreement",
+        position: 1024
+    },
+    {
+      id: "62b56101904ca55d591af825",
+      name: "Term Sheet",
+      position: 2048
+    },
   ]
 const singleItemList = [{
-      identifier: "5ee9b297cc6c8cea31387c33",
-      tagname: "VA",
-      tagdesc: "Voting agreement",
-      tagorder: 1024
+      id: "5ee9b297cc6c8cea31387c33",
+      name: "VA",
+      description: "Voting agreement",
+      position: 1024
     }];
 
 window.customElements.define('index-tag',IndexClass);

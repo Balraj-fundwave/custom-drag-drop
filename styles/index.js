@@ -21,7 +21,7 @@ export const CustomDndStyles = html`
                 display: grid;
                 width: 100%;
                 gap: 10px;
-                grid-template-columns: 1fr 90px;
+                grid-template-columns: 1fr auto;
                 margin-left: 10px;
                 margin-bottom: 10px;
                 border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);
@@ -34,6 +34,9 @@ export const CustomDndStyles = html`
                 grid-template-columns: 1fr 2fr;
                 gap:10px;
                 margin-left:30px;
+            }
+            .add-input-wrapper > .grid-template-1-column{
+                grid-template-columns:1fr ;
             }
             .add-input-wrapper > .add-input-actions-btn{
                 display: inline-grid;
@@ -86,6 +89,9 @@ export const headerRowStyle = html`
                 color: var(--header-text-color,'');
                 font-weight: bold;
                 }
+            .grid-template-2-column{
+                grid-template-columns:1fr minmax(70px,auto);
+            }
             @media screen and (max-width: 480px) {
                 .header-row{
                     display:inline-grid;
@@ -134,6 +140,9 @@ export const ItemRowStyle = html`
         margin-left: 10px;
         width: 100%;
     }
+    .grid-template-3-column{
+        grid-template-columns:1fr auto auto;
+    }
     @media screen and (max-width: 480px) {
         .item-block{
             display:inline-grid;
@@ -143,6 +152,9 @@ export const ItemRowStyle = html`
         }
         .second-item{
             grid-row:2;
+        }
+        .grid-reposition-btn{
+            grid-column:2;
         }
     }
 </style>

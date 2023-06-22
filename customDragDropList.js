@@ -3,7 +3,6 @@ import '@polymer/iron-icons';
 import '@polymer/paper-button';
 import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-icon-button';
-import '@polymer/paper-dialog/paper-dialog'
 import  {BoxInputStyles} from './input-styles'
 import {CustomDndStyles,headerRowStyle,ItemRowStyle} from './styles/index'
 import './drag-drop-list'
@@ -29,6 +28,7 @@ export class CustomDndList extends LitElement{
     }
     constructor(){
         super();
+        this.list = [];
         this._addTagFieldVisible=false;
         this._editTagFieldVisible=[];
         this._activeEditsDetails=[];
@@ -48,7 +48,8 @@ export class CustomDndList extends LitElement{
             return;
         }
         const currentTag = this.list?.find((item)=> item[this.uniqueIdAttribute] === itemId);
-        updatedTag[this.positionAttribute]= currentTag[this.positionAttribute];
+        if(this.positionAttribute) 
+            updatedTag[this.positionAttribute]= currentTag[this.positionAttribute];
         this._activeEditsDetails.splice(this._activeEditsDetails.findIndex((obj)=> obj[this.uniqueIdAttribute] === itemId), 1)
         this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=itemId);
         let updateEvent = new CustomEvent('item-updated',{detail:{data:updatedTag}});
@@ -70,9 +71,11 @@ export class CustomDndList extends LitElement{
         let newTagObj = {};
         newTagObj[this.primaryAttribute]= this._newTagPrimaryAttribute;
         if(this.secondaryAttribute){newTagObj[this.secondaryAttribute] = this._newTagSecondaryAttribute};
-
-        const maxPosition = this.list.length? Math.max(...this.list.map((item)=> item[this.positionAttribute])):0;
-        newTagObj[this.positionAttribute]= maxPosition + 1024;
+        if(this.positionAttribute){
+            
+            const maxPosition = this.list.length? Math.max(...this.list.map((item)=> item[this.positionAttribute])):0;
+            newTagObj[this.positionAttribute]= maxPosition + 1024;
+        }
 
         let addEvent= new CustomEvent('item-added',{detail:{data:newTagObj}});
         let newItemWithID = {id:`${Math.random().toString().slice(2,11)}ecbda94db4a78d`,...newTagObj};
@@ -81,8 +84,8 @@ export class CustomDndList extends LitElement{
         this.dispatchEvent(addEvent);
     }
     handleReorderTag(reorderEventDetails){
+        if(!this.positionAttribute)return;
         let newIndex = reorderEventDetails.newIndex;
-        
         let updatedItem= {...reorderEventDetails.draggedItem};
         if(newIndex==0){updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute]/2;}
         else if(newIndex== this.list?.length-1){updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute]+ 1024;}
@@ -101,18 +104,19 @@ export class CustomDndList extends LitElement{
         ${BoxInputStyles}
         ${CustomDndStyles}
             <div class='tag-table-container'>
-                    ${this.headerRow()}
+                    ${this.primaryHeaderValue && this.headerRow()}
+            ${this.primaryAttribute && this.uniqueIdAttribute ?html`
                     <drag-drop-list
-                        .list=${this.list?.sort((a,b)=> a[this.positionAttribute] -b[this.positionAttribute])}
+                        .list=${this.positionAttribute ? this.list?.sort((a,b)=> a[this.positionAttribute] -b[this.positionAttribute]):this.list}
                         .customReactiveProperties=${[this._editTagFieldVisible]}
                         .headerName=${"custom-tag-table"}
-                         @item-reordered=${(e)=>this.handleReorderTag(e.detail)}
+                        @item-reordered=${(e)=>this.handleReorderTag(e.detail)}
                         .dragItemRenderer=${(item)=>this.renderListItem(item)}>
                     </drag-drop-list>
                 ${
                   this._addTagFieldVisible?
                   html`<div class='add-input-wrapper'>
-                    <span class='input-fields'>
+                    <span class='input-fields ${!this.secondaryAttribute &&'grid-template-1-column'}'>
                         <paper-input id='add-primary-input' class='box' .value=${this._newTagPrimaryAttribute ? this._newTagPrimaryAttribute : ''} .noLabelFloat=${true}
                         @value-changed=${(e)=>{this._newTagPrimaryAttribute=e.target.value;}} class='paper-text-input' ></paper-input>
                         ${this.secondaryAttribute &&
@@ -126,13 +130,14 @@ export class CustomDndList extends LitElement{
                     </div>`:null}
                     <paper-button id='add-new-item' style='margin-top:15px;' noink raised @tap=${()=>{this._addTagFieldVisible=true;}}>
                     <iron-icon icon="add-circle-outline"></iron-icon>ADD</paper-button>
+                    `:null}
             </div>
             `;
     }
     headerRow(){
         return html`
             ${headerRowStyle}
-        <div class="header-row">
+        <div class="header-row ${!this.secondaryHeaderValue && 'grid-template-2-column'}">
             <span>${this.primaryHeaderValue}</span> ${this.secondaryHeaderValue &&  html `<span class='second-item'>${this.secondaryHeaderValue}</span>`}
             <span>Actions</span>
         </div>
@@ -144,7 +149,7 @@ export class CustomDndList extends LitElement{
         ${BoxInputStyles}
         <div class='item-row-wrapper'>
         <iron-icon id='drag-icon' icon="reorder"></iron-icon>
-        <div class='item-block' draggable='true' @dragstart=${(e)=> {e.preventDefault();e.stopPropagation();}}>
+        <div class='item-block ${!this.secondaryAttribute && 'grid-template-3-column'}' draggable='true' @dragstart=${(e)=> {e.preventDefault();e.stopPropagation();}}>
             ${
                 this._editTagFieldVisible?.includes(item[this.uniqueIdAttribute])?
                 html`<paper-input id='edit-input-${item[this.uniqueIdAttribute]}' class='box'  .value=${item[this.primaryAttribute]} .noLabelFloat=${true} 
@@ -152,42 +157,14 @@ export class CustomDndList extends LitElement{
                         ${this.secondaryAttribute && html`<paper-input .value=${item[this.secondaryAttribute]} .noLabelFloat=${true} class='box second-item'
                         @value-changed=${(e)=> {this._handleActiveEdit(item[this.uniqueIdAttribute],this.secondaryAttribute,e.target.value)}}></paper-input>`}
                         <paper-icon-button icon="check" @tap=${()=> {this.handleUpdateTag(item[this.uniqueIdAttribute]);}}></paper-icon-button>
-                        <paper-icon-button icon="cancel"
+                        <paper-icon-button icon="cancel" class='${this.secondaryAttribute?'':'grid-reposition-btn'}'
                             @tap=${()=>{ this._activeEditsDetails.splice(this._activeEditsDetails.findIndex((obj)=> obj[this.uniqueIdAttribute] === item[this.uniqueIdAttribute]),1)
                                 this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=item[this.uniqueIdAttribute]);}} ></paper-icon-button>    `
                 :html`<span>${item[this.primaryAttribute]}</span>${this.secondaryAttribute && html`<span class='second-item'>${item[this.secondaryAttribute]}</span>`}
                 <paper-icon-button class='edit-btn' icon="create" @tap=${()=>{this._editTagFieldVisible = [...this._editTagFieldVisible, item[this.uniqueIdAttribute]];}}></paper-icon-button>
-                <paper-icon-button class='delete-btn' icon="delete" @tap=${()=>{this.handleDeleteTag(item)}}></paper-icon-button>`}
+                <paper-icon-button class='delete-btn ${this.secondaryAttribute?'':'grid-reposition-btn'}' icon="delete" @tap=${()=>{this.handleDeleteTag(item)}}></paper-icon-button>`}
         </div>
         </div>`;
     }
 }
 window.customElements.define('custom-dnd-list',CustomDndList);
-
-
-// handletemp(eventDetails){
-//     let updatedList = [...eventDetails.data];
-//     let updateIndex ;
-//     for(let i=0;i<updatedList.length;i++){
-//         if( updatedList[i][this.positionAttribute] < ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) &&
-//         updatedList[i][this.positionAttribute]<((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity))
-//             {updateIndex=i;break;}
-//         if( updatedList[i][this.positionAttribute]> ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) && 
-//         updatedList[i][this.positionAttribute]>((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity) )
-//             {updateIndex=i;break;}
-//     }
-//     let updatedItem = {...updatedList[updateIndex]};
-//     if(updateIndex===0)
-//     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex+1][this.positionAttribute]/2) }
-//     else if(updateIndex==updatedList.length-1)
-//     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute] + 1024)  }
-//     else
-//     {
-//         updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute]+ updatedList[updateIndex+1][this.positionAttribute]) / 2;
-//     }
-//     console.log(updatedItem);
-//     // this.list = this.list.filter((item)=> item[this.uniqueIdAttribute]!== updatedItem[this.uniqueIdAttribute]);
-//     // console.log(updatedList.sort((a,b)=> a[this.positionAttribute]- b[this.positionAttribute]));
-//     // this. list = [...this.list,updatedList]
-//     // console.log(this.list);
-// }

@@ -4,16 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">  
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Custom-tag-list-lit-element</title>
 </head>
 <style>
   body {
-    font-family: "Josefin Sans", sans-serif;
+    --theme-font: "Poppins", Arial, sans-serif;                
+    font-family: var(--theme-font);
     --header-bottom-border-color:rgb(11, 11, 11);
     --header-font-size:20px;
     --header-border-bottom-size:5px;
-    --header-text-color: #515151;
+    --header-text-color:'';
     --row-item-font-size:16px;
     --row-item-bottom-color:rgb(0, 0, 0);
     --border-radius:5px;
@@ -21,9 +22,9 @@
     --row-item-background:'';
     --row-icons-color:'';
     --item-border-bottom-size:2px;
-    --add-button-color:#ffffff;
-    --add-button-background:#1c1c1c;
-    --drag-over-line-color:#80cbc4;                
+    --add-button-color:'';
+    --add-button-background:'';
+    --drag-over-line-color:rgb(7, 225, 232);
   }
 </style>
 <body>
