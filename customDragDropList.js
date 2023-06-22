@@ -36,20 +36,21 @@ export class CustomDndList extends LitElement{
     _handleActiveEdit(itemId,tagField,newValue){
         const itemIndex = this._activeEditsDetails.findIndex((item)=> item[this.uniqueIdAttribute] === itemId);
         if(itemIndex > -1){this._activeEditsDetails[itemIndex][tagField]=newValue;return;}
-
         let editTag = {};
         editTag[this.uniqueIdAttribute]=itemId; editTag[tagField]= newValue;
         this._activeEditsDetails.push(editTag);
     }
     handleUpdateTag(itemId){
         const updatedTag = this._activeEditsDetails.find((item)=> item[this.uniqueIdAttribute]===itemId)
-        if(updatedTag[this.primaryAttribute]===''){this.shadowRoot.querySelector('#edit-field-dialog').open();return;}
+        if(updatedTag[this.primaryAttribute]===''){
+            const editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector(`#edit-input-${itemId}`);
+            editInputField.invalid=true;editInputField.placeholder='Required';
+            return;
+        }
         const currentTag = this.list?.find((item)=> item[this.uniqueIdAttribute] === itemId);
         updatedTag[this.positionAttribute]= currentTag[this.positionAttribute];
-        
         this._activeEditsDetails.splice(this._activeEditsDetails.findIndex((obj)=> obj[this.uniqueIdAttribute] === itemId), 1)
         this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=itemId);
-        
         let updateEvent = new CustomEvent('item-updated',{detail:{data:updatedTag}});
         this.list= this.list?.filter((item)=> item[this.uniqueIdAttribute] !== itemId);
         this.list= [...this.list,updatedTag];
@@ -61,7 +62,11 @@ export class CustomDndList extends LitElement{
         this.dispatchEvent(deleteEvent);
     }
     handleAddNewTag(){
-        if(this._newTagPrimaryAttribute.trim()===''){this.shadowRoot.querySelector('#add-field-dialog').open();return;}
+        if(this._newTagPrimaryAttribute.trim()===''){
+            const addPrimaryInput = this.shadowRoot.querySelector('#add-primary-input');
+            addPrimaryInput.invalid=true;addPrimaryInput.placeholder='Required';
+            return;
+        }
         let newTagObj = {};
         newTagObj[this.primaryAttribute]= this._newTagPrimaryAttribute;
         if(this.secondaryAttribute){newTagObj[this.secondaryAttribute] = this._newTagSecondaryAttribute};
@@ -91,32 +96,6 @@ export class CustomDndList extends LitElement{
         this.list= [...this.list,updatedItem];
         this.dispatchEvent(positionUpdateEvent);
     }
-    // handletemp(eventDetails){
-    //     let updatedList = [...eventDetails.data];
-    //     let updateIndex ;
-    //     for(let i=0;i<updatedList.length;i++){
-    //         if( updatedList[i][this.positionAttribute] < ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) &&
-    //         updatedList[i][this.positionAttribute]<((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity))
-    //             {updateIndex=i;break;}
-    //         if( updatedList[i][this.positionAttribute]> ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) && 
-    //         updatedList[i][this.positionAttribute]>((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity) )
-    //             {updateIndex=i;break;}
-    //     }
-    //     let updatedItem = {...updatedList[updateIndex]};
-    //     if(updateIndex===0)
-    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex+1][this.positionAttribute]/2) }
-    //     else if(updateIndex==updatedList.length-1)
-    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute] + 1024)  }
-    //     else
-    //     {
-    //         updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute]+ updatedList[updateIndex+1][this.positionAttribute]) / 2;
-    //     }
-    //     console.log(updatedItem);
-    //     // this.list = this.list.filter((item)=> item[this.uniqueIdAttribute]!== updatedItem[this.uniqueIdAttribute]);
-    //     // console.log(updatedList.sort((a,b)=> a[this.positionAttribute]- b[this.positionAttribute]));
-    //     // this. list = [...this.list,updatedList]
-    //     // console.log(this.list);
-    // }
     render(){
         return html`
         ${BoxInputStyles}
@@ -126,36 +105,28 @@ export class CustomDndList extends LitElement{
                     <drag-drop-list
                         .list=${this.list?.sort((a,b)=> a[this.positionAttribute] -b[this.positionAttribute])}
                         .customReactiveProperties=${[this._editTagFieldVisible]}
-                        .headerName="custom-tag-table"
-                         @item-reordered=${(e)=> this.handleReorderTag(e.detail)}
+                        .headerName=${"custom-tag-table"}
+                         @item-reordered=${(e)=>this.handleReorderTag(e.detail)}
                         .dragItemRenderer=${(item)=>this.renderListItem(item)}>
                     </drag-drop-list>
-                ${this._addTagFieldVisible?
-                  html`<div class='input-field-container'>
-                        <paper-input class='box' style='padding-left:30px;' .value=${this._newTagPrimaryAttribute ? this._newTagPrimaryAttribute : ''} .noLabelFloat=${true}
+                ${
+                  this._addTagFieldVisible?
+                  html`<div class='add-input-wrapper'>
+                    <span class='input-fields'>
+                        <paper-input id='add-primary-input' class='box' .value=${this._newTagPrimaryAttribute ? this._newTagPrimaryAttribute : ''} .noLabelFloat=${true}
                         @value-changed=${(e)=>{this._newTagPrimaryAttribute=e.target.value;}} class='paper-text-input' ></paper-input>
                         ${this.secondaryAttribute &&
-                        html`<paper-input class='box second-item' .value=${this._newTagSecondaryAttribute ? this._newTagSecondaryAttribute : ''}  .noLabelFloat=${true}
+                        html`<paper-input class='box' .value=${this._newTagSecondaryAttribute ? this._newTagSecondaryAttribute : ''}  .noLabelFloat=${true}
                         @value-changed=${(e)=>{this._newTagSecondaryAttribute=e.target.value;}} class='paper-text-input'></paper-input>`}
+                    </span>
+                    <span class='add-input-actions-btn'>
                         <paper-icon-button @tap=${()=>{this.handleAddNewTag();}} icon="check"></paper-icon-button>
                         <paper-icon-button @tap=${()=>{this._newTagSecondaryAttribute='';this._newTagPrimaryAttribute='';this._addTagFieldVisible=false;}} icon="cancel"></paper-icon-button>
+                    </span>
                     </div>`:null}
-                    <paper-button style='margin-top:15px;' noink raised @tap=${()=>{this._addTagFieldVisible=true;}}>
+                    <paper-button id='add-new-item' style='margin-top:15px;' noink raised @tap=${()=>{this._addTagFieldVisible=true;}}>
                     <iron-icon icon="add-circle-outline"></iron-icon>ADD</paper-button>
             </div>
-            <paper-dialog id="add-field-dialog" modal>
-                <p>${this.primaryHeaderValue} is required</p>
-                <div class='buttons'>
-                <paper-button no-ink dialog-confirm autofocus>Close Warning</paper-button>
-                </div>
-            </paper-dialog>
-            <paper-dialog id="edit-field-dialog" modal>
-                <p>${this.primaryHeaderValue} is required</p>
-                <div class='buttons'>
-                <paper-button no-ink dialog-confirm autofocus>Close Warning</paper-button>
-                </div>
-            </paper-dialog>
-        
             `;
     }
     headerRow(){
@@ -176,7 +147,7 @@ export class CustomDndList extends LitElement{
         <div class='item-block' draggable='true' @dragstart=${(e)=> {e.preventDefault();e.stopPropagation();}}>
             ${
                 this._editTagFieldVisible?.includes(item[this.uniqueIdAttribute])?
-                html`<paper-input .value=${item[this.primaryAttribute]} .noLabelFloat=${true} class='box'
+                html`<paper-input id='edit-input-${item[this.uniqueIdAttribute]}' class='box'  .value=${item[this.primaryAttribute]} .noLabelFloat=${true} 
                         @value-changed=${(e)=> { this._handleActiveEdit(item[this.uniqueIdAttribute],this.primaryAttribute,e.target.value) }}></paper-input>
                         ${this.secondaryAttribute && html`<paper-input .value=${item[this.secondaryAttribute]} .noLabelFloat=${true} class='box second-item'
                         @value-changed=${(e)=> {this._handleActiveEdit(item[this.uniqueIdAttribute],this.secondaryAttribute,e.target.value)}}></paper-input>`}
@@ -192,3 +163,31 @@ export class CustomDndList extends LitElement{
     }
 }
 window.customElements.define('custom-dnd-list',CustomDndList);
+
+
+// handletemp(eventDetails){
+//     let updatedList = [...eventDetails.data];
+//     let updateIndex ;
+//     for(let i=0;i<updatedList.length;i++){
+//         if( updatedList[i][this.positionAttribute] < ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) &&
+//         updatedList[i][this.positionAttribute]<((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity))
+//             {updateIndex=i;break;}
+//         if( updatedList[i][this.positionAttribute]> ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) && 
+//         updatedList[i][this.positionAttribute]>((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity) )
+//             {updateIndex=i;break;}
+//     }
+//     let updatedItem = {...updatedList[updateIndex]};
+//     if(updateIndex===0)
+//     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex+1][this.positionAttribute]/2) }
+//     else if(updateIndex==updatedList.length-1)
+//     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute] + 1024)  }
+//     else
+//     {
+//         updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute]+ updatedList[updateIndex+1][this.positionAttribute]) / 2;
+//     }
+//     console.log(updatedItem);
+//     // this.list = this.list.filter((item)=> item[this.uniqueIdAttribute]!== updatedItem[this.uniqueIdAttribute]);
+//     // console.log(updatedList.sort((a,b)=> a[this.positionAttribute]- b[this.positionAttribute]));
+//     // this. list = [...this.list,updatedList]
+//     // console.log(this.list);
+// }
