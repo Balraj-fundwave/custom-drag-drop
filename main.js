@@ -176,7 +176,9 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         return item[_this3.uniqueIdAttribute] === itemId;
       });
       if (updatedTag[this.primaryAttribute] === '') {
-        this.shadowRoot.querySelector('#edit-field-dialog').open();
+        var editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector("#edit-input-".concat(itemId));
+        editInputField.invalid = true;
+        editInputField.placeholder = 'Required';
         return;
       }
       var currentTag = (_this$list = this.list) === null || _this$list === void 0 ? void 0 : _this$list.find(function (item) {
@@ -220,7 +222,9 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
     value: function handleAddNewTag() {
       var _this5 = this;
       if (this._newTagPrimaryAttribute.trim() === '') {
-        this.shadowRoot.querySelector('#add-field-dialog').open();
+        var addPrimaryInput = this.shadowRoot.querySelector('#add-primary-input');
+        addPrimaryInput.invalid = true;
+        addPrimaryInput.placeholder = 'Required';
         return;
       }
       var newTagObj = {};
@@ -273,46 +277,20 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       this.list = [].concat(_toConsumableArray(this.list), [updatedItem]);
       this.dispatchEvent(positionUpdateEvent);
     }
-    // handletemp(eventDetails){
-    //     let updatedList = [...eventDetails.data];
-    //     let updateIndex ;
-    //     for(let i=0;i<updatedList.length;i++){
-    //         if( updatedList[i][this.positionAttribute] < ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) &&
-    //         updatedList[i][this.positionAttribute]<((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity))
-    //             {updateIndex=i;break;}
-    //         if( updatedList[i][this.positionAttribute]> ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) && 
-    //         updatedList[i][this.positionAttribute]>((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity) )
-    //             {updateIndex=i;break;}
-    //     }
-    //     let updatedItem = {...updatedList[updateIndex]};
-    //     if(updateIndex===0)
-    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex+1][this.positionAttribute]/2) }
-    //     else if(updateIndex==updatedList.length-1)
-    //     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute] + 1024)  }
-    //     else
-    //     {
-    //         updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute]+ updatedList[updateIndex+1][this.positionAttribute]) / 2;
-    //     }
-    //     console.log(updatedItem);
-    //     // this.list = this.list.filter((item)=> item[this.uniqueIdAttribute]!== updatedItem[this.uniqueIdAttribute]);
-    //     // console.log(updatedList.sort((a,b)=> a[this.positionAttribute]- b[this.positionAttribute]));
-    //     // this. list = [...this.list,updatedList]
-    //     // console.log(this.list);
-    // }
   }, {
     key: "render",
     value: function render() {
       var _this$list6,
         _this7 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        ", "\n        ", "\n            <div class='tag-table-container'>\n                    ", "\n                    <drag-drop-list\n                        .list=", "\n                        .customReactiveProperties=", "\n                        .headerName=\"custom-tag-table\"\n                         @item-reordered=", "\n                        .dragItemRenderer=", ">\n                    </drag-drop-list>\n                ", "\n                    <paper-button style='margin-top:15px;' noink raised @tap=", ">\n                    <iron-icon icon=\"add-circle-outline\"></iron-icon>ADD</paper-button>\n            </div>\n            <paper-dialog id=\"add-field-dialog\" modal>\n                <p>", " is required</p>\n                <div class='buttons'>\n                <paper-button no-ink dialog-confirm autofocus>Close Warning</paper-button>\n                </div>\n            </paper-dialog>\n            <paper-dialog id=\"edit-field-dialog\" modal>\n                <p>", " is required</p>\n                <div class='buttons'>\n                <paper-button no-ink dialog-confirm autofocus>Close Warning</paper-button>\n                </div>\n            </paper-dialog>\n        \n            "])), _input_styles__WEBPACK_IMPORTED_MODULE_6__["BoxInputStyles"], _styles_index__WEBPACK_IMPORTED_MODULE_7__["CustomDndStyles"], this.headerRow(), (_this$list6 = this.list) === null || _this$list6 === void 0 ? void 0 : _this$list6.sort(function (a, b) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        ", "\n        ", "\n            <div class='tag-table-container'>\n                    ", "\n                    <drag-drop-list\n                        .list=", "\n                        .customReactiveProperties=", "\n                        .headerName=", "\n                         @item-reordered=", "\n                        .dragItemRenderer=", ">\n                    </drag-drop-list>\n                ", "\n                    <paper-button id='add-new-item' style='margin-top:15px;' noink raised @tap=", ">\n                    <iron-icon icon=\"add-circle-outline\"></iron-icon>ADD</paper-button>\n            </div>\n            "])), _input_styles__WEBPACK_IMPORTED_MODULE_6__["BoxInputStyles"], _styles_index__WEBPACK_IMPORTED_MODULE_7__["CustomDndStyles"], this.headerRow(), (_this$list6 = this.list) === null || _this$list6 === void 0 ? void 0 : _this$list6.sort(function (a, b) {
         return a[_this7.positionAttribute] - b[_this7.positionAttribute];
-      }), [this._editTagFieldVisible], function (e) {
+      }), [this._editTagFieldVisible], "custom-tag-table", function (e) {
         return _this7.handleReorderTag(e.detail);
       }, function (item) {
         return _this7.renderListItem(item);
-      }, this._addTagFieldVisible ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<div class='input-field-container'>\n                        <paper-input class='box' style='padding-left:30px;' .value=", " .noLabelFloat=", "\n                        @value-changed=", " class='paper-text-input' ></paper-input>\n                        ", "\n                        <paper-icon-button @tap=", " icon=\"check\"></paper-icon-button>\n                        <paper-icon-button @tap=", " icon=\"cancel\"></paper-icon-button>\n                    </div>"])), this._newTagPrimaryAttribute ? this._newTagPrimaryAttribute : '', true, function (e) {
+      }, this._addTagFieldVisible ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<div class='add-input-wrapper'>\n                    <span class='input-fields'>\n                        <paper-input id='add-primary-input' class='box' .value=", " .noLabelFloat=", "\n                        @value-changed=", " class='paper-text-input' ></paper-input>\n                        ", "\n                    </span>\n                    <span class='add-input-actions-btn'>\n                        <paper-icon-button @tap=", " icon=\"check\"></paper-icon-button>\n                        <paper-icon-button @tap=", " icon=\"cancel\"></paper-icon-button>\n                    </span>\n                    </div>"])), this._newTagPrimaryAttribute ? this._newTagPrimaryAttribute : '', true, function (e) {
         _this7._newTagPrimaryAttribute = e.target.value;
-      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["<paper-input class='box second-item' .value=", "  .noLabelFloat=", "\n                        @value-changed=", " class='paper-text-input'></paper-input>"])), this._newTagSecondaryAttribute ? this._newTagSecondaryAttribute : '', true, function (e) {
+      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["<paper-input class='box' .value=", "  .noLabelFloat=", "\n                        @value-changed=", " class='paper-text-input'></paper-input>"])), this._newTagSecondaryAttribute ? this._newTagSecondaryAttribute : '', true, function (e) {
         _this7._newTagSecondaryAttribute = e.target.value;
       }), function () {
         _this7.handleAddNewTag();
@@ -322,7 +300,7 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         _this7._addTagFieldVisible = false;
       }) : null, function () {
         _this7._addTagFieldVisible = true;
-      }, this.primaryHeaderValue, this.primaryHeaderValue);
+      });
     }
   }, {
     key: "headerRow",
@@ -337,7 +315,7 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n        ", "\n        ", "\n        <div class='item-row-wrapper'>\n        <iron-icon id='drag-icon' icon=\"reorder\"></iron-icon>\n        <div class='item-block' draggable='true' @dragstart=", ">\n            ", "\n        </div>\n        </div>"])), _styles_index__WEBPACK_IMPORTED_MODULE_7__["ItemRowStyle"], _input_styles__WEBPACK_IMPORTED_MODULE_6__["BoxInputStyles"], function (e) {
         e.preventDefault();
         e.stopPropagation();
-      }, (_this$_editTagFieldVi = this._editTagFieldVisible) !== null && _this$_editTagFieldVi !== void 0 && _this$_editTagFieldVi.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<paper-input .value=", " .noLabelFloat=", " class='box'\n                        @value-changed=", "></paper-input>\n                        ", "\n                        <paper-icon-button icon=\"check\" @tap=", "></paper-icon-button>\n                        <paper-icon-button icon=\"cancel\"\n                            @tap=", " ></paper-icon-button>    "])), item[this.primaryAttribute], true, function (e) {
+      }, (_this$_editTagFieldVi = this._editTagFieldVisible) !== null && _this$_editTagFieldVi !== void 0 && _this$_editTagFieldVi.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<paper-input id='edit-input-", "' class='box'  .value=", " .noLabelFloat=", " \n                        @value-changed=", "></paper-input>\n                        ", "\n                        <paper-icon-button icon=\"check\" @tap=", "></paper-icon-button>\n                        <paper-icon-button icon=\"cancel\"\n                            @tap=", " ></paper-icon-button>    "])), item[this.uniqueIdAttribute], item[this.primaryAttribute], true, function (e) {
         _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], _this8.primaryAttribute, e.target.value);
       }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<paper-input .value=", " .noLabelFloat=", " class='box second-item'\n                        @value-changed=", "></paper-input>"])), item[this.secondaryAttribute], true, function (e) {
         _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], _this8.secondaryAttribute, e.target.value);
@@ -393,6 +371,33 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
   return CustomDndList;
 }(lit__WEBPACK_IMPORTED_MODULE_0__["LitElement"]);
 window.customElements.define('custom-dnd-list', CustomDndList);
+
+// handletemp(eventDetails){
+//     let updatedList = [...eventDetails.data];
+//     let updateIndex ;
+//     for(let i=0;i<updatedList.length;i++){
+//         if( updatedList[i][this.positionAttribute] < ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) &&
+//         updatedList[i][this.positionAttribute]<((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity))
+//             {updateIndex=i;break;}
+//         if( updatedList[i][this.positionAttribute]> ((i>0)?updatedList[i-1][this.positionAttribute]:-Infinity) && 
+//         updatedList[i][this.positionAttribute]>((i<updatedList.length-1) ? updatedList[i+1][this.positionAttribute]:Infinity) )
+//             {updateIndex=i;break;}
+//     }
+//     let updatedItem = {...updatedList[updateIndex]};
+//     if(updateIndex===0)
+//     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex+1][this.positionAttribute]/2) }
+//     else if(updateIndex==updatedList.length-1)
+//     {   updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute] + 1024)  }
+//     else
+//     {
+//         updatedItem[this.positionAttribute] = (updatedList[updateIndex-1][this.positionAttribute]+ updatedList[updateIndex+1][this.positionAttribute]) / 2;
+//     }
+//     console.log(updatedItem);
+//     // this.list = this.list.filter((item)=> item[this.uniqueIdAttribute]!== updatedItem[this.uniqueIdAttribute]);
+//     // console.log(updatedList.sort((a,b)=> a[this.positionAttribute]- b[this.positionAttribute]));
+//     // this. list = [...this.list,updatedList]
+//     // console.log(this.list);
+// }
 
 /***/ }),
 
@@ -31061,9 +31066,9 @@ __webpack_require__.r(__webpack_exports__);
 var _templateObject, _templateObject2, _templateObject3;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var CustomDndStyles = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n            :host{\n                --primary-color: #2E7AE7;\n                --primary-color-l1: #5795EB;\n                --secondary-color: #515151;\n                --secondary-color-l1: #b2b0b0;\n                --secondary-color-l2: #e0e0e0;\n                --secondary-color-l3: #eeeeee;\n                --secondary-color-l4: #f8f8f8;\n                --error-color: #d50000;\n                --theme-font: \"Poppins\", Arial, sans-serif;                \n            }\n            .tag-table-container{\n                padding:10px;\n                \n            }\n            .input-field-container{\n                display: grid;\n                width: 98%;\n                gap: 10px;\n                grid-template-columns: 1fr 2fr 40px 40px;\n                margin-left: 10px;\n                margin-bottom: 10px;\n                border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n                border-radius: var(--border-radius,10px);\n                padding: 10px 0px;\n                align-items: center;\n            }\n            paper-icon-button{\n                color:var(--row-icons-color,#515151);\n            }\n            @media screen and (max-width: 480px) {\n                .input-field-container{\n                    display:inline-grid;\n                    grid-template-columns:1fr minmax(50px,auto);\n                    grid-template-rows: max-content max-content;\n                    gap:0px;\n                }\n                .second-item{\n                    grid-row:2;\n                }\n                .box.second-item{\n                    padding-left:30px;\n                }\n            }\n    </style>\n"])));
-var headerRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <style>\n            .header-row{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr minmax(68px,auto);\n                gap:5px;\n                width: calc( 99% - 50px );\n                padding: 0px 0px 5px 30px;\n                margin-left: 15px;\n                border-bottom: var(--header-border-bottom-size,3px) solid var(--header-bottom-border-color,#515151);\n                border-radius: var(--border-radius,10px);\n                font-size: var(--header-font-size,17px);\n                font-weight: bold;\n                }\n            @media screen and (max-width: 480px) {\n                .header-row{\n                    display:inline-grid;\n                    grid-template-columns:1fr auto;\n                    grid-template-rows: max-content max-content;\n                    gap:0px;\n                }\n            }\n        </style>"])));
-var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--row-icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--row-icons-color,#515151);\n        cursor:grabbing;\n        padding-right:10px;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#07e350;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--row-item-font-size,17px);\n        padding: 5px 0px;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        min-height: max-content;\n        align-items: center;\n        color:var(--row-item-color);\n        background:var(--row-item-background);\n        border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n        border-radius: var(--border-radius,10px);\n        margin-left: 10px;\n        width: 98%;\n    }\n    @media screen and (max-width: 480px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr minmax(50px,auto);\n            grid-template-rows: max-content max-content;\n            gap:0px;\n        }\n        .second-item{\n            grid-row:2;\n        }\n    }\n</style>\n"])));
+var CustomDndStyles = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n            :host{\n                --primary-color: #2E7AE7;\n                --primary-color-l1: #5795EB;\n                --secondary-color: #515151;\n                --secondary-color-l1: #b2b0b0;\n                --secondary-color-l2: #e0e0e0;\n                --secondary-color-l3: #eeeeee;\n                --secondary-color-l4: #f8f8f8;\n                --error-color: #d50000;\n                --error-color-l1: #d50000;\n                --theme-font: \"Poppins\", Arial, sans-serif;                \n            }\n            .tag-table-container{\n                padding:10px;\n            }\n            .add-input-wrapper{\n                display: grid;\n                width: 100%;\n                gap: 10px;\n                grid-template-columns: 1fr 90px;\n                margin-left: 10px;\n                margin-bottom: 10px;\n                border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n                border-radius: var(--border-radius,10px);\n                padding: 10px 0px;\n                align-items: center;\n            }\n            .add-input-wrapper > .input-fields{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr;\n                gap:10px;\n                margin-left:30px;\n            }\n            .add-input-wrapper > .add-input-actions-btn{\n                display: inline-grid;\n                grid-template-columns: 40px 40px;\n                gap: 10px;\n            }\n            paper-icon-button{\n                color:var(--row-icons-color,#515151);\n            }\n            paper-button#add-new-item{\n                color:var(--add-button-color,'');\n                background-color:var(--add-button-background,'');\n                width:120px;\n                height:35px;\n            }\n            @media screen and (max-width: 480px) {\n                .add-input-wrapper{\n                    display:inline-grid;\n                    grid-template-columns:1fr minmax(50px,auto);\n                    gap:0px;\n                }\n                .add-input-wrapper > .input-fields{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .add-input-wrapper > .add-input-actions-btn{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .second-item{\n                    grid-row:2;\n                }\n                .box.second-item{\n                    padding-left:30px;\n                }\n            }\n    </style>\n"])));
+var headerRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <style>\n            .header-row{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr minmax(70px,auto);\n                gap: 5px;\n                width: calc( 99% - 26px );\n                padding: 0px 0px 5px 30px;\n                margin-left: 10px;\n                border-bottom: var(--header-border-bottom-size,3px) solid var(--header-bottom-border-color,#515151);\n                border-radius: var(--border-radius,10px);\n                font-size: var(--header-font-size,17px);\n                color: var(--header-text-color,'');\n                font-weight: bold;\n                }\n            @media screen and (max-width: 480px) {\n                .header-row{\n                    display:inline-grid;\n                    grid-template-columns:1fr auto;\n                    grid-template-rows: max-content max-content;\n                    gap:0px;\n                }\n            }\n        </style>"])));
+var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--row-icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--row-icons-color,#515151);\n        cursor:grabbing;\n        padding-right:10px;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#80cbc4;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--row-item-font-size,17px);\n        padding: 5px 0px;\n        user-select:text;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        min-height: max-content;\n        align-items: center;\n        color:var(--row-item-color);\n        background:var(--row-item-background);\n        border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n        border-radius: var(--border-radius,10px);\n        margin-left: 10px;\n        width: 100%;\n    }\n    @media screen and (max-width: 480px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr minmax(50px,auto);\n            grid-template-rows: max-content max-content;\n            gap:0px;\n        }\n        .second-item{\n            grid-row:2;\n        }\n    }\n</style>\n"])));
 
 /***/ }),
 
