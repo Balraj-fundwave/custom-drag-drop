@@ -132,7 +132,7 @@ export class IndexClass extends LitElement{
                 <p>--add-button-color</p>
                 <p>--add-button-background</p>
                 <p>--drag-over-line-color</p>
-                <div>
+    </div>
                 
                 </div>
             </div>  
