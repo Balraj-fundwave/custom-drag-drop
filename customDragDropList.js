@@ -78,7 +78,7 @@ export class CustomDndList extends LitElement{
         }
 
         let addEvent= new CustomEvent('item-added',{detail:{data:newTagObj}});
-        let newItemWithID = {id:`${Math.random().toString().slice(2,11)}ecbda94db4a78d`,...newTagObj};
+        newTagObj[this.uniqueIdAttribute]= `${Math.random().toString().slice(2,11)}randomID`;
         this.list= [...this.list, newItemWithID];
         this._newTagPrimaryAttribute='';this._newTagSecondaryAttribute='';this._addTagFieldVisible=false;
         this.dispatchEvent(addEvent);
