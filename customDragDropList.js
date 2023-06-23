@@ -15,10 +15,11 @@ export class CustomDndList extends LitElement{
             primaryAttribute:String,
             secondaryAttribute:String,
             positionAttribute:String,
+            uniqueIdAttribute:String,
+            preventDeleteAttribute:String,
             primaryHeaderValue:String,
             secondaryHeaderValue:String,
-            uniqueIdAttribute:String,
-
+            
             _addTagFieldVisible:{state:true,type:Boolean},
             _newTagPrimaryAttribute:{state:true,type:String},
             _newTagSecondaryAttribute:{state:true,type:String},
@@ -41,15 +42,14 @@ export class CustomDndList extends LitElement{
         this._activeEditsDetails.push(editTag);
     }
     handleUpdateTag(itemId){
-        const updatedTag = this._activeEditsDetails.find((item)=> item[this.uniqueIdAttribute]===itemId)
+        let updatedTag = this._activeEditsDetails.find((item)=> item[this.uniqueIdAttribute]===itemId)
         if(updatedTag[this.primaryAttribute]===''){
             const editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector(`#edit-input-${itemId}`);
             editInputField.invalid=true;editInputField.placeholder='Required';
             return;
         }
         const currentTag = this.list?.find((item)=> item[this.uniqueIdAttribute] === itemId);
-        if(this.positionAttribute) 
-            updatedTag[this.positionAttribute]= currentTag[this.positionAttribute];
+        updatedTag = {...currentTag,...updatedTag};
         this._activeEditsDetails.splice(this._activeEditsDetails.findIndex((obj)=> obj[this.uniqueIdAttribute] === itemId), 1)
         this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=itemId);
         let updateEvent = new CustomEvent('item-updated',{detail:{data:updatedTag}});
@@ -79,7 +79,7 @@ export class CustomDndList extends LitElement{
 
         let addEvent= new CustomEvent('item-added',{detail:{data:newTagObj}});
         newTagObj[this.uniqueIdAttribute]= `${Math.random().toString().slice(2,11)}randomID`;
-        this.list= [...this.list, newItemWithID];
+        this.list= [...this.list, newTagObj];
         this._newTagPrimaryAttribute='';this._newTagSecondaryAttribute='';this._addTagFieldVisible=false;
         this.dispatchEvent(addEvent);
     }
@@ -162,7 +162,10 @@ export class CustomDndList extends LitElement{
                                 this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=item[this.uniqueIdAttribute]);}} ></paper-icon-button>    `
                 :html`<span>${item[this.primaryAttribute]}</span>${this.secondaryAttribute && html`<span class='second-item'>${item[this.secondaryAttribute]}</span>`}
                 <paper-icon-button class='edit-btn' icon="create" @tap=${()=>{this._editTagFieldVisible = [...this._editTagFieldVisible, item[this.uniqueIdAttribute]];}}></paper-icon-button>
-                <paper-icon-button class='delete-btn ${this.secondaryAttribute?'':'grid-reposition-btn'}' icon="delete" @tap=${()=>{this.handleDeleteTag(item)}}></paper-icon-button>`}
+                <paper-icon-button class='delete-btn ${this.secondaryAttribute?'':'grid-reposition-btn'}' @tap=${()=>{this.handleDeleteTag(item)}} 
+                icon=${item[this.preventDeleteAttribute]?'error':'delete'} .disabled=${item[this.preventDeleteAttribute]?true:false}
+                ></paper-icon-button>
+                `}
         </div>
         </div>`;
     }
