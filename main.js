@@ -280,6 +280,15 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       this.dispatchEvent(positionUpdateEvent);
     }
   }, {
+    key: "firstUpdated",
+    value: function firstUpdated() {
+      var styleNode = document.createElement('style');
+      var dragDropNode = this.shadowRoot.querySelector('drag-drop-list').shadowRoot;
+      dragDropNode.appendChild(styleNode);
+      dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin', _styles_index__WEBPACK_IMPORTED_MODULE_6__["ItemRowStyle"].strings[0]);
+      dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin', _input_styles__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"].strings[1]);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$list6,
@@ -314,7 +323,7 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
     value: function renderListItem(item) {
       var _this$_editTagFieldVi,
         _this8 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n        ", "\n        ", "\n        <div class='item-row-wrapper'>\n        <iron-icon id='drag-icon' icon=\"reorder\"></iron-icon>\n        <div class='item-block ", "' draggable='true' @dragstart=", ">\n            ", "\n        </div>\n        </div>"])), _styles_index__WEBPACK_IMPORTED_MODULE_6__["ItemRowStyle"], _input_styles__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"], !this.secondaryAttribute && 'grid-template-3-column', function (e) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n        <div class='item-row-wrapper'>\n        <iron-icon id='drag-icon' icon=\"reorder\"></iron-icon>\n        <div class='item-block ", "' draggable='true' @dragstart=", ">\n            ", "\n        </div>\n        </div>"])), !this.secondaryAttribute && 'grid-template-3-column', function (e) {
         e.preventDefault();
         e.stopPropagation();
       }, (_this$_editTagFieldVi = this._editTagFieldVisible) !== null && _this$_editTagFieldVi !== void 0 && _this$_editTagFieldVi.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<paper-input id='edit-input-", "' class='box'  .value=", " .noLabelFloat=", " \n                        @value-changed=", "></paper-input>\n                        ", "\n                        <paper-icon-button icon=\"check\" @tap=", "></paper-icon-button>\n                        <paper-icon-button icon=\"cancel\" class='", "'\n                            @tap=", " ></paper-icon-button>    "])), item[this.uniqueIdAttribute], item[this.primaryAttribute], true, function (e) {
@@ -518,7 +527,7 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
     key: "render",
     value: function render() {
       var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <style>\n                .drag-container-item{\n                    cursor: grabbing;\n                    padding-bottom:5px;\n                }\n                .active-drag-over{\n                    padding-bottom:1px;\n                    border-bottom: 4px solid var(--drag-over-line-color,#048edd8e);\n                }\n            </style>\n            <div class=\"drag-test\">\n                <div class=\"vertical-container\" id=", "  @dragover=", " >\n                    ", "\n                </div>\n            </div>  \n        "])), this.headerName, function (e) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <style>\n                .drag-container-item{\n                    cursor: grabbing;\n                    margin-bottom:5px;\n                }\n                .active-drag-over{\n                    border-bottom:4px solid var(--drag-over-line-color,#048edd8e);\n                    margin-bottom:1px;\n                }\n            </style>\n            <div class=\"drag-test\">\n                <div class=\"vertical-container\" id=", "  @dragover=", " >\n                    ", "\n                </div>\n            </div>  \n        "])), this.headerName, function (e) {
         return _this2.allowDrop(e);
       }, this.list && this.list.map(function (item, index) {
         return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"drag-container-item\" id=", " @dragstart=", " containerName=", " draggable=\"true\"  @drop=", "\n                            @dragover=", " @dragleave=", " @dragend=", ">\n                                ", "\n                            </div>\n                            \n                        "])), index, function (e) {
