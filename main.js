@@ -107,15 +107,15 @@ __webpack_require__.r(__webpack_exports__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -183,7 +183,7 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       var currentTag = (_this$list = this.list) === null || _this$list === void 0 ? void 0 : _this$list.find(function (item) {
         return item[_this3.uniqueIdAttribute] === itemId;
       });
-      if (this.positionAttribute) updatedTag[this.positionAttribute] = currentTag[this.positionAttribute];
+      updatedTag = _objectSpread(_objectSpread({}, currentTag), updatedTag);
       this._activeEditsDetails.splice(this._activeEditsDetails.findIndex(function (obj) {
         return obj[_this3.uniqueIdAttribute] === itemId;
       }), 1);
@@ -243,10 +243,8 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
           data: newTagObj
         }
       });
-      var newItemWithID = _objectSpread({
-        id: "".concat(Math.random().toString().slice(2, 11), "ecbda94db4a78d")
-      }, newTagObj);
-      this.list = [].concat(_toConsumableArray(this.list), [newItemWithID]);
+      newTagObj[this.uniqueIdAttribute] = "".concat(Math.random().toString().slice(2, 11), "randomID");
+      this.list = [].concat(_toConsumableArray(this.list), [newTagObj]);
       this._newTagPrimaryAttribute = '';
       this._newTagSecondaryAttribute = '';
       this._addTagFieldVisible = false;
@@ -330,11 +328,11 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         _this8._editTagFieldVisible = _this8._editTagFieldVisible.filter(function (id) {
           return id != item[_this8.uniqueIdAttribute];
         });
-      }) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["<span>", "</span>", "\n                <paper-icon-button class='edit-btn' icon=\"create\" @tap=", "></paper-icon-button>\n                <paper-icon-button class='delete-btn ", "' icon=\"delete\" @tap=", "></paper-icon-button>"])), item[this.primaryAttribute], this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["<span class='second-item'>", "</span>"])), item[this.secondaryAttribute]), function () {
+      }) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["<span>", "</span>", "\n                <paper-icon-button class='edit-btn' icon=\"create\" @tap=", "></paper-icon-button>\n                <paper-icon-button class='delete-btn ", "' @tap=", " \n                icon=", " .disabled=", "\n                ></paper-icon-button>\n                "])), item[this.primaryAttribute], this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["<span class='second-item'>", "</span>"])), item[this.secondaryAttribute]), function () {
         _this8._editTagFieldVisible = [].concat(_toConsumableArray(_this8._editTagFieldVisible), [item[_this8.uniqueIdAttribute]]);
       }, this.secondaryAttribute ? '' : 'grid-reposition-btn', function () {
         _this8.handleDeleteTag(item);
-      }));
+      }, item[this.preventDeleteAttribute] ? 'error' : 'delete', item[this.preventDeleteAttribute] ? true : false));
     }
   }], [{
     key: "properties",
@@ -344,9 +342,10 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         primaryAttribute: String,
         secondaryAttribute: String,
         positionAttribute: String,
+        uniqueIdAttribute: String,
+        preventDeleteAttribute: String,
         primaryHeaderValue: String,
         secondaryHeaderValue: String,
-        uniqueIdAttribute: String,
         _addTagFieldVisible: {
           state: true,
           type: Boolean
@@ -639,7 +638,7 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
     key: "render",
     value: function render() {
       var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Only with .primaryAttribute & .primaryHeaderValue </h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .primaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .positionAttribute </h3>\n                <h4>The Order reset to the list's order with any new addition/update</h4>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .primaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .primaryAttribute or .uniqueIdAttribute</h3>\n                <h4>list not displayed as both are required</h4>\n                <custom-dnd-list\n                .list=", "\n                .positionAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                .positionAttribute = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .primaryHeaderValue</h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>CSS VARIABLES Available</h3>\n                <div style='display: inline-grid;\n                            grid-template-columns: 1fr 1fr 1fr;\n                            gap: 0px 15px;'>\n                <p>--header-bottom-border-color</p>  \n                <p>--header-font-size</p>\n                <p>--header-border-bottom-size</p>\n                <p>--header-text-color</p>\n                <p>--row-item-font-size</p>\n                <p>--row-item-bottom-color</p>\n                <p>--border-radius</p>\n                <p>--row-item-color</p>\n                <p>--row-item-background</p>\n                <p>--row-icons-color</p>\n                <p>--item-border-bottom-size</p>\n                <p>--add-button-color</p>\n                <p>--add-button-background</p>\n                <p>--drag-over-line-color</p>\n    </div>\n                \n                </div>\n            </div>  \n        "])), this.list, 'name', 'description', 'id', 'position', 'Tag Name', 'Tag Description', function (e) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <style>\n            .property-list{\n                display:flex; flex-grow:1; gap:10px;\n            }\n            @media screen and (max-width:700px){\n                .property-list{\n                    flex-direction:column;\n                }\n            }\n        </style>\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n            <div  class='property-list'>\n                <div>\n                    <h3> Properties and events handlers</h3>\n                    <div style='display:flex; gap:10px;'>\n                    <div>\n                    <h5>Properties for the custom element</h5>\n                    <p>list *</p>  \n                    <p>primaryAttribute *</p>\n                    <p>secondaryAttribute</p>\n                    <p>uniqueIdAttribute *</p>\n                    <p>positionAttribute</p>\n                    <p>preventDeleteAttribute</p>\n                    <p>primaryHeaderValue</p>\n                    <p>secondaryHeaderValue</p>\n                    </div>\n                    <div>\n                    <h5>Event Handlers</h5>\n                    <p>@item-added</p>\n                    <p>@item-deleted</p>\n                    <p>@item-repositioned</p>\n                    <p>@item-updated</p>\n                    </div>\n                </div>\n                </div>\n                <hr/>\n                <div>\n                <h3>CSS VARIABLES</h3>\n                <div style='display: inline-grid;\n                            grid-template-columns: 1fr 1fr 1fr;\n                            gap: 0px 15px;'>\n                    <p>--header-bottom-border-color</p>  \n                    <p>--header-font-size</p>\n                    <p>--header-border-bottom-size</p>\n                    <p>--header-text-color</p>\n                    <p>--row-item-font-size</p>\n                    <p>--row-item-bottom-color</p>\n                    <p>--border-radius</p>\n                    <p>--row-item-color</p>\n                    <p>--row-item-background</p>\n                    <p>--row-icons-color</p>\n                    <p>--item-border-bottom-size</p>\n                    <p>--add-button-color</p>\n                    <p>--add-button-background</p>\n                    <p>--drag-over-line-color</p>\n                </div>\n                </div>\n            </div>\n            <hr/>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .preventDeleteAttribute=", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Only with .primaryAttribute & .primaryHeaderValue </h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .preventDeleteAttribute=", "\n                .primaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .positionAttribute </h3>\n                <h4>The Order reset to the list's order with any new addition/update</h4>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .preventDeleteAttribute=", "\n                .primaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .preventDeleteAttribute</h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .primaryAttribute or .uniqueIdAttribute</h3>\n                <h4>list not displayed as both are required. Only header visible</h4>\n                <custom-dnd-list\n                .list=", "\n                .positionAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                .positionAttribute = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                \n                <h3>Without .primaryHeaderValue</h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .preventDeleteAttribute=", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                \n                \n                </div>\n            </div>  \n        "])), this.list, 'name', 'description', 'id', 'position', 'defaultTagName', 'Tag Name', 'Tag Description', function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
@@ -647,7 +646,7 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
         return _this2.handleReorder(e.detail);
       }, function (e) {
         return _this2.handleUpdate(e.detail);
-      }, this.list, 'name', 'id', 'position', 'Tag Name', function (e) {
+      }, this.list, 'name', 'id', 'position', 'defaultTagName', 'Tag Name', function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
@@ -655,7 +654,15 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
         return _this2.handleReorder(e.detail);
       }, function (e) {
         return _this2.handleUpdate(e.detail);
-      }, [].concat(sampleDocumentTags), 'name', 'description', 'id', 'Tag Name', function (e) {
+      }, [].concat(sampleDocumentTags), 'name', 'description', 'id', 'defaultTagName', 'Tag Name', function (e) {
+        return _this2.handleDelete(e.detail);
+      }, function (e) {
+        return _this2.handleAdd(e.detail);
+      }, function (e) {
+        return _this2.handleReorder(e.detail);
+      }, function (e) {
+        return _this2.handleUpdate(e.detail);
+      }, this.list, 'name', 'description', 'id', 'position', 'Tag Name', 'Tag Description', function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
@@ -671,7 +678,7 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
         return _this2.handleReorder(e.detail);
       }, function (e) {
         return _this2.handleUpdate(e.detail);
-      }, this.list, 'name', 'id', 'position', function (e) {
+      }, this.list, 'name', 'description', 'id', 'position', 'defaultTagName', function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
@@ -692,28 +699,38 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
   return IndexClass;
 }(lit__WEBPACK_IMPORTED_MODULE_0__["LitElement"]);
 var sampleDocumentTags = [{
+  id: "62b56101904ca55d591af825",
+  name: "Term Sheet",
+  position: 2048
+}, {
   id: "32rfew2f432a55d591af825",
   name: "Subscription Agreement",
-  position: 4096
+  position: 5120
 }, {
   id: "60c2075225ecbda94db4a78d",
   name: "IRA",
   description: "Investor Right Agreement",
-  position: 3072
+  position: 4096
 }, {
   id: "23rf3wf34225ecbda94db4a78d",
   name: "RoFR",
   description: "Right of First Refusal",
-  position: 5120
+  position: 6144
 }, {
   id: "5ee9b297cc6c8cea31387c33",
   name: "VA",
   description: "Voting agreement",
   position: 1024
 }, {
-  id: "62b56101904ca55d591af825",
-  name: "Term Sheet",
-  position: 2048
+  id: "7s2kjshfn39c8cea31387c33",
+  name: "Notices",
+  position: 3072,
+  defaultTagName: "Notices"
+}, {
+  id: "jdn372vbks87cea31387c33",
+  name: "Reports",
+  position: 7168,
+  defaultTagName: "Reports"
 }];
 var singleItemList = [{
   id: "5ee9b297cc6c8cea31387c33",
