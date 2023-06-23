@@ -48,44 +48,61 @@ export class IndexClass extends LitElement{
         <style>
             .property-list{
                 display:flex; flex-grow:1; gap:10px;
+                flex-direction:column;
+                
+            }
+            .property-list  div{
+                grid-template-columns:1fr 1fr 1fr
             }
             @media screen and (max-width:700px){
-                .property-list{
+                .property-list div{
                     flex-direction:column;
+                    grid-template-columns:1fr 1fr
                 }
+            }
+            hr{
+                border-width:5px
             }
         </style>
             <div style='margin:auto; width:85%'>
             <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>
             <div  class='property-list'>
                 <div>
-                    <h3> Properties and events handlers</h3>
+                    <h2> Properties and events handlers</h2>
                     <div style='display:flex; gap:10px;'>
-                    <div>
-                    <h5>Properties for the custom element</h5>
-                    <p>list *</p>  
-                    <p>primaryAttribute *</p>
-                    <p>secondaryAttribute</p>
-                    <p>uniqueIdAttribute *</p>
-                    <p>positionAttribute</p>
-                    <p>preventDeleteAttribute</p>
-                    <p>primaryHeaderValue</p>
-                    <p>secondaryHeaderValue</p>
+                    <div style='max-width:500px'>
+                    <h3>Properties for the custom element</h3>
+                    <p><span style='font-weight:bold'>list * :</span><span> The list of objects to be displayed.</span>  </p>
+                    <p style='font-weight:bold' >primaryAttribute *</p>
+                    <p style='font-weight:bold' >secondaryAttribute</p>
+                    <p style='font-weight:bold' >uniqueIdAttribute *</p>
+                    <p><span style='font-weight:bold'>positionAttribute:</span><span> Numeric attribute that determine the order of items in the list</span></p>
+                    <p><span style='font-weight:bold'>preventDeleteAttribute:</span><span> If present in the object , the item cannot be deleted for the object. Also act as default for the primary attribute.</span></p>
+                    <p><span style='font-weight:bold'>primaryHeaderValue:</span><span> required to display the header </span></p>
+                    <p style='font-weight:bold'>secondaryHeaderValue</p>
                     </div>
                     <div>
-                    <h5>Event Handlers</h5>
-                    <p>@item-added</p>
-                    <p>@item-deleted</p>
-                    <p>@item-repositioned</p>
-                    <p>@item-updated</p>
+                    <h3>Event Handlers</h3>
+                    <p><p style='font-weight:bold'>@item-added: </p><span>contain {name,description,position} of the added object</span></p>
+                    <p><p style='font-weight:bold'>@item-deleted: </p><span>contain details of the deleted object</span></p>
+                    <p><p style='font-weight:bold'>@item-repositioned: </p><span>contain the details of the object reordered with updated position attribute</span></p>
+                    <p><p style='font-weight:bold'>@item-updated: </p><span>contain the updated details of an</span></p>
+                    </div>
+                    <div>
+                    <h3>List of Object</h3>
+                    <p>[ {</p>
+                    <p>id:"7s2kjshfn39c8cea31387c33",</p>
+                    <p>name:"Notices",</p>
+                    <p>description:"Notices Description",</p>
+                    <p>position:3072,</p>
+                    <p>defaultTagName:"Notices"</p>
+                    <p> }  ]</p>
                     </div>
                 </div>
                 </div>
-                <hr/>
                 <div>
-                <h3>CSS VARIABLES</h3>
+                <h2>CSS VARIABLES</h2>
                 <div style='display: inline-grid;
-                            grid-template-columns: 1fr 1fr 1fr;
                             gap: 0px 15px;'>
                     <p>--header-bottom-border-color</p>  
                     <p>--header-font-size</p>
@@ -105,6 +122,7 @@ export class IndexClass extends LitElement{
                 </div>
             </div>
             <hr/>
+            <h3>The Custom-dnd-list Element</h3>
                 <custom-dnd-list
                 .list=${this.list}
                 .primaryAttribute=${'name'}
