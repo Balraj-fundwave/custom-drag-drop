@@ -174,15 +174,17 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
       var updatedTag = this._activeEditsDetails.find(function (item) {
         return item[_this3.uniqueIdAttribute] === itemId;
       });
-      if (updatedTag[this.primaryAttribute] === '') {
-        var editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector("#edit-input-".concat(itemId));
-        editInputField.invalid = true;
-        editInputField.placeholder = 'Required';
-        return;
-      }
       var currentTag = (_this$list = this.list) === null || _this$list === void 0 ? void 0 : _this$list.find(function (item) {
         return item[_this3.uniqueIdAttribute] === itemId;
       });
+      if (updatedTag[this.primaryAttribute] === '') {
+        if (currentTag[this.preventDeleteAttribute]) updatedTag[this.primaryAttribute] = currentTag[this.preventDeleteAttribute];else {
+          var editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector("#edit-input-".concat(itemId));
+          editInputField.invalid = true;
+          editInputField.placeholder = 'Required';
+          return;
+        }
+      }
       updatedTag = _objectSpread(_objectSpread({}, currentTag), updatedTag);
       this._activeEditsDetails.splice(this._activeEditsDetails.findIndex(function (obj) {
         return obj[_this3.uniqueIdAttribute] === itemId;
