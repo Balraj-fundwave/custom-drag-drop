@@ -103,6 +103,13 @@ export class CustomDndList extends LitElement{
         this.list= [...this.list,updatedItem];
         this.dispatchEvent(positionUpdateEvent);
     }
+    firstUpdated(){
+        const styleNode = document.createElement('style')
+        const dragDropNode = this.shadowRoot.querySelector('drag-drop-list').shadowRoot;
+        dragDropNode.appendChild(styleNode);
+        dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin',ItemRowStyle.strings[0])
+        dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin',BoxInputStyles.strings[1])
+    }
     render(){
         return html`
         ${BoxInputStyles}
@@ -149,8 +156,6 @@ export class CustomDndList extends LitElement{
     }
     renderListItem(item){
         return html`
-        ${ItemRowStyle}
-        ${BoxInputStyles}
         <div class='item-row-wrapper'>
         <iron-icon id='drag-icon' icon="reorder"></iron-icon>
         <div class='item-block ${!this.secondaryAttribute && 'grid-template-3-column'}' draggable='true' @dragstart=${(e)=> {e.preventDefault();e.stopPropagation();}}>
