@@ -43,12 +43,16 @@ export class CustomDndList extends LitElement{
     }
     handleUpdateTag(itemId){
         let updatedTag = this._activeEditsDetails.find((item)=> item[this.uniqueIdAttribute]===itemId)
+        const currentTag = this.list?.find((item)=> item[this.uniqueIdAttribute] === itemId);
         if(updatedTag[this.primaryAttribute]===''){
+            if(currentTag[this.preventDeleteAttribute])
+                updatedTag[this.primaryAttribute]= currentTag[this.preventDeleteAttribute]
+            else{
             const editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector(`#edit-input-${itemId}`);
             editInputField.invalid=true;editInputField.placeholder='Required';
             return;
+            }
         }
-        const currentTag = this.list?.find((item)=> item[this.uniqueIdAttribute] === itemId);
         updatedTag = {...currentTag,...updatedTag};
         this._activeEditsDetails.splice(this._activeEditsDetails.findIndex((obj)=> obj[this.uniqueIdAttribute] === itemId), 1)
         this._editTagFieldVisible = this._editTagFieldVisible.filter((id)=> id!=itemId);
