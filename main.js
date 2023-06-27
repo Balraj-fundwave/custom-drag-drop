@@ -105,14 +105,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index */ "./styles/index.js");
 /* harmony import */ var _drag_drop_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./drag-drop-list */ "./drag-drop-list.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11;
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15;
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -144,144 +144,128 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
     _classCallCheck(this, CustomDndList);
     _this = _super.call(this);
     _this.list = [];
-    _this._addTagFieldVisible = false;
-    _this._editTagFieldVisible = [];
-    _this._activeEditsDetails = [];
+    _this._stepSize = 1024;
+    _this._addItemFieldVisible = false;
+    _this._editItemFieldVisible = [];
+    _this._activeItemEditDetails = [];
     return _this;
   }
   _createClass(CustomDndList, [{
-    key: "_handleActiveEdit",
-    value: function _handleActiveEdit(itemId, tagField, newValue) {
-      var _this2 = this;
-      var itemIndex = this._activeEditsDetails.findIndex(function (item) {
+    key: "_itemEditedDetailUpdate",
+    value: function _itemEditedDetailUpdate(itemId, editedField, newValue) {
+      var _this2 = this,
+        _editedItem;
+      var itemIndex = this._activeItemEditDetails.findIndex(function (item) {
         return item[_this2.uniqueIdAttribute] === itemId;
       });
       if (itemIndex > -1) {
-        this._activeEditsDetails[itemIndex][tagField] = newValue;
+        this._activeItemEditDetails[itemIndex][editedField] = newValue;
         return;
       }
-      var editTag = {};
-      editTag[this.uniqueIdAttribute] = itemId;
-      editTag[tagField] = newValue;
-      this._activeEditsDetails.push(editTag);
+      var editedItem = (_editedItem = {}, _defineProperty(_editedItem, this.uniqueIdAttribute, itemId), _defineProperty(_editedItem, editedField, newValue), _editedItem);
+      this._activeItemEditDetails.push(editedItem);
     }
   }, {
-    key: "handleUpdateTag",
-    value: function handleUpdateTag(itemId) {
+    key: "updateItem",
+    value: function updateItem(itemId) {
       var _this3 = this,
-        _this$list,
-        _this$list2;
-      var updatedTag = this._activeEditsDetails.find(function (item) {
+        _this$list;
+      var updatedDetails = this._activeItemEditDetails.find(function (item) {
         return item[_this3.uniqueIdAttribute] === itemId;
       });
-      var currentTag = (_this$list = this.list) === null || _this$list === void 0 ? void 0 : _this$list.find(function (item) {
+      var initialDetails = (_this$list = this.list) === null || _this$list === void 0 ? void 0 : _this$list.find(function (item) {
         return item[_this3.uniqueIdAttribute] === itemId;
       });
-      if (updatedTag[this.primaryAttribute] === '') {
-        if (currentTag[this.preventDeleteAttribute]) updatedTag[this.primaryAttribute] = currentTag[this.preventDeleteAttribute];else {
+      if (updatedDetails[this.primaryAttribute].trim() === '') {
+        if (initialDetails[this.defaultPrimaryAttribute]) updatedDetails[this.primaryAttribute] = initialDetails[this.defaultPrimaryAttribute];else {
           var editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector("#edit-input-".concat(itemId));
+          editInputField.value = '';
           editInputField.invalid = true;
           editInputField.placeholder = 'Required';
           return;
         }
       }
-      updatedTag = _objectSpread(_objectSpread({}, currentTag), updatedTag);
-      this._activeEditsDetails.splice(this._activeEditsDetails.findIndex(function (obj) {
+      updatedDetails = _objectSpread(_objectSpread({}, initialDetails), updatedDetails);
+      this._activeItemEditDetails.splice(this._activeItemEditDetails.findIndex(function (obj) {
         return obj[_this3.uniqueIdAttribute] === itemId;
       }), 1);
-      this._editTagFieldVisible = this._editTagFieldVisible.filter(function (id) {
+      this._editItemFieldVisible = this._editItemFieldVisible.filter(function (id) {
         return id != itemId;
       });
       var updateEvent = new CustomEvent('item-updated', {
         detail: {
-          data: updatedTag
-        }
+          data: _objectSpread({}, updatedDetails)
+        },
+        bubbles: true,
+        composed: true
       });
-      this.list = (_this$list2 = this.list) === null || _this$list2 === void 0 ? void 0 : _this$list2.filter(function (item) {
-        return item[_this3.uniqueIdAttribute] !== itemId;
-      });
-      this.list = [].concat(_toConsumableArray(this.list), [updatedTag]);
       this.dispatchEvent(updateEvent);
     }
   }, {
-    key: "handleDeleteTag",
-    value: function handleDeleteTag(item) {
-      var _this$list3,
-        _this4 = this;
+    key: "deleteItem",
+    value: function deleteItem(item) {
       var deleteEvent = new CustomEvent('item-deleted', {
         detail: {
-          data: item
-        }
-      });
-      this.list = (_this$list3 = this.list) === null || _this$list3 === void 0 ? void 0 : _this$list3.filter(function (obj) {
-        return obj[_this4.uniqueIdAttribute] !== item[_this4.uniqueIdAttribute];
+          data: _objectSpread({}, item)
+        },
+        bubbles: true,
+        composed: true
       });
       this.dispatchEvent(deleteEvent);
     }
   }, {
-    key: "handleAddNewTag",
-    value: function handleAddNewTag() {
-      var _this5 = this;
-      if (this._newTagPrimaryAttribute.trim() === '') {
+    key: "addNewItem",
+    value: function addNewItem() {
+      var _this$list$at;
+      if (this._newItemPrimaryAttribute.trim() === '') {
         var addPrimaryInput = this.shadowRoot.querySelector('#add-primary-input');
+        addPrimaryInput.value = '';
         addPrimaryInput.invalid = true;
         addPrimaryInput.placeholder = 'Required';
         return;
       }
-      var newTagObj = {};
-      newTagObj[this.primaryAttribute] = this._newTagPrimaryAttribute;
-      if (this.secondaryAttribute) {
-        newTagObj[this.secondaryAttribute] = this._newTagSecondaryAttribute;
-      }
-      ;
-      if (this.positionAttribute) {
-        var maxPosition = this.list.length ? Math.max.apply(Math, _toConsumableArray(this.list.map(function (item) {
-          return item[_this5.positionAttribute];
-        }))) : 0;
-        newTagObj[this.positionAttribute] = maxPosition + 1024;
-      }
+      var newItemDetails = _defineProperty({}, this.primaryAttribute, this._newItemPrimaryAttribute);
+      if (this.secondaryAttribute) newItemDetails[this.secondaryAttribute] = this._newItemSecondaryAttribute;
+      if (this.positionAttribute) newItemDetails[this.positionAttribute] = (((_this$list$at = this.list.at(-1)) === null || _this$list$at === void 0 ? void 0 : _this$list$at[this.positionAttribute]) || 0) + this._stepSize;
       var addEvent = new CustomEvent('item-added', {
         detail: {
-          data: newTagObj
-        }
+          data: _objectSpread({}, newItemDetails)
+        },
+        bubbles: true,
+        composed: true
       });
-      newTagObj[this.uniqueIdAttribute] = "".concat(Math.random().toString().slice(2, 11), "randomID");
-      this.list = [].concat(_toConsumableArray(this.list), [newTagObj]);
-      this._newTagPrimaryAttribute = '';
-      this._newTagSecondaryAttribute = '';
-      this._addTagFieldVisible = false;
+      this._newItemPrimaryAttribute = '';
+      this._newItemSecondaryAttribute = '';
+      this._addItemFieldVisible = false;
       this.dispatchEvent(addEvent);
     }
   }, {
-    key: "handleReorderTag",
-    value: function handleReorderTag(reorderEventDetails) {
-      var _this$list4,
-        _this$list5,
-        _this6 = this;
+    key: "reorderItem",
+    value: function reorderItem(reorderEventDetails) {
+      var _this$list2;
       if (!this.positionAttribute) return;
       var newIndex = reorderEventDetails.newIndex;
       var updatedItem = _objectSpread({}, reorderEventDetails.draggedItem);
       if (newIndex == 0) {
         updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] / 2;
-      } else if (newIndex == ((_this$list4 = this.list) === null || _this$list4 === void 0 ? void 0 : _this$list4.length) - 1) {
-        updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] + 1024;
+      } else if (newIndex == ((_this$list2 = this.list) === null || _this$list2 === void 0 ? void 0 : _this$list2.length) - 1) {
+        updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] + this._stepSize;
       } else {
         updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] > updatedItem[this.positionAttribute] ? (this.list[newIndex][this.positionAttribute] + this.list[newIndex + 1][this.positionAttribute]) / 2 : (this.list[newIndex][this.positionAttribute] + this.list[newIndex - 1][this.positionAttribute]) / 2;
       }
-      var positionUpdateEvent = new CustomEvent('item-repositioned', {
+      var positionUpdateEvent = new CustomEvent('item-updated', {
         detail: {
-          data: updatedItem
-        }
+          data: _objectSpread({}, updatedItem)
+        },
+        bubbles: true,
+        composed: true
       });
-      this.list = (_this$list5 = this.list) === null || _this$list5 === void 0 ? void 0 : _this$list5.filter(function (item) {
-        return item[_this6.uniqueIdAttribute] !== updatedItem[_this6.uniqueIdAttribute];
-      });
-      this.list = [].concat(_toConsumableArray(this.list), [updatedItem]);
       this.dispatchEvent(positionUpdateEvent);
     }
   }, {
     key: "firstUpdated",
     value: function firstUpdated() {
+      //add the styles of renderListItem to the drag-drop-list's shadow root (once).
       var styleNode = document.createElement('style');
       var dragDropNode = this.shadowRoot.querySelector('drag-drop-list').shadowRoot;
       dragDropNode.appendChild(styleNode);
@@ -291,59 +275,61 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
   }, {
     key: "render",
     value: function render() {
-      var _this$list6,
-        _this7 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        ", "\n        ", "\n            <div class='tag-table-container'>\n                    ", "\n            ", "\n            </div>\n            "])), _input_styles__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"], _styles_index__WEBPACK_IMPORTED_MODULE_6__["CustomDndStyles"], this.primaryHeaderValue && this.headerRow(), this.primaryAttribute && this.uniqueIdAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                    <drag-drop-list\n                        .list=", "\n                        .customReactiveProperties=", "\n                        .headerName=", "\n                        @item-reordered=", "\n                        .dragItemRenderer=", ">\n                    </drag-drop-list>\n                ", "\n                    <paper-button id='add-new-item' style='margin-top:15px;' noink raised @tap=", ">\n                    <iron-icon icon=\"add-circle-outline\"></iron-icon>ADD</paper-button>\n                    "])), this.positionAttribute ? (_this$list6 = this.list) === null || _this$list6 === void 0 ? void 0 : _this$list6.sort(function (a, b) {
-        return a[_this7.positionAttribute] - b[_this7.positionAttribute];
-      }) : this.list, [this._editTagFieldVisible], "custom-tag-table", function (e) {
-        return _this7.handleReorderTag(e.detail);
+      var _this$list3,
+        _this4 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        ", "\n        ", "\n            <div class='custom-dnd-list-wrapper'>\n                    ", "\n            ", "\n            </div>"])), _input_styles__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"], _styles_index__WEBPACK_IMPORTED_MODULE_6__["CustomDndStyles"], this.primaryHeaderValue && this.headerRow(), this.primaryAttribute && this.uniqueIdAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["   <drag-drop-list\n                        .list=", "\n                        .headerName=", "\n                        @item-reordered=", "\n                        .dragItemRenderer=", ">\n                    </drag-drop-list>\n                ", "\n                    ", "\n                    "])), this.positionAttribute ? (_this$list3 = this.list) === null || _this$list3 === void 0 ? void 0 : _this$list3.sort(function (a, b) {
+        return a[_this4.positionAttribute] - b[_this4.positionAttribute];
+      }) : this.list, "custom-dnd-list", function (e) {
+        return _this4.reorderItem(e.detail);
       }, function (item) {
-        return _this7.renderListItem(item);
-      }, this._addTagFieldVisible ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["<div class='add-input-wrapper'>\n                    <span class='input-fields ", "'>\n                        <paper-input id='add-primary-input' class='box' .value=", " .noLabelFloat=", "\n                        @value-changed=", " class='paper-text-input' ></paper-input>\n                        ", "\n                    </span>\n                    <span class='add-input-actions-btn'>\n                        <paper-icon-button @tap=", " icon=\"check\"></paper-icon-button>\n                        <paper-icon-button @tap=", " icon=\"cancel\"></paper-icon-button>\n                    </span>\n                    </div>"])), !this.secondaryAttribute && 'grid-template-1-column', this._newTagPrimaryAttribute ? this._newTagPrimaryAttribute : '', true, function (e) {
-        _this7._newTagPrimaryAttribute = e.target.value;
-      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<paper-input class='box' .value=", "  .noLabelFloat=", "\n                        @value-changed=", " class='paper-text-input'></paper-input>"])), this._newTagSecondaryAttribute ? this._newTagSecondaryAttribute : '', true, function (e) {
-        _this7._newTagSecondaryAttribute = e.target.value;
+        return _this4.renderListItem(item);
+      }, this._addItemFieldVisible ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["<div class='add-input-wrapper'>\n                    <span class='input-fields ", "'>\n                        <paper-input id='add-primary-input' class='box' .value=", " .noLabelFloat=", "\n                        @value-changed=", " ></paper-input>\n                        ", "\n                    </span>\n                    <span class='add-input-actions-btn'>\n                        <paper-icon-button @tap=", " icon=\"check\"></paper-icon-button>\n                        <paper-icon-button @tap=", " icon=\"cancel\"></paper-icon-button>\n                    </span>\n                    </div>\n                "])), this.secondaryAttribute ? '' : 'grid-template-1-column', this._newItemPrimaryAttribute ? this._newItemPrimaryAttribute : '', true, function (e) {
+        _this4._newItemPrimaryAttribute = e.target.value;
+      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<paper-input class='box' .value=", "  .noLabelFloat=", "\n                        @value-changed=", "></paper-input>"])), this._newItemSecondaryAttribute ? this._newItemSecondaryAttribute : '', true, function (e) {
+        _this4._newItemSecondaryAttribute = e.target.value;
       }), function () {
-        _this7.handleAddNewTag();
+        _this4.addNewItem();
       }, function () {
-        _this7._newTagSecondaryAttribute = '';
-        _this7._newTagPrimaryAttribute = '';
-        _this7._addTagFieldVisible = false;
-      }) : null, function () {
-        _this7._addTagFieldVisible = true;
-      }) : null);
+        _this4._newItemSecondaryAttribute = '';
+        _this4._newItemPrimaryAttribute = '';
+        _this4._addItemFieldVisible = false;
+      }) : null, this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["<paper-button id='add-new-item-btn' style='margin-top:15px;' noink raised @tap=", ">\n                    <iron-icon icon=\"add-circle-outline\"></iron-icon>ADD</paper-button>"])), function () {
+        _this4._addItemFieldVisible = true;
+      }) : null) : null);
     }
   }, {
     key: "headerRow",
     value: function headerRow() {
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n            ", "\n        <div class=\"header-row ", "\">\n            <span>", "</span> ", "\n            <span>Actions</span>\n        </div>\n            "])), _styles_index__WEBPACK_IMPORTED_MODULE_6__["headerRowStyle"], !this.secondaryHeaderValue && 'grid-template-2-column', this.primaryHeaderValue, this.secondaryHeaderValue && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["<span class='second-item'>", "</span>"])), this.secondaryHeaderValue));
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n            ", "\n        <div style=", " class=\"header-row ", "\">\n            <span>", "</span> ", "\n            ", "\n        </div>\n            "])), _styles_index__WEBPACK_IMPORTED_MODULE_6__["HeaderRowStyle"], this.editable ? '' : 'padding-left:10px;width:99%;gap:5px', this.secondaryHeaderValue ? '' : 'grid-template-2-column', this.primaryHeaderValue, this.secondaryHeaderValue && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<span class='grid-row-2-item'>", "</span>"])), this.secondaryHeaderValue), this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<span style='width:70px'>Actions</span>"]))) : null);
     }
   }, {
     key: "renderListItem",
     value: function renderListItem(item) {
-      var _this$_editTagFieldVi,
-        _this8 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n        <div class='item-row-wrapper'>\n        <iron-icon id='drag-icon' icon=\"reorder\"></iron-icon>\n        <div class='item-block ", "' draggable='true' @dragstart=", ">\n            ", "\n        </div>\n        </div>"])), !this.secondaryAttribute && 'grid-template-3-column', function (e) {
+      var _this$_editItemFieldV,
+        _this5 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n        <div class='item-row-wrapper ", "'> \n            ", "\n            <div class='item-block", "", "' style=", "\n                draggable='true' @dragstart=", ">\n            ", "\n        </div>\n        </div>"])), this.editable ? 'item-bottom-border' : null, this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["<iron-icon id='drag-icon' icon=\"reorder\"></iron-icon>"]))) : null, this.secondaryAttribute ? null : ' grid-template-3-column', !this.editable ? ' item-bottom-border' : null, this.editable ? '' : 'gap:15px;padding-left:10px;', function (e) {
         e.preventDefault();
         e.stopPropagation();
-      }, (_this$_editTagFieldVi = this._editTagFieldVisible) !== null && _this$_editTagFieldVi !== void 0 && _this$_editTagFieldVi.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<paper-input id='edit-input-", "' class='box'  .value=", " .noLabelFloat=", " \n                        @value-changed=", "></paper-input>\n                        ", "\n                        <paper-icon-button icon=\"check\" @tap=", "></paper-icon-button>\n                        <paper-icon-button icon=\"cancel\" class='", "'\n                            @tap=", " ></paper-icon-button>    "])), item[this.uniqueIdAttribute], item[this.primaryAttribute], true, function (e) {
-        _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], _this8.primaryAttribute, e.target.value);
-      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["<paper-input .value=", " .noLabelFloat=", " class='box second-item'\n                        @value-changed=", "></paper-input>"])), item[this.secondaryAttribute], true, function (e) {
-        _this8._handleActiveEdit(item[_this8.uniqueIdAttribute], _this8.secondaryAttribute, e.target.value);
+      }, (_this$_editItemFieldV = this._editItemFieldVisible) !== null && _this$_editItemFieldV !== void 0 && _this$_editItemFieldV.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["    \n                    <paper-input id='edit-input-", "' class='box' .value=", " .noLabelFloat=", " \n                        @value-changed=", ">\n                    </paper-input>\n                    ", "\n                    <paper-icon-button icon=\"check\" @tap=", "></paper-icon-button>\n                    <paper-icon-button icon=\"cancel\" class='", "' @tap=", ">\n                    </paper-icon-button> \n                    "])), item[this.uniqueIdAttribute], item[this.primaryAttribute], true, function (e) {
+        _this5._itemEditedDetailUpdate(item[_this5.uniqueIdAttribute], _this5.primaryAttribute, e.target.value);
+      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n                        <paper-input .value=", " .noLabelFloat=", " class='box grid-row-2-item'\n                            @value-changed=", ">\n                        </paper-input>"])), item[this.secondaryAttribute], true, function (e) {
+        _this5._itemEditedDetailUpdate(item[_this5.uniqueIdAttribute], _this5.secondaryAttribute, e.target.value);
       }), function () {
-        _this8.handleUpdateTag(item[_this8.uniqueIdAttribute]);
+        _this5.updateItem(item[_this5.uniqueIdAttribute]);
       }, this.secondaryAttribute ? '' : 'grid-reposition-btn', function () {
-        _this8._activeEditsDetails.splice(_this8._activeEditsDetails.findIndex(function (obj) {
-          return obj[_this8.uniqueIdAttribute] === item[_this8.uniqueIdAttribute];
+        _this5._activeItemEditDetails.splice(_this5._activeItemEditDetails.findIndex(function (obj) {
+          return obj[_this5.uniqueIdAttribute] === item[_this5.uniqueIdAttribute];
         }), 1);
-        _this8._editTagFieldVisible = _this8._editTagFieldVisible.filter(function (id) {
-          return id != item[_this8.uniqueIdAttribute];
+        _this5._editItemFieldVisible = _this5._editItemFieldVisible.filter(function (id) {
+          return id != item[_this5.uniqueIdAttribute];
         });
-      }) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["<span>", "</span>", "\n                <paper-icon-button class='edit-btn' icon=\"create\" @tap=", "></paper-icon-button>\n                <paper-icon-button class='delete-btn ", "' @tap=", " \n                icon=", " .disabled=", "\n                ></paper-icon-button>\n                "])), item[this.primaryAttribute], this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["<span class='second-item'>", "</span>"])), item[this.secondaryAttribute]), function () {
-        _this8._editTagFieldVisible = [].concat(_toConsumableArray(_this8._editTagFieldVisible), [item[_this8.uniqueIdAttribute]]);
+        _this5.shadowRoot.querySelector('drag-drop-list').requestUpdate();
+      }) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["  <span>", "</span> \n                        ", "\n                        ", ""])), item[this.primaryAttribute], this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["<span class='grid-row-2-item'>", "</span>"])), item[this.secondaryAttribute]), this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["   <paper-icon-button class='edit-btn' icon=\"create\" @tap=", ">\n                                </paper-icon-button>\n                                <paper-icon-button class='delete-btn ", "' @tap=", " \n                                icon=", " .disabled=", " ></paper-icon-button>\n                        "])), function () {
+        _this5._editItemFieldVisible = [].concat(_toConsumableArray(_this5._editItemFieldVisible), [item[_this5.uniqueIdAttribute]]);
+        _this5.shadowRoot.querySelector('drag-drop-list').requestUpdate();
       }, this.secondaryAttribute ? '' : 'grid-reposition-btn', function () {
-        _this8.handleDeleteTag(item);
-      }, item[this.preventDeleteAttribute] ? 'error' : 'delete', item[this.preventDeleteAttribute] ? true : false));
+        _this5.deleteItem(item);
+      }, item[this.defaultPrimaryAttribute] ? 'error' : 'delete', item[this.defaultPrimaryAttribute] ? true : false) : null));
     }
   }], [{
     key: "properties",
@@ -354,29 +340,16 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         secondaryAttribute: String,
         positionAttribute: String,
         uniqueIdAttribute: String,
-        preventDeleteAttribute: String,
+        defaultPrimaryAttribute: String,
         primaryHeaderValue: String,
         secondaryHeaderValue: String,
-        _addTagFieldVisible: {
-          state: true,
-          type: Boolean
-        },
-        _newTagPrimaryAttribute: {
-          state: true,
-          type: String
-        },
-        _newTagSecondaryAttribute: {
-          state: true,
-          type: String
-        },
-        _editTagFieldVisible: {
-          state: true,
-          type: Array
-        },
-        _activeEditsDetails: {
-          state: true,
-          type: Array
-        }
+        editable: Boolean,
+        _stepSize: Number,
+        _addItemFieldVisible: Boolean,
+        _newItemPrimaryAttribute: Boolean,
+        _newItemSecondaryAttribute: Boolean,
+        _editItemFieldVisible: Boolean,
+        _activeItemEditDetails: Boolean
       };
     }
   }]);
@@ -556,8 +529,7 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
         dragStartElement: Object,
         endContainer: String,
         startContainer: String,
-        list: Array,
-        customReactiveProperties: Array
+        list: Array
       };
     }
   }]);
@@ -582,6 +554,12 @@ __webpack_require__.r(__webpack_exports__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _templateObject;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -613,88 +591,51 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
     value: function handleDelete(eventDetails) {
       console.log(eventDetails.data);
       //API CALL TO DELETE THE ITEM
-      // this.list = this.list.filter((item)=> item.id !== eventDetails.data.id);
+      var deletedTag = eventDetails.data;
+      this.list = this.list.filter(function (tag) {
+        return tag.id !== deletedTag.id;
+      });
     }
   }, {
     key: "handleAdd",
     value: function handleAdd(eventDetails) {
       console.log(eventDetails.data);
-      // let newItem = eventDetails.data;
-      //API CALL TO CREATE NEW TAG
-      // RESPONSE OF ID
-      //API RESOPNSE with id from server
-      // let apiResponseObj = {id:`${Math.random().toString().slice(2,11)}ecbda94db4a78d`,...newItem};
-      // this.list.push(apiResponseObj)
-    }
-  }, {
-    key: "handleReorder",
-    value: function handleReorder(eventDetails) {
-      console.log(eventDetails.data);
-      // let updatedTag = eventDetails.data;
-      //API CALL TO UPDATE THE POSITION OF THE ITEM IN DB
-      // API response 200
-      // this.list = this.list.filter((item)=> item.id != updatedTag.id);
-      // this.list = [...this.list,updatedTag];
+      //API CALL TO CREATE NEW TAG    //API RESPONSE with id from server
+      var addedTag = eventDetails.data;
+      addedTag['id'] = "randomID".concat(Math.random().toString().slice(2, 11));
+      this.list = [].concat(_toConsumableArray(this.list), [addedTag]);
     }
   }, {
     key: "handleUpdate",
     value: function handleUpdate(eventDetails) {
       console.log(eventDetails.data);
-      var updatedTag = eventDetails.data;
       //API CALL TO UPDATE THE DETAILS OF THE TAG;
-      // this.list = this.list.filter((item)=> item.id !== updatedTag.id);
-      // this.list.push(updatedTag)
+      var updatedTag = eventDetails.data;
+      this.list = this.list.filter(function (tag) {
+        return tag.id !== updatedTag.id;
+      });
+      this.list = [].concat(_toConsumableArray(this.list), [updatedTag]);
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <style>\n            .property-list{\n                display:flex; flex-grow:1; gap:10px;\n                flex-direction:column;\n                \n            }\n            .property-list  div{\n                grid-template-columns:1fr 1fr 1fr\n            }\n            @media screen and (max-width:700px){\n                .property-list div{\n                    flex-direction:column;\n                    grid-template-columns:1fr 1fr\n                }\n            }\n            hr{\n                border-width:5px\n            }\n        </style>\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n            <div  class='property-list'>\n                <div>\n                    <h2> Properties and events handlers</h2>\n                    <div style='display:flex; gap:10px;'>\n                    <div style='max-width:500px'>\n                    <h3>Properties for the custom element</h3>\n                    <p><span style='font-weight:bold'>list * :</span><span> The list of objects to be displayed.</span>  </p>\n                    <p style='font-weight:bold' >primaryAttribute *</p>\n                    <p style='font-weight:bold' >secondaryAttribute</p>\n                    <p style='font-weight:bold' >uniqueIdAttribute *</p>\n                    <p><span style='font-weight:bold'>positionAttribute:</span><span> Numeric attribute that determine the order of items in the list</span></p>\n                    <p><span style='font-weight:bold'>preventDeleteAttribute:</span><span> If present in the object , the item cannot be deleted for the object. Also act as default for the primary attribute.</span></p>\n                    <p><span style='font-weight:bold'>primaryHeaderValue:</span><span> required to display the header </span></p>\n                    <p style='font-weight:bold'>secondaryHeaderValue</p>\n                    </div>\n                    <div>\n                    <h3>Event Handlers</h3>\n                    <p><p style='font-weight:bold'>@item-added: </p><span>contain {name,description,position} of the added object</span></p>\n                    <p><p style='font-weight:bold'>@item-deleted: </p><span>contain details of the deleted object</span></p>\n                    <p><p style='font-weight:bold'>@item-repositioned: </p><span>contain the details of the object reordered with updated position attribute</span></p>\n                    <p><p style='font-weight:bold'>@item-updated: </p><span>contain the updated details of an</span></p>\n                    </div>\n                    <div>\n                    <h3>List of Object</h3>\n                    <p>[ {</p>\n                    <p>id:\"7s2kjshfn39c8cea31387c33\",</p>\n                    <p>name:\"Notices\",</p>\n                    <p>description:\"Notices Description\",</p>\n                    <p>position:3072,</p>\n                    <p>defaultTagName:\"Notices\"</p>\n                    <p> }  ]</p>\n                    </div>\n                </div>\n                </div>\n                <div>\n                <h2>CSS VARIABLES</h2>\n                <div style='display: inline-grid;\n                            gap: 0px 15px;'>\n                    <p>--header-bottom-border-color</p>  \n                    <p>--header-font-size</p>\n                    <p>--header-border-bottom-size</p>\n                    <p>--header-text-color</p>\n                    <p>--row-item-font-size</p>\n                    <p>--row-item-bottom-color</p>\n                    <p>--border-radius</p>\n                    <p>--row-item-color</p>\n                    <p>--row-item-background</p>\n                    <p>--row-icons-color</p>\n                    <p>--item-border-bottom-size</p>\n                    <p>--add-button-color</p>\n                    <p>--add-button-background</p>\n                    <p>--drag-over-line-color</p>\n                </div>\n                </div>\n            </div>\n            <hr/>\n            <h3>The Custom-dnd-list Element</h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .preventDeleteAttribute=", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Only with .primaryAttribute & .primaryHeaderValue </h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .preventDeleteAttribute=", "\n                .primaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .positionAttribute </h3>\n                <h4>The Order reset to the list's order with any new addition/update</h4>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .preventDeleteAttribute=", "\n                .primaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .preventDeleteAttribute</h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>Without .primaryAttribute or .uniqueIdAttribute</h3>\n                <h4>list not displayed as both are required. Only header visible</h4>\n                <custom-dnd-list\n                .list=", "\n                .positionAttribute = ", "\n                .primaryHeaderValue = ", "\n                .secondaryHeaderValue = ", "\n                .positionAttribute = ", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                \n                <h3>Without .primaryHeaderValue</h3>\n                <custom-dnd-list\n                .list=", "\n                .primaryAttribute=", "\n                .secondaryAttribute=", "\n                .uniqueIdAttribute = ", "\n                .positionAttribute = ", "\n                .preventDeleteAttribute=", "\n                @item-deleted=", "\n                @item-added=", "\n                @item-repositioned=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                \n                \n                </div>\n            </div>  \n        "])), this.list, 'name', 'description', 'id', 'position', 'defaultTagName', 'Tag Name', 'Tag Description', function (e) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <style>\n            .property-list{\n                display:flex; flex-grow:1; gap:10px;\n                flex-direction:column;\n                \n            }\n            .property-list  div{\n                grid-template-columns:1fr 1fr 1fr\n            }\n            @media screen and (max-width:700px){\n                .property-list div{\n                    flex-direction:column;\n                    grid-template-columns:1fr 1fr\n                }\n            }\n            hr{\n                border-width:5px\n            }\n        </style>\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Reorderable/ Custom Tag CRUD List </h2>\n            <div  class='property-list'>\n                <div>\n                    <h2> Properties and events handlers</h2>\n                    <div style='display:flex; gap:10px;'>\n                    <div style='max-width:500px'>\n                    <h3>Properties for the custom element</h3>\n                    <p><span style='font-weight:bold'>list * :</span><span> The list of objects to be displayed.</span>  </p>\n                    <p style='font-weight:bold' >editable</p>\n                    <p style='font-weight:bold' >_stepSize</p>\n                    <p style='font-weight:bold' >primaryAttribute *</p>\n                    <p style='font-weight:bold' >secondaryAttribute</p>\n                    <p style='font-weight:bold' >uniqueIdAttribute *</p>\n                    <p><span style='font-weight:bold'>positionAttribute:</span><span> Numeric attribute that determine the order of items in the list</span></p>\n                    <p><span style='font-weight:bold'>defaultPrimaryAttribute:</span><span> If present in the object , the item cannot be deleted for the object. Also act as default for the primary attribute.</span></p>\n                    <p><span style='font-weight:bold'>primaryHeaderValue:</span><span> required to display the header </span></p>\n                    <p style='font-weight:bold'>secondaryHeaderValue</p>\n                    </div>\n                    <div>\n                    <h3>Event Handlers</h3>\n                    <p><p style='font-weight:bold'>@item-added: </p><span>contain {name,description,position} of the added object</span></p>\n                    <p><p style='font-weight:bold'>@item-deleted: </p><span>contain details of the deleted object</span></p>\n                    <p><p style='font-weight:bold'>@item-updated: </p><span>contain the updated details of an</span></p>\n                    </div>\n                    <div>\n                    <h3>List of Object</h3>\n                    <p>[ {</p>\n                    <p>id:\"7s2kjshfn39c8cea31387c33\",</p>\n                    <p>name:\"Notices\",</p>\n                    <p>description:\"Notices Description\",</p>\n                    <p>position:3072,</p>\n                    <p>defaultTagName:\"Notices\"</p>\n                    <p> }  ]</p>\n                    </div>\n                </div>\n                </div>\n                <div>\n                <h2>CSS VARIABLES</h2>\n                <div style='display: inline-grid;\n                            gap: 0px 15px;'>\n                    <p>--header-bottom-border-color</p>  \n                    <p>--header-font-size</p>\n                    <p>--header-border-bottom-size</p>\n                    <p>--header-text-color</p>\n                    <p>--row-item-font-size</p>\n                    <p>--row-item-bottom-color</p>\n                    <p>--border-radius</p>\n                    <p>--row-item-color</p>\n                    <p>--row-item-background</p>\n                    <p>--row-icons-color</p>\n                    <p>--item-border-bottom-size</p>\n                    <p>--add-button-color</p>\n                    <p>--add-button-background</p>\n                    <p>--drag-over-line-color</p>\n                </div>\n                </div>\n            </div>\n            <hr/>\n                <h3>The Custom-dnd-list Element</h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                ._stepSize=", "\n                primaryAttribute= 'name'\n                secondaryAttribute= 'description'\n                uniqueIdAttribute =  'id'\n                positionAttribute =  'position'\n                defaultPrimaryAttribute= 'defaultTagName'\n                primaryHeaderValue = 'Tag  Name'\n                secondaryHeaderValue = 'Tag  Description'\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>The Custom-dnd-list Element with Editable:False </h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                ._stepSize=", "\n                primaryAttribute= 'name'\n                secondaryAttribute= 'description'\n                uniqueIdAttribute =  'id'\n                positionAttribute =  'position'\n                defaultPrimaryAttribute= 'defaultTagName'\n                primaryHeaderValue = 'Tag  Name'\n                secondaryHeaderValue = 'Tag  Description'\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>The Custom-dnd-list Element with Single Attribute </h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                \n                primaryAttribute= 'name'\n                \n                uniqueIdAttribute =  'id'\n                positionAttribute =  'position'\n                defaultPrimaryAttribute= 'defaultTagName'\n                primaryHeaderValue = 'Tag  Name'\n                \n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                \n                </div>\n            </div>  \n        "])), this.list, true, 1024, function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleReorder(e.detail);
       }, function (e) {
         return _this2.handleUpdate(e.detail);
-      }, this.list, 'name', 'id', 'position', 'defaultTagName', 'Tag Name', function (e) {
+      }, this.list, false, 1024, function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleReorder(e.detail);
       }, function (e) {
         return _this2.handleUpdate(e.detail);
-      }, [].concat(sampleDocumentTags), 'name', 'description', 'id', 'defaultTagName', 'Tag Name', function (e) {
+      }, this.list, true, function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleReorder(e.detail);
-      }, function (e) {
-        return _this2.handleUpdate(e.detail);
-      }, this.list, 'name', 'description', 'id', 'position', 'Tag Name', 'Tag Description', function (e) {
-        return _this2.handleDelete(e.detail);
-      }, function (e) {
-        return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleReorder(e.detail);
-      }, function (e) {
-        return _this2.handleUpdate(e.detail);
-      }, this.list, 'position', 'Tag Name', 'Tag Description', 'position', function (e) {
-        return _this2.handleDelete(e.detail);
-      }, function (e) {
-        return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleReorder(e.detail);
-      }, function (e) {
-        return _this2.handleUpdate(e.detail);
-      }, this.list, 'name', 'description', 'id', 'position', 'defaultTagName', function (e) {
-        return _this2.handleDelete(e.detail);
-      }, function (e) {
-        return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleReorder(e.detail);
       }, function (e) {
         return _this2.handleUpdate(e.detail);
       });
@@ -27415,21 +27356,21 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************!*\
   !*** ./styles/index.js ***!
   \*************************/
-/*! exports provided: CustomDndStyles, headerRowStyle, ItemRowStyle */
+/*! exports provided: CustomDndStyles, HeaderRowStyle, ItemRowStyle */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CustomDndStyles", function() { return CustomDndStyles; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "headerRowStyle", function() { return headerRowStyle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderRowStyle", function() { return HeaderRowStyle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ItemRowStyle", function() { return ItemRowStyle; });
 /* harmony import */ var lit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit */ "./node_modules/lit/index.js");
 var _templateObject, _templateObject2, _templateObject3;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var CustomDndStyles = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n            :host{\n                --primary-color: #2E7AE7;\n                --primary-color-l1: #5795EB;\n                --secondary-color: #515151;\n                --secondary-color-l1: #b2b0b0;\n                --secondary-color-l2: #e0e0e0;\n                --secondary-color-l3: #eeeeee;\n                --secondary-color-l4: #f8f8f8;\n                --error-color: #d50000;\n                --error-color-l1: #d50000;\n                --theme-font: \"Poppins\", Arial, sans-serif;                \n            }\n            .tag-table-container{\n                padding:10px;\n            }\n            .add-input-wrapper{\n                display: grid;\n                width: 100%;\n                gap: 10px;\n                grid-template-columns: 1fr auto;\n                margin-left: 10px;\n                margin-bottom: 10px;\n                border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n                border-radius: var(--border-radius,10px);\n                padding: 10px 0px;\n                align-items: center;\n            }\n            .add-input-wrapper > .input-fields{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr;\n                gap:10px;\n                margin-left:30px;\n            }\n            .add-input-wrapper > .grid-template-1-column{\n                grid-template-columns:1fr ;\n            }\n            .add-input-wrapper > .add-input-actions-btn{\n                display: inline-grid;\n                grid-template-columns: 40px 40px;\n                gap: 10px;\n            }\n            paper-icon-button{\n                color:var(--row-icons-color,#515151);\n            }\n            paper-button#add-new-item{\n                color:var(--add-button-color,'');\n                background-color:var(--add-button-background,'');\n                width:120px;\n                height:35px;\n            }\n            @media screen and (max-width: 480px) {\n                .add-input-wrapper{\n                    display:inline-grid;\n                    grid-template-columns:1fr minmax(50px,auto);\n                    gap:0px;\n                }\n                .add-input-wrapper > .input-fields{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .add-input-wrapper > .add-input-actions-btn{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .second-item{\n                    grid-row:2;\n                }\n                .box.second-item{\n                    padding-left:30px;\n                }\n            }\n    </style>\n"])));
-var headerRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <style>\n            .header-row{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr minmax(70px,auto);\n                gap: 5px;\n                width: calc( 99% - 26px );\n                padding: 0px 0px 5px 30px;\n                margin-left: 10px;\n                border-bottom: var(--header-border-bottom-size,3px) solid var(--header-bottom-border-color,#515151);\n                border-radius: var(--border-radius,10px);\n                font-size: var(--header-font-size,17px);\n                color: var(--header-text-color,'');\n                font-weight: bold;\n                }\n            .grid-template-2-column{\n                grid-template-columns:1fr minmax(70px,auto);\n            }\n            @media screen and (max-width: 480px) {\n                .header-row{\n                    display:inline-grid;\n                    grid-template-columns:1fr auto;\n                    grid-template-rows: max-content max-content;\n                    gap:0px;\n                }\n            }\n        </style>"])));
-var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--row-icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--row-icons-color,#515151);\n        cursor:grabbing;\n        padding-right:10px;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#80cbc4;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--row-item-font-size,17px);\n        padding: 5px 0px;\n        user-select:text;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        min-height: max-content;\n        align-items: center;\n        color:var(--row-item-color);\n        background:var(--row-item-background);\n        border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n        border-radius: var(--border-radius,10px);\n        margin-left: 10px;\n        width: 100%;\n    }\n    .grid-template-3-column{\n        grid-template-columns:1fr auto auto;\n    }\n    @media screen and (max-width: 480px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr minmax(50px,auto);\n            grid-template-rows: max-content max-content;\n            gap:0px;\n        }\n        .second-item{\n            grid-row:2;\n        }\n        .grid-reposition-btn{\n            grid-column:2;\n        }\n    }\n</style>\n"])));
+var CustomDndStyles = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n            .custom-dnd-list-wrapper{\n                padding:5px;\n            }\n            .add-input-wrapper{\n                display: grid;\n                width: 100%;\n                gap: 10px;\n                grid-template-columns: 1fr auto;\n                margin-bottom: 10px;\n                border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n                border-radius: var(--border-radius,10px);\n                padding: 10px 0px;\n                align-items: center;\n            }\n            .add-input-wrapper > .input-fields{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr;\n                gap:10px;\n                margin-left:30px;\n            }\n            .add-input-wrapper > .grid-template-1-column{\n                grid-template-columns:1fr ;\n            }\n            .add-input-wrapper > .add-input-actions-btn{\n                display: inline-grid;\n                grid-template-columns: 40px 40px;\n                gap: 10px;\n            }\n            paper-icon-button{\n                color:var(--row-icons-color,#515151);\n            }\n            paper-button#add-new-item-btn{\n                color:var(--add-button-color,'');\n                background-color:var(--add-button-background,'');\n                width:120px;\n                height:35px;\n            }\n            @media screen and (max-width: 420px) {\n                .add-input-wrapper{\n                    display:inline-grid;\n                    grid-template-columns:1fr minmax(50px,auto);\n                    gap:0px;\n                }\n                .add-input-wrapper > .input-fields{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .add-input-wrapper > .add-input-actions-btn{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .grid-row-2-item{\n                    grid-row:2;\n                }\n                .box.grid-row-2-item{\n                    padding-left:30px;\n                }\n            }\n    </style>\n"])));
+var HeaderRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <style>\n            .header-row{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr auto;\n                gap: 5px;\n                width: calc( 100% - 30px );\n                padding: 0px 0px 5px 30px;\n                border-bottom: var(--header-border-bottom-size,3px) solid var(--header-bottom-border-color,#515151);\n                border-radius: var(--border-radius,10px);\n                font-size: var(--header-font-size,17px);\n                color: var(--header-text-color,'');\n                font-weight: bold;\n                }\n            .grid-template-2-column{\n                grid-template-columns:1fr minmax(70px,auto);\n            }\n            .grid-template-1-column{\n                grid-template-columns:1fr 2fr;\n            }\n            @media screen and (max-width: 420px) {\n                .header-row{\n                    display:inline-grid;\n                    grid-template-columns:1fr auto;\n                    grid-template-rows: auto auto;\n                    gap:0px;\n                }\n            }\n        </style>\n"])));
+var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--row-icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--row-icons-color,#515151);\n        cursor:grabbing;\n        padding-right:10px;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#80cbc4;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--row-item-font-size,17px);\n        padding: 5px 0px;\n        min-height:40px;\n        user-select:text;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        align-items: center;\n        color:var(--row-item-color);\n        background:var(--row-item-background);\n        width: 100%;\n    }\n    .item-bottom-border{\n        border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n        border-radius: var(--border-radius,10px);\n    }\n    .grid-template-3-column{\n        grid-template-columns:1fr auto auto;\n    }\n    @media screen and (max-width: 420px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr auto;\n            grid-template-rows: auto auto;\n            gap:0px;\n        }\n        .grid-row-2-item{\n            grid-row:2;\n        }\n        .grid-reposition-btn{\n            grid-column:2;\n        }\n    }\n</style>\n"])));
 
 /***/ }),
 
