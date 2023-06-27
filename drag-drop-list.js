@@ -17,7 +17,6 @@ class DragDropList extends LitElement {
             endContainer:  String,
             startContainer: String,
             list: Array,
-            customReactiveProperties: Array,
         }
     }    
 

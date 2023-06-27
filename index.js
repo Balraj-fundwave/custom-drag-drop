@@ -17,31 +17,22 @@ export class IndexClass extends LitElement{
     handleDelete(eventDetails){
         console.log(eventDetails.data)
         //API CALL TO DELETE THE ITEM
-        // this.list = this.list.filter((item)=> item.id !== eventDetails.data.id);
+        const deletedTag = eventDetails.data;
+        this.list= this.list.filter((tag)=> tag.id !== deletedTag.id);
     }
     handleAdd(eventDetails){
         console.log(eventDetails.data)
-        // let newItem = eventDetails.data;
-        //API CALL TO CREATE NEW TAG
-        // RESPONSE OF ID
-        //API RESOPNSE with id from server
-        // let apiResponseObj = {id:`${Math.random().toString().slice(2,11)}ecbda94db4a78d`,...newItem};
-        // this.list.push(apiResponseObj)
-    }
-    handleReorder(eventDetails){
-        console.log(eventDetails.data)
-        // let updatedTag = eventDetails.data;
-        //API CALL TO UPDATE THE POSITION OF THE ITEM IN DB
-        // API response 200
-        // this.list = this.list.filter((item)=> item.id != updatedTag.id);
-        // this.list = [...this.list,updatedTag];
+        //API CALL TO CREATE NEW TAG    //API RESPONSE with id from server
+        const addedTag = eventDetails.data;
+        addedTag['id']= `randomID${Math.random().toString().slice(2,11)}`
+        this.list = [...this.list,addedTag];
     }
     handleUpdate(eventDetails){
         console.log(eventDetails.data)
-        let updatedTag = eventDetails.data;
         //API CALL TO UPDATE THE DETAILS OF THE TAG;
-        // this.list = this.list.filter((item)=> item.id !== updatedTag.id);
-        // this.list.push(updatedTag)
+        const updatedTag = eventDetails.data;
+        this.list = this.list.filter((tag)=> tag.id !== updatedTag.id);
+        this.list = [...this.list,updatedTag]
     }
     render(){
         return html`
@@ -73,11 +64,13 @@ export class IndexClass extends LitElement{
                     <div style='max-width:500px'>
                     <h3>Properties for the custom element</h3>
                     <p><span style='font-weight:bold'>list * :</span><span> The list of objects to be displayed.</span>  </p>
+                    <p style='font-weight:bold' >editable</p>
+                    <p style='font-weight:bold' >_stepSize</p>
                     <p style='font-weight:bold' >primaryAttribute *</p>
                     <p style='font-weight:bold' >secondaryAttribute</p>
                     <p style='font-weight:bold' >uniqueIdAttribute *</p>
                     <p><span style='font-weight:bold'>positionAttribute:</span><span> Numeric attribute that determine the order of items in the list</span></p>
-                    <p><span style='font-weight:bold'>preventDeleteAttribute:</span><span> If present in the object , the item cannot be deleted for the object. Also act as default for the primary attribute.</span></p>
+                    <p><span style='font-weight:bold'>defaultPrimaryAttribute:</span><span> If present in the object , the item cannot be deleted for the object. Also act as default for the primary attribute.</span></p>
                     <p><span style='font-weight:bold'>primaryHeaderValue:</span><span> required to display the header </span></p>
                     <p style='font-weight:bold'>secondaryHeaderValue</p>
                     </div>
@@ -85,7 +78,6 @@ export class IndexClass extends LitElement{
                     <h3>Event Handlers</h3>
                     <p><p style='font-weight:bold'>@item-added: </p><span>contain {name,description,position} of the added object</span></p>
                     <p><p style='font-weight:bold'>@item-deleted: </p><span>contain details of the deleted object</span></p>
-                    <p><p style='font-weight:bold'>@item-repositioned: </p><span>contain the details of the object reordered with updated position attribute</span></p>
                     <p><p style='font-weight:bold'>@item-updated: </p><span>contain the updated details of an</span></p>
                     </div>
                     <div>
@@ -122,96 +114,57 @@ export class IndexClass extends LitElement{
                 </div>
             </div>
             <hr/>
-            <h3>The Custom-dnd-list Element</h3>
+                <h3>The Custom-dnd-list Element</h3>
                 <custom-dnd-list
                 .list=${this.list}
-                .primaryAttribute=${'name'}
-                .secondaryAttribute=${'description'}
-                .uniqueIdAttribute = ${'id'}
-                .positionAttribute = ${'position'}
-                .preventDeleteAttribute=${'defaultTagName'}
-                .primaryHeaderValue = ${'Tag Name'}
-                .secondaryHeaderValue = ${'Tag Description'}
+                .editable = ${true}
+                ._stepSize=${1024}
+                primaryAttribute= 'name'
+                secondaryAttribute= 'description'
+                uniqueIdAttribute =  'id'
+                positionAttribute =  'position'
+                defaultPrimaryAttribute= 'defaultTagName'
+                primaryHeaderValue = 'Tag  Name'
+                secondaryHeaderValue = 'Tag  Description'
                 @item-deleted=${(e)=>this.handleDelete(e.detail)}
                 @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
                 @item-updated=${(e)=>this.handleUpdate(e.detail)}
                 ></custom-dnd-list>
                 <hr/>
-                <h3>Only with .primaryAttribute & .primaryHeaderValue </h3>
+                <h3>The Custom-dnd-list Element with Editable:False </h3>
                 <custom-dnd-list
                 .list=${this.list}
-                .primaryAttribute=${'name'}
-                .uniqueIdAttribute = ${'id'}
-                .positionAttribute = ${'position'}
-                .preventDeleteAttribute=${'defaultTagName'}
-                .primaryHeaderValue = ${'Tag Name'}
+                .editable = ${false}
+                ._stepSize=${1024}
+                primaryAttribute= 'name'
+                secondaryAttribute= 'description'
+                uniqueIdAttribute =  'id'
+                positionAttribute =  'position'
+                defaultPrimaryAttribute= 'defaultTagName'
+                primaryHeaderValue = 'Tag  Name'
+                secondaryHeaderValue = 'Tag  Description'
                 @item-deleted=${(e)=>this.handleDelete(e.detail)}
                 @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
                 @item-updated=${(e)=>this.handleUpdate(e.detail)}
                 ></custom-dnd-list>
                 <hr/>
-                <h3>Without .positionAttribute </h3>
-                <h4>The Order reset to the list's order with any new addition/update</h4>
-                <custom-dnd-list
-                .list=${[...sampleDocumentTags]}
-                .primaryAttribute=${'name'}
-                .secondaryAttribute=${'description'}
-                .uniqueIdAttribute = ${'id'}
-                .preventDeleteAttribute=${'defaultTagName'}
-                .primaryHeaderValue = ${'Tag Name'}
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
-                <h3>Without .preventDeleteAttribute</h3>
+                <h3>The Custom-dnd-list Element with Single Attribute </h3>
                 <custom-dnd-list
                 .list=${this.list}
-                .primaryAttribute=${'name'}
-                .secondaryAttribute=${'description'}
-                .uniqueIdAttribute = ${'id'}
-                .positionAttribute = ${'position'}
-                .primaryHeaderValue = ${'Tag Name'}
-                .secondaryHeaderValue = ${'Tag Description'}
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
-                <h3>Without .primaryAttribute or .uniqueIdAttribute</h3>
-                <h4>list not displayed as both are required. Only header visible</h4>
-                <custom-dnd-list
-                .list=${this.list}
-                .positionAttribute = ${'position'}
-                .primaryHeaderValue = ${'Tag Name'}
-                .secondaryHeaderValue = ${'Tag Description'}
-                .positionAttribute = ${'position'}
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
+                .editable = ${true}
                 
-                <h3>Without .primaryHeaderValue</h3>
-                <custom-dnd-list
-                .list=${this.list}
-                .primaryAttribute=${'name'}
-                .secondaryAttribute=${'description'}
-                .uniqueIdAttribute = ${'id'}
-                .positionAttribute = ${'position'}
-                .preventDeleteAttribute=${'defaultTagName'}
+                primaryAttribute= 'name'
+                
+                uniqueIdAttribute =  'id'
+                positionAttribute =  'position'
+                defaultPrimaryAttribute= 'defaultTagName'
+                primaryHeaderValue = 'Tag  Name'
+                
                 @item-deleted=${(e)=>this.handleDelete(e.detail)}
                 @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-repositioned=${(e)=>this.handleReorder(e.detail)}
                 @item-updated=${(e)=>this.handleUpdate(e.detail)}
                 ></custom-dnd-list>
                 <hr/>
-                
                 
                 </div>
             </div>  
