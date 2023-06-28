@@ -100,7 +100,6 @@ export const ItemRowStyle = html`
     iron-icon{
         color:var(--row-icons-color,#515151);
         cursor:grabbing;
-        padding-right:10px;
     }
     .delete-btn:hover{
         color:#fa3636;
@@ -116,6 +115,7 @@ export const ItemRowStyle = html`
         grid-template-columns: 1fr 2fr auto auto;
         font-size: var(--row-item-font-size,17px);
         padding: 5px 0px;
+        padding-left:10px;
         min-height:40px;
         user-select:text;
         }

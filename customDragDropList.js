@@ -12,20 +12,20 @@ export class CustomDndList extends LitElement{
     static get properties(){
         return {
             list: Array,
-            primaryAttribute:String,
-            secondaryAttribute:String,
-            positionAttribute:String,
-            uniqueIdAttribute:String,
-            defaultPrimaryAttribute:String,
-            primaryHeaderValue:String,
-            secondaryHeaderValue:String,
-            editable:Boolean,
-            _stepSize:Number,
-            _addItemFieldVisible:Boolean,
-            _newItemPrimaryAttribute:Boolean,
-            _newItemSecondaryAttribute:Boolean,
-            _editItemFieldVisible:Boolean,
-            _activeItemEditDetails:Boolean,
+            primaryAttribute: String,
+            secondaryAttribute: String,
+            positionAttribute: String,
+            uniqueIdAttribute: String,
+            defaultPrimaryAttribute: String,
+            primaryHeaderValue: String,
+            secondaryHeaderValue: String,
+            editable: Boolean,
+            _stepSize: Number,
+            _addItemFieldVisible: Boolean,
+            _newItemPrimaryAttribute: Boolean,
+            _newItemSecondaryAttribute: Boolean,
+            _editItemFieldVisible: Boolean,
+            _activeItemEditDetails: Boolean,
         }
     }
     constructor(){
@@ -91,12 +91,15 @@ export class CustomDndList extends LitElement{
         this.dispatchEvent(positionUpdateEvent);
     }
     firstUpdated(){
-        //add the styles of renderListItem to the drag-drop-list's shadow root (once).
         const styleNode = document.createElement('style')
         const dragDropNode = this.shadowRoot.querySelector('drag-drop-list').shadowRoot;
         dragDropNode.appendChild(styleNode);
         dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin',ItemRowStyle.strings[0])
         dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin',BoxInputStyles.strings[1])
+    }
+    willUpdate(changedPropertiesMap){
+            if(this.positionAttribute && changedPropertiesMap.has('list'))
+                this.list.sort((a,b)=> a[this.positionAttribute]-b[this.positionAttribute])
     }
     render(){
         return html`
@@ -106,7 +109,7 @@ export class CustomDndList extends LitElement{
                     ${this.primaryHeaderValue && this.headerRow()}
             ${this.primaryAttribute && this.uniqueIdAttribute ? 
             html`   <drag-drop-list
-                        .list=${this.positionAttribute ? this.list?.sort((a,b)=> a[this.positionAttribute] -b[this.positionAttribute]):this.list}
+                        .list=${this.list}
                         .headerName=${"custom-dnd-list"}
                         @item-reordered=${(e)=>this.reorderItem(e.detail)}
                         .dragItemRenderer=${(item)=>this.renderListItem(item)}>
@@ -135,7 +138,7 @@ export class CustomDndList extends LitElement{
     headerRow(){
         return html`
             ${HeaderRowStyle}
-        <div style=${this.editable?'':'padding-left:10px;width:99%;gap:5px'} class="header-row ${this.secondaryHeaderValue?'': 'grid-template-2-column'}">
+        <div style=${this.editable && this.positionAttribute?'':'padding-left:10px;width:99%;gap:5px'} class="header-row ${this.secondaryHeaderValue?'': 'grid-template-2-column'}">
             <span>${this.primaryHeaderValue}</span> ${this.secondaryHeaderValue &&  html `<span class='grid-row-2-item'>${this.secondaryHeaderValue}</span>`}
             ${this.editable ?  html`<span style='width:70px'>Actions</span>`:null }
         </div>
@@ -143,9 +146,9 @@ export class CustomDndList extends LitElement{
     }
     renderListItem(item){
         return html`
-        <div class='item-row-wrapper ${this.editable?'item-bottom-border':null}'> 
-            ${this.editable? html`<iron-icon id='drag-icon' icon="reorder"></iron-icon>`: null}
-            <div class='item-block${this.secondaryAttribute ?null:' grid-template-3-column'}${!this.editable?' item-bottom-border':null}' style=${this.editable?'':'gap:15px;padding-left:10px;'}
+        <div class='item-row-wrapper ${this.editable && this.positionAttribute?'item-bottom-border':null}'> 
+            ${this.editable && this.positionAttribute? html`<iron-icon id='drag-icon' icon="reorder"></iron-icon>`: null}
+            <div class='item-block${this.secondaryAttribute ?null:' grid-template-3-column'}${!this.editable || !this.positionAttribute?' item-bottom-border':null}' style=${this.editable?'':'gap:15px;padding-left:10px;'}
                 draggable='true' @dragstart=${(e)=> {e.preventDefault();e.stopPropagation();}}>
             ${  this._editItemFieldVisible?.includes(item[this.uniqueIdAttribute])?
                html`    

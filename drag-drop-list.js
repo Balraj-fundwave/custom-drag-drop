@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit';
+
 class DragDropList extends LitElement {
 
     static get styles() {
@@ -32,14 +33,14 @@ class DragDropList extends LitElement {
 
     dragStart(e) {
         this.dragStartElement= e.target;
+        this.dragStartElement.style.opacity=0.3;
         e.dataTransfer.setData("text", e.target);
-        e.target.style.opacity= 0.2;
     }
 
     drop(e) { 
-        let dropzone = e.currentTarget;
-        dropzone.classList.remove('active-drag-over');
+        let dropzone = e.currentTarget;dropzone.classList.remove('active-drag-over');
         this.startContainer=this.dragStartElement.getAttribute("containerName");
+
         if(dropzone.className=="drag-container-item"){
             this.endContainer=dropzone.getAttribute("containerName");
             dropzone= this.shadowRoot.getElementById(this.endContainer);
@@ -110,7 +111,7 @@ class DragDropList extends LitElement {
                     margin-bottom:5px;
                 }
                 .active-drag-over{
-                    border-bottom:4px solid var(--drag-over-line-color,#048edd8e);
+                    border-bottom:4px solid var(--drag-over-line-color,transparent);
                     margin-bottom:1px;
                 }
             </style>
@@ -118,7 +119,7 @@ class DragDropList extends LitElement {
                 <div class="vertical-container" id=${this.headerName}  @dragover=${(e) =>this.allowDrop(e)} >
                     ${this.list && this.list.map((item, index) => {
                         return html`
-                            <div class="drag-container-item" id=${index} @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  @drop=${(e) => this.drop(e)}
+                            <div class="drag-container-item" id=${index} @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  @drop=${(e) => this.drop(e)} 
                             @dragover=${(e)=>e.currentTarget.classList.add('active-drag-over')} @dragleave=${(e)=>e.currentTarget.classList.remove('active-drag-over')} @dragend=${(e)=> e.currentTarget.style.opacity=''}>
                                 ${this.dragItemRenderer(item) }
                             </div>
