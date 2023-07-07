@@ -86,26 +86,29 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./customDragDropList.js":
-/*!*******************************!*\
-  !*** ./customDragDropList.js ***!
-  \*******************************/
-/*! exports provided: CustomDndList */
+/***/ "./crud-dnd-list.js":
+/*!**************************!*\
+  !*** ./crud-dnd-list.js ***!
+  \**************************/
+/*! exports provided: crudDragDropList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CustomDndList", function() { return CustomDndList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "crudDragDropList", function() { return crudDragDropList; });
 /* harmony import */ var lit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit */ "./node_modules/lit/index.js");
 /* harmony import */ var _polymer_iron_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @polymer/iron-icons */ "./node_modules/@polymer/iron-icons/iron-icons.js");
 /* harmony import */ var _polymer_paper_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @polymer/paper-button */ "./node_modules/@polymer/paper-button/paper-button.js");
 /* harmony import */ var _polymer_paper_input_paper_input_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @polymer/paper-input/paper-input.js */ "./node_modules/@polymer/paper-input/paper-input.js");
 /* harmony import */ var _polymer_paper_icon_button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @polymer/paper-icon-button */ "./node_modules/@polymer/paper-icon-button/paper-icon-button.js");
-/* harmony import */ var _input_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./input-styles */ "./input-styles.js");
-/* harmony import */ var _styles_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index */ "./styles/index.js");
-/* harmony import */ var _drag_drop_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./drag-drop-list */ "./drag-drop-list.js");
+/* harmony import */ var _input_styles_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./input-styles.js */ "./input-styles.js");
+/* harmony import */ var _styles_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index.js */ "./styles/index.js");
+/* harmony import */ var _drag_drop_list_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./drag-drop-list.js */ "./drag-drop-list.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16;
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -113,9 +116,6 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -136,63 +136,101 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var CustomDndList = /*#__PURE__*/function (_LitElement) {
-  _inherits(CustomDndList, _LitElement);
-  var _super = _createSuper(CustomDndList);
-  function CustomDndList() {
+var crudDragDropList = /*#__PURE__*/function (_LitElement) {
+  _inherits(crudDragDropList, _LitElement);
+  var _super = _createSuper(crudDragDropList);
+  function crudDragDropList() {
     var _this;
-    _classCallCheck(this, CustomDndList);
+    _classCallCheck(this, crudDragDropList);
     _this = _super.call(this);
     _this.list = [];
-    _this._stepSize = 1024;
+    _this.stepSize = 1024;
     _this._addItemFieldVisible = false;
     _this._editItemFieldVisible = [];
-    _this._activeItemEditDetails = [];
+    _this._activeItemEditsDetails = [];
     return _this;
   }
-  _createClass(CustomDndList, [{
-    key: "_itemEditedDetailUpdate",
-    value: function _itemEditedDetailUpdate(itemId, editedField, newValue) {
-      var _this2 = this,
-        _editedItem;
-      var itemIndex = this._activeItemEditDetails.findIndex(function (item) {
-        return item[_this2.uniqueIdAttribute] === itemId;
+  _createClass(crudDragDropList, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral([" \n    ", " ", "\n      <div class=\"custom-dnd-list-wrapper\">\n        ", "\n        ", "\n      </div>"])), _input_styles_js__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"], _styles_index_js__WEBPACK_IMPORTED_MODULE_6__["CustomDndStyles"], this.primaryHeaderValue && this.headerRow(), this.primaryAttribute && this.idAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n              ", "\n\n              <drag-drop-list\n                .list=", "\n                .headerName=", "\n                @item-reordered=", "\n                .dragItemRenderer=", "\n              ></drag-drop-list>\n            "])), this._addItemFieldVisible ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                    <div class=\"add-input-wrapper\">\n                        <span class=\"input-fields ", "\">\n                        <paper-input id=\"add-primary-input\" class=\"box\" .noLabelFloat=", "\n                            .value=", "\n                            @value-changed=", "\n                        ></paper-input>\n                        ", "\n                        </span>\n                        <span class=\"add-input-actions-btn\">\n                        <paper-icon-button icon=\"check\"  @tap=", "></paper-icon-button>\n                        <paper-icon-button icon=\"cancel\"\n                            @tap=", "\n                        ></paper-icon-button>\n                        </span>\n                    </div> "])), this.secondaryAttribute ? "" : "grid-template-1-column", true, this._newItemPrimaryAttribute, function (e) {
+        _this2._newItemPrimaryAttribute = e.target.value;
+      }, this.secondaryAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<paper-input class=\"box\" .noLabelFloat=", "\n                                    .value=", "\n                                    @value-changed=", "\n                                ></paper-input>"])), true, this._newItemSecondaryAttribute, function (e) {
+        _this2._newItemSecondaryAttribute = e.target.value;
+      }) : null, function () {
+        _this2.addNewItem();
+      }, function () {
+        _this2._clearAddNewItemProperties();
+      }) : null, this.list, "custom-dnd-list", function (e) {
+        return _this2.reorderItem(e.detail);
+      }, function (item) {
+        return _this2.renderListItem(item);
+      }) : null);
+    }
+  }, {
+    key: "headerRow",
+    value: function headerRow() {
+      var _this3 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n      ", "\n      <div style=", "\n            class=\"header-row ", "\">\n            <span>", "</span> \n            ", "\n            ", "\n      </div>\n    "])), _styles_index_js__WEBPACK_IMPORTED_MODULE_6__["HeaderRowStyle"], this.editable && this.positionAttribute ? "" : "padding-left:10px;width:99%;gap:5px", this.secondaryHeaderValue ? "" : "grid-template-2-column", this.primaryHeaderValue, this.secondaryHeaderValue ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["<span class=\"grid-row-2-item\">", "</span>"])), this.secondaryHeaderValue) : null, this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<paper-button id=\"add-new-item-btn\" noink raised\n                    @click=", ">\n                    <iron-icon icon=\"add-circle-outline\"></iron-icon> ADD </paper-button>"])), function () {
+        _this3._addItemFieldVisible = true;
+      }) : null);
+    }
+  }, {
+    key: "renderListItem",
+    value: function renderListItem(item) {
+      var _this$_editItemFieldV,
+        _this4 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral([" \n    <div class=\"item-row-wrapper ", "\">\n        ", "\n      <div style=", "\n        class=\"item-block", "", "\"\n        draggable=\"true\" @dragstart=", ">\n        \n        ", "\n      </div>\n    </div>"])), this.editable && this.positionAttribute ? "item-bottom-border" : null, this.editable && this.positionAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["<iron-icon id=\"drag-icon\" icon=\"reorder\"></iron-icon>"]))) : null, this.editable ? "" : "gap:15px;padding-left:10px;", this.secondaryAttribute ? null : " grid-template-3-column", !this.editable || !this.positionAttribute ? " item-bottom-border" : null, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }, (_this$_editItemFieldV = this._editItemFieldVisible) !== null && _this$_editItemFieldV !== void 0 && _this$_editItemFieldV.includes(item[this.idAttribute]) ? this._renderItemEditFields(item) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral([" \n                <span>", "</span>\n                ", "\n                \n                ", ""])), item[this.primaryAttribute], this.secondaryAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n                <span class=\"grid-row-2-item\">", "</span>"])), item[this.secondaryAttribute]) : null, this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n                        <paper-icon-button class=\"edit-btn\" icon=\"create\"\n                        @tap=", "\n                        ></paper-icon-button>\n                        ", "\n                    "])), function () {
+        _this4._editItemFieldVisible = [].concat(_toConsumableArray(_this4._editItemFieldVisible), [item[_this4.idAttribute]]);
+      }, item[this.preventDeleteAttribute] ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["<paper-icon-button icon=\"info\" noink\n                            class=\"info-btn ", "\" \n                            @tap=", "             \n                            title=", "\n                            ></paper-icon-button>"])), this.secondaryAttribute ? "" : "grid-reposition-btn", function (e) {
+        return e.target.classList.toggle('info-btn-text');
+      }, this.defaultAttributeHoverMessage ? this.defaultAttributeHoverMessage(item) : null) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["<paper-icon-button icon=\"delete\"\n                            class=\"delete-btn ", "\"\n                            @tap=", "></paper-icon-button>"])), this.secondaryAttribute ? "" : "grid-reposition-btn", function () {
+        _this4.deleteItem(item);
+      })) : null));
+    }
+  }, {
+    key: "_renderItemEditFields",
+    value: function _renderItemEditFields(item) {
+      var _this5 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n        <paper-input class=\"box\" .noLabelFloat=", " id=\"edit-input-", "\"\n        .value=", "\n        @value-changed=", "\n        ></paper-input>\n        \n        ", "\n\n        <paper-icon-button icon=\"check\"\n            @tap=", "\n        ></paper-icon-button>\n\n        <paper-icon-button icon=\"cancel\" class=\"", "\"\n            @tap=", "\n        ></paper-icon-button>\n  "])), true, item[this.idAttribute], item[this.primaryAttribute], function (e) {
+        _this5._updateActiveEdits(item[_this5.idAttribute], _this5.primaryAttribute, e.target.value);
+      }, this.secondaryAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral([" \n            <paper-input .noLabelFloat=", " class=\"box grid-row-2-item\"\n                .value=", "\n                @value-changed=", "\n            ></paper-input>"])), true, item[this.secondaryAttribute], function (e) {
+        _this5._updateActiveEdits(item[_this5.idAttribute], _this5.secondaryAttribute, e.target.value);
+      }) : null, function () {
+        _this5.updateItem(item[_this5.idAttribute]);
+      }, this.secondaryAttribute ? "" : "grid-reposition-btn", function () {
+        _this5._removeItemFromActiveEdits(item[_this5.idAttribute]);
       });
-      if (itemIndex > -1) {
-        this._activeItemEditDetails[itemIndex][editedField] = newValue;
-        return;
-      }
-      var editedItem = (_editedItem = {}, _defineProperty(_editedItem, this.uniqueIdAttribute, itemId), _defineProperty(_editedItem, editedField, newValue), _editedItem);
-      this._activeItemEditDetails.push(editedItem);
     }
   }, {
     key: "updateItem",
     value: function updateItem(itemId) {
-      var _this3 = this,
+      var _this6 = this,
         _this$list;
-      var updatedDetails = this._activeItemEditDetails.find(function (item) {
-        return item[_this3.uniqueIdAttribute] === itemId;
+      var updatedDetails = this._activeItemEditsDetails.find(function (item) {
+        return item[_this6.idAttribute] === itemId;
       });
       var initialDetails = (_this$list = this.list) === null || _this$list === void 0 ? void 0 : _this$list.find(function (item) {
-        return item[_this3.uniqueIdAttribute] === itemId;
+        return item[_this6.idAttribute] === itemId;
       });
-      if (updatedDetails[this.primaryAttribute].trim() === '') {
-        if (initialDetails[this.defaultPrimaryAttribute]) updatedDetails[this.primaryAttribute] = initialDetails[this.defaultPrimaryAttribute];else {
-          var editInputField = this.shadowRoot.querySelector('drag-drop-list').shadowRoot.querySelector("#edit-input-".concat(itemId));
-          editInputField.value = '';
-          editInputField.invalid = true;
-          editInputField.placeholder = 'Required';
+      if (updatedDetails[this.primaryAttribute].trim() === "") {
+        if (typeof initialDetails[this.preventDeleteAttribute] === 'string') updatedDetails[this.primaryAttribute] = initialDetails[this.preventDeleteAttribute];else {
+          var editInputField = this.shadowRoot.querySelector("drag-drop-list").shadowRoot.querySelector("#edit-input-".concat(itemId));
+          this._displayErrorMessage(editInputField, 'Required');
           return;
         }
+      } else if (this._itemAlreadyExist(updatedDetails)) {
+        var _editInputField = this.shadowRoot.querySelector("drag-drop-list").shadowRoot.querySelector("#edit-input-".concat(itemId));
+        this._displayErrorMessage(_editInputField, 'Already Exist');
+        return;
       }
       updatedDetails = _objectSpread(_objectSpread({}, initialDetails), updatedDetails);
-      this._activeItemEditDetails.splice(this._activeItemEditDetails.findIndex(function (obj) {
-        return obj[_this3.uniqueIdAttribute] === itemId;
-      }), 1);
-      this._editItemFieldVisible = this._editItemFieldVisible.filter(function (id) {
-        return id != itemId;
-      });
-      var updateEvent = new CustomEvent('item-updated', {
+      this._removeItemFromActiveEdits(itemId);
+      var updateEvent = new CustomEvent("item-updated", {
         detail: {
           data: _objectSpread({}, updatedDetails)
         },
@@ -204,7 +242,7 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
   }, {
     key: "deleteItem",
     value: function deleteItem(item) {
-      var deleteEvent = new CustomEvent('item-deleted', {
+      var deleteEvent = new CustomEvent("item-deleted", {
         detail: {
           data: _objectSpread({}, item)
         },
@@ -217,43 +255,42 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
     key: "addNewItem",
     value: function addNewItem() {
       var _this$list$at;
-      if (this._newItemPrimaryAttribute.trim() === '') {
-        var addPrimaryInput = this.shadowRoot.querySelector('#add-primary-input');
-        addPrimaryInput.value = '';
-        addPrimaryInput.invalid = true;
-        addPrimaryInput.placeholder = 'Required';
+      if (this._newItemPrimaryAttribute.trim() === "") {
+        this._displayErrorMessage(this.shadowRoot.querySelector("#add-primary-input"), 'Required');
         return;
       }
       var newItemDetails = _defineProperty({}, this.primaryAttribute, this._newItemPrimaryAttribute);
-      if (this.secondaryAttribute) newItemDetails[this.secondaryAttribute] = this._newItemSecondaryAttribute;
-      if (this.positionAttribute) newItemDetails[this.positionAttribute] = (((_this$list$at = this.list.at(-1)) === null || _this$list$at === void 0 ? void 0 : _this$list$at[this.positionAttribute]) || 0) + this._stepSize;
-      var addEvent = new CustomEvent('item-added', {
+      if (this.secondaryAttribute && this._newItemSecondaryAttribute.trim()) newItemDetails[this.secondaryAttribute] = this._newItemSecondaryAttribute.trim();
+      if (this.positionAttribute) newItemDetails[this.positionAttribute] = (((_this$list$at = this.list.at(0)) === null || _this$list$at === void 0 ? void 0 : _this$list$at[this.positionAttribute]) || 0) - this.stepSize;
+      if (this._itemAlreadyExist(newItemDetails)) {
+        this._displayErrorMessage(this.shadowRoot.querySelector("#add-primary-input"), 'Already Exists');
+        return;
+      }
+      var addEvent = new CustomEvent("item-added", {
         detail: {
           data: _objectSpread({}, newItemDetails)
         },
         bubbles: true,
         composed: true
       });
-      this._newItemPrimaryAttribute = '';
-      this._newItemSecondaryAttribute = '';
-      this._addItemFieldVisible = false;
+      this._clearAddNewItemProperties();
       this.dispatchEvent(addEvent);
     }
   }, {
     key: "reorderItem",
     value: function reorderItem(reorderEventDetails) {
       var _this$list2;
-      if (!this.positionAttribute) return;
+      if (!this.editable || !this.positionAttribute) return;
       var newIndex = reorderEventDetails.newIndex;
       var updatedItem = _objectSpread({}, reorderEventDetails.draggedItem);
       if (newIndex == 0) {
-        updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] / 2;
+        updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] - this.stepSize;
       } else if (newIndex == ((_this$list2 = this.list) === null || _this$list2 === void 0 ? void 0 : _this$list2.length) - 1) {
-        updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] + this._stepSize;
+        updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] + this.stepSize;
       } else {
         updatedItem[this.positionAttribute] = this.list[newIndex][this.positionAttribute] > updatedItem[this.positionAttribute] ? (this.list[newIndex][this.positionAttribute] + this.list[newIndex + 1][this.positionAttribute]) / 2 : (this.list[newIndex][this.positionAttribute] + this.list[newIndex - 1][this.positionAttribute]) / 2;
       }
-      var positionUpdateEvent = new CustomEvent('item-updated', {
+      var positionUpdateEvent = new CustomEvent("item-updated", {
         detail: {
           data: _objectSpread({}, updatedItem)
         },
@@ -265,75 +302,70 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
   }, {
     key: "firstUpdated",
     value: function firstUpdated() {
-      var styleNode = document.createElement('style');
-      var dragDropNode = this.shadowRoot.querySelector('drag-drop-list').shadowRoot;
+      var styleNode = document.createElement("style");
+      var dragDropNode = this.shadowRoot.querySelector("drag-drop-list").shadowRoot;
       dragDropNode.appendChild(styleNode);
-      dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin', _styles_index__WEBPACK_IMPORTED_MODULE_6__["ItemRowStyle"].strings[0]);
-      dragDropNode.querySelector('style').insertAdjacentHTML('beforebegin', _input_styles__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"].strings[1]);
+      dragDropNode.querySelector("style").insertAdjacentHTML("beforebegin", _styles_index_js__WEBPACK_IMPORTED_MODULE_6__["ItemRowStyle"].strings[0]);
+      dragDropNode.querySelector("style").insertAdjacentHTML("beforebegin", _input_styles_js__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"].strings[1]);
     }
   }, {
     key: "willUpdate",
     value: function willUpdate(changedPropertiesMap) {
-      var _this4 = this;
-      if (this.positionAttribute && changedPropertiesMap.has('list')) this.list.sort(function (a, b) {
-        return a[_this4.positionAttribute] - b[_this4.positionAttribute];
+      var _this7 = this;
+      if (this.positionAttribute && changedPropertiesMap.has("list")) this.list.sort(function (a, b) {
+        return a[_this7.positionAttribute] - b[_this7.positionAttribute];
+      });
+      if (changedPropertiesMap.has("_editItemFieldVisible") || changedPropertiesMap.has("editable")) this.list = [].concat(this.list);
+    }
+  }, {
+    key: "_updateActiveEdits",
+    value: function _updateActiveEdits(itemId, editedField, newValue) {
+      var _this8 = this,
+        _editedItem;
+      var itemIndex = this._activeItemEditsDetails.findIndex(function (item) {
+        return item[_this8.idAttribute] === itemId;
+      });
+      if (itemIndex > -1) {
+        this._activeItemEditsDetails[itemIndex][editedField] = newValue;
+        return;
+      }
+      var editedItem = (_editedItem = {}, _defineProperty(_editedItem, this.idAttribute, itemId), _defineProperty(_editedItem, editedField, newValue), _editedItem);
+      this._activeItemEditsDetails.push(editedItem);
+    }
+  }, {
+    key: "_clearAddNewItemProperties",
+    value: function _clearAddNewItemProperties() {
+      this._newItemPrimaryAttribute = '';
+      this._newItemSecondaryAttribute = '';
+      this._addItemFieldVisible = false;
+    }
+  }, {
+    key: "_removeItemFromActiveEdits",
+    value: function _removeItemFromActiveEdits(itemId) {
+      var _this9 = this;
+      var itemIndex = this._activeItemEditsDetails.findIndex(function (obj) {
+        return obj[_this9.idAttribute] === itemId;
+      });
+      this._activeItemEditsDetails.splice(itemIndex, 1);
+      this._editItemFieldVisible = this._editItemFieldVisible.filter(function (id) {
+        return id != itemId;
       });
     }
   }, {
-    key: "render",
-    value: function render() {
-      var _this5 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        ", "\n        ", "\n            <div class='custom-dnd-list-wrapper'>\n                    ", "\n            ", "\n            </div>"])), _input_styles__WEBPACK_IMPORTED_MODULE_5__["BoxInputStyles"], _styles_index__WEBPACK_IMPORTED_MODULE_6__["CustomDndStyles"], this.primaryHeaderValue && this.headerRow(), this.primaryAttribute && this.uniqueIdAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["   <drag-drop-list\n                        .list=", "\n                        .headerName=", "\n                        @item-reordered=", "\n                        .dragItemRenderer=", ">\n                    </drag-drop-list>\n                ", "\n                    ", "\n                    "])), this.list, "custom-dnd-list", function (e) {
-        return _this5.reorderItem(e.detail);
-      }, function (item) {
-        return _this5.renderListItem(item);
-      }, this._addItemFieldVisible ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["<div class='add-input-wrapper'>\n                    <span class='input-fields ", "'>\n                        <paper-input id='add-primary-input' class='box' .value=", " .noLabelFloat=", "\n                        @value-changed=", " ></paper-input>\n                        ", "\n                    </span>\n                    <span class='add-input-actions-btn'>\n                        <paper-icon-button @tap=", " icon=\"check\"></paper-icon-button>\n                        <paper-icon-button @tap=", " icon=\"cancel\"></paper-icon-button>\n                    </span>\n                    </div>\n                "])), this.secondaryAttribute ? '' : 'grid-template-1-column', this._newItemPrimaryAttribute ? this._newItemPrimaryAttribute : '', true, function (e) {
-        _this5._newItemPrimaryAttribute = e.target.value;
-      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["<paper-input class='box' .value=", "  .noLabelFloat=", "\n                        @value-changed=", "></paper-input>"])), this._newItemSecondaryAttribute ? this._newItemSecondaryAttribute : '', true, function (e) {
-        _this5._newItemSecondaryAttribute = e.target.value;
-      }), function () {
-        _this5.addNewItem();
-      }, function () {
-        _this5._newItemSecondaryAttribute = '';
-        _this5._newItemPrimaryAttribute = '';
-        _this5._addItemFieldVisible = false;
-      }) : null, this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["<paper-button id='add-new-item-btn' style='margin-top:15px;' noink raised @tap=", ">\n                    <iron-icon icon=\"add-circle-outline\"></iron-icon>ADD</paper-button>"])), function () {
-        _this5._addItemFieldVisible = true;
-      }) : null) : null);
+    key: "_itemAlreadyExist",
+    value: function _itemAlreadyExist(newItem) {
+      var _this10 = this;
+      return this.list.some(function (item) {
+        return item[_this10.primaryAttribute] === newItem[_this10.primaryAttribute] && item[_this10.idAttribute] != newItem[_this10.idAttribute];
+      });
     }
   }, {
-    key: "headerRow",
-    value: function headerRow() {
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n            ", "\n        <div style=", " class=\"header-row ", "\">\n            <span>", "</span> ", "\n            ", "\n        </div>\n            "])), _styles_index__WEBPACK_IMPORTED_MODULE_6__["HeaderRowStyle"], this.editable && this.positionAttribute ? '' : 'padding-left:10px;width:99%;gap:5px', this.secondaryHeaderValue ? '' : 'grid-template-2-column', this.primaryHeaderValue, this.secondaryHeaderValue && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<span class='grid-row-2-item'>", "</span>"])), this.secondaryHeaderValue), this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<span style='width:70px'>Actions</span>"]))) : null);
-    }
-  }, {
-    key: "renderListItem",
-    value: function renderListItem(item) {
-      var _this$_editItemFieldV,
-        _this6 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n        <div class='item-row-wrapper ", "'> \n            ", "\n            <div class='item-block", "", "' style=", "\n                draggable='true' @dragstart=", ">\n            ", "\n        </div>\n        </div>"])), this.editable && this.positionAttribute ? 'item-bottom-border' : null, this.editable && this.positionAttribute ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["<iron-icon id='drag-icon' icon=\"reorder\"></iron-icon>"]))) : null, this.secondaryAttribute ? null : ' grid-template-3-column', !this.editable || !this.positionAttribute ? ' item-bottom-border' : null, this.editable ? '' : 'gap:15px;padding-left:10px;', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }, (_this$_editItemFieldV = this._editItemFieldVisible) !== null && _this$_editItemFieldV !== void 0 && _this$_editItemFieldV.includes(item[this.uniqueIdAttribute]) ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["    \n                    <paper-input id='edit-input-", "' class='box' .value=", " .noLabelFloat=", " \n                        @value-changed=", ">\n                    </paper-input>\n                    ", "\n                    <paper-icon-button icon=\"check\" @tap=", "></paper-icon-button>\n                    <paper-icon-button icon=\"cancel\" class='", "' @tap=", ">\n                    </paper-icon-button> \n                    "])), item[this.uniqueIdAttribute], item[this.primaryAttribute], true, function (e) {
-        _this6._itemEditedDetailUpdate(item[_this6.uniqueIdAttribute], _this6.primaryAttribute, e.target.value);
-      }, this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n                        <paper-input .value=", " .noLabelFloat=", " class='box grid-row-2-item'\n                            @value-changed=", ">\n                        </paper-input>"])), item[this.secondaryAttribute], true, function (e) {
-        _this6._itemEditedDetailUpdate(item[_this6.uniqueIdAttribute], _this6.secondaryAttribute, e.target.value);
-      }), function () {
-        _this6.updateItem(item[_this6.uniqueIdAttribute]);
-      }, this.secondaryAttribute ? '' : 'grid-reposition-btn', function () {
-        _this6._activeItemEditDetails.splice(_this6._activeItemEditDetails.findIndex(function (obj) {
-          return obj[_this6.uniqueIdAttribute] === item[_this6.uniqueIdAttribute];
-        }), 1);
-        _this6._editItemFieldVisible = _this6._editItemFieldVisible.filter(function (id) {
-          return id != item[_this6.uniqueIdAttribute];
-        });
-        _this6.shadowRoot.querySelector('drag-drop-list').requestUpdate();
-      }) : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["  <span>", "</span> \n                        ", "\n                        ", ""])), item[this.primaryAttribute], this.secondaryAttribute && Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["<span class='grid-row-2-item'>", "</span>"])), item[this.secondaryAttribute]), this.editable ? Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["   <paper-icon-button class='edit-btn' icon=\"create\" @tap=", ">\n                                </paper-icon-button>\n                                <paper-icon-button class='delete-btn ", "' @tap=", " \n                                icon=", " .disabled=", " ></paper-icon-button>\n                        "])), function () {
-        _this6._editItemFieldVisible = [].concat(_toConsumableArray(_this6._editItemFieldVisible), [item[_this6.uniqueIdAttribute]]);
-        _this6.shadowRoot.querySelector('drag-drop-list').requestUpdate();
-      }, this.secondaryAttribute ? '' : 'grid-reposition-btn', function () {
-        _this6.deleteItem(item);
-      }, item[this.defaultPrimaryAttribute] ? 'error' : 'delete', item[this.defaultPrimaryAttribute] ? true : false) : null));
+    key: "_displayErrorMessage",
+    value: function _displayErrorMessage(inputElement, message) {
+      inputElement.invalid = true;
+      inputElement.errorMessage = message;
+      inputElement.style.margin = '15px 0px';
+      if (inputElement.nextSibling) inputElement.nextElementSibling.style.margin = '15px 0px';
     }
   }], [{
     key: "properties",
@@ -343,23 +375,23 @@ var CustomDndList = /*#__PURE__*/function (_LitElement) {
         primaryAttribute: String,
         secondaryAttribute: String,
         positionAttribute: String,
-        uniqueIdAttribute: String,
-        defaultPrimaryAttribute: String,
+        idAttribute: String,
+        preventDeleteAttribute: String,
         primaryHeaderValue: String,
         secondaryHeaderValue: String,
         editable: Boolean,
-        _stepSize: Number,
+        stepSize: Number,
         _addItemFieldVisible: Boolean,
         _newItemPrimaryAttribute: Boolean,
         _newItemSecondaryAttribute: Boolean,
         _editItemFieldVisible: Boolean,
-        _activeItemEditDetails: Boolean
+        _activeItemEditsDetails: Boolean
       };
     }
   }]);
-  return CustomDndList;
+  return crudDragDropList;
 }(lit__WEBPACK_IMPORTED_MODULE_0__["LitElement"]);
-window.customElements.define('custom-dnd-list', CustomDndList);
+window.customElements.define("crud-drag-drop-list", crudDragDropList);
 
 /***/ }),
 
@@ -414,15 +446,20 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
   }, {
     key: "dragStart",
     value: function dragStart(e) {
+      var _this2 = this;
       this.dragStartElement = e.target;
-      this.dragStartElement.style.opacity = 0.3;
       e.dataTransfer.setData("text", e.target);
+      setTimeout(function () {
+        _this2.dragStartElement.style.opacity = 0.2;
+      }, 0);
     }
   }, {
     key: "drop",
     value: function drop(e) {
+      var _this3 = this;
       var dropzone = e.currentTarget;
-      dropzone.classList.remove('active-drag-over');
+      this.dragOverElement.classList.remove('active-drag-over-top');
+      this.dragOverElement.classList.remove('active-drag-over-bottom');
       this.startContainer = this.dragStartElement.getAttribute("containerName");
       if (dropzone.className == "drag-container-item") {
         this.endContainer = dropzone.getAttribute("containerName");
@@ -470,8 +507,10 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
             bubbles: true,
             composed: true
           });
-          this.dispatchEvent(event);
-          this.dispatchEvent(itemReorderEvent);
+          setTimeout(function () {
+            _this3.dispatchEvent(event);
+            _this3.dispatchEvent(itemReorderEvent);
+          }, 3000);
         }
       }
     }
@@ -503,22 +542,42 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <style>\n                .drag-container-item{\n                    cursor: grabbing;\n                    margin-bottom:5px;\n                }\n                .active-drag-over{\n                    border-bottom:4px solid var(--drag-over-line-color,transparent);\n                    margin-bottom:1px;\n                }\n            </style>\n            <div class=\"drag-test\">\n                <div class=\"vertical-container\" id=", "  @dragover=", " >\n                    ", "\n                </div>\n            </div>  \n        "])), this.headerName, function (e) {
-        return _this2.allowDrop(e);
+      var _this4 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <style>\n                .drag-container-item{\n                    cursor: grabbing;\n                    background-color:white;\n                    transition-duration:1s;\n                }\n                .active-drag-over-top{\n                    transition-duration: 1s ;\n                    padding-top: var(--fw-drag-active-padding,50px)\n                }\n                .active-drag-over-bottom{\n                    transition-duration: 1s;\n                    padding-bottom: var(--fw-drag-active-padding,50px)\n                }\n            </style>\n            <div class=\"drag-test\">\n                <div class=\"vertical-container\" id=", "  @dragover=", " >\n                    ", "\n                </div>\n            </div>  \n        "])), this.headerName, function (e) {
+        return _this4.allowDrop(e);
       }, this.list && this.list.map(function (item, index) {
-        return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"drag-container-item\" id=", " @dragstart=", " containerName=", " draggable=\"true\"  @drop=", " \n                            @dragover=", " @dragleave=", " @dragend=", ">\n                                ", "\n                            </div>\n                            \n                        "])), index, function (e) {
-          return _this2.dragStart(e);
-        }, _this2.headerName, function (e) {
-          return _this2.drop(e);
+        return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"drag-container-item\" id=", " @dragstart=", " containerName=", " draggable=\"true\"  @drop=", " \n                            @dragover=", " \n                            @dragend=", ">\n                                ", "\n                            </div>\n                            \n                        "])), index, function (e) {
+          return _this4.dragStart(e);
+        }, _this4.headerName, function (e) {
+          return _this4.drop(e);
         }, function (e) {
-          return e.currentTarget.classList.add('active-drag-over');
+          return _this4.handleDragOver(e);
         }, function (e) {
-          return e.currentTarget.classList.remove('active-drag-over');
-        }, function (e) {
-          return e.currentTarget.style.opacity = '';
-        }, _this2.dragItemRenderer(item));
+          var _this4$dragOverElemen, _this4$dragOverElemen2;
+          _this4.dragStartElement.style.opacity = '';
+          _this4.dragStartElement.style.border = '';
+          (_this4$dragOverElemen = _this4.dragOverElement) === null || _this4$dragOverElemen === void 0 ? void 0 : _this4$dragOverElemen.classList.remove('active-drag-over-top');
+          (_this4$dragOverElemen2 = _this4.dragOverElement) === null || _this4$dragOverElemen2 === void 0 ? void 0 : _this4$dragOverElemen2.classList.remove('active-drag-over-bottom');
+        }, _this4.dragItemRenderer(item));
       }));
+    }
+  }, {
+    key: "handleDragOver",
+    value: function handleDragOver(e) {
+      var currentTarget = e.currentTarget;
+      if (currentTarget == this.dragStartElement) {
+        return;
+      }
+      if (this.dragOverElement) {
+        this.dragOverElement.classList.remove('active-drag-over-top');
+        this.dragOverElement.classList.remove('active-drag-over-bottom');
+      }
+      this.dragOverElement = currentTarget;
+      if (currentTarget.id < this.dragStartElement.id) {
+        currentTarget.classList.add('active-drag-over-top');
+      } else {
+        currentTarget.classList.add('active-drag-over-bottom');
+      }
     }
   }], [{
     key: "styles",
@@ -533,7 +592,8 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
         dragStartElement: Object,
         endContainer: String,
         startContainer: String,
-        list: Array
+        list: Array,
+        dragOverElement: Object
       };
     }
   }]);
@@ -554,7 +614,7 @@ window.customElements.define('drag-drop-list', DragDropList);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IndexClass", function() { return IndexClass; });
 /* harmony import */ var lit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit */ "./node_modules/lit/index.js");
-/* harmony import */ var _customDragDropList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./customDragDropList */ "./customDragDropList.js");
+/* harmony import */ var _crud_dnd_list_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./crud-dnd-list.js */ "./crud-dnd-list.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _templateObject;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -621,34 +681,17 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
       this.list = [].concat(_toConsumableArray(this.list), [updatedTag]);
     }
   }, {
+    key: "hoverMessageForDefaultName",
+    value: function hoverMessageForDefaultName(tag) {
+      return "Maps this to ".concat(tag.defaultName);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <style>\n            .property-list{\n                display:flex; flex-grow:1; gap:20px;\n                flex-direction:column;\n                \n            }\n            .property-list  div{\n                grid-template-columns:1fr 1fr 1fr\n            }\n            @media screen and (max-width:700px){\n                .property-list div{\n                    flex-direction:column;\n                    grid-template-columns:1fr 1fr\n                }\n            }\n            hr{\n                border-width:5px\n            }\n        </style>\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Re-orderable/ Custom Tag CRUD List </h2>\n             \n                <h3>The Custom-dnd-list Element</h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                ._stepSize=", "\n                primaryAttribute= 'name'\n                secondaryAttribute= 'description'\n                uniqueIdAttribute =  'id'\n                positionAttribute =  'position'\n                defaultPrimaryAttribute= 'defaultTagName'\n                primaryHeaderValue = 'Tag  Name'\n                secondaryHeaderValue = 'Tag  Description'\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>The Custom-dnd-list Element with Editable:False </h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                ._stepSize=", "\n                primaryAttribute= 'name'\n                secondaryAttribute= 'description'\n                uniqueIdAttribute =  'id'\n                positionAttribute =  'position'\n                defaultPrimaryAttribute= 'defaultTagName'\n                primaryHeaderValue = 'Tag  Name'\n                secondaryHeaderValue = 'Tag  Description'\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>The Custom-dnd-list Element with Single Attribute </h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                primaryAttribute= 'name'\n                uniqueIdAttribute =  'id'\n                positionAttribute =  'position'\n                defaultPrimaryAttribute= 'defaultTagName'\n                primaryHeaderValue = 'Tag  Name'\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>The Custom-dnd-list Element without Position Attribute and editable:True</h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                primaryAttribute= 'name'\n                secondaryAttribute= 'description'\n                uniqueIdAttribute =  'id'\n                defaultPrimaryAttribute= 'defaultTagName'\n                primaryHeaderValue = 'Tag  Name'\n                secondaryHeaderValue = 'Tag  Description'\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <h3>The Custom-dnd-list Element without defaultPrimaryAttribute</h3>\n                <custom-dnd-list\n                .list=", "\n                .editable = ", "\n                primaryAttribute= 'name'\n                secondaryAttribute= 'description'\n                uniqueIdAttribute =  'id'\n                positionAttribute= 'position'\n                primaryHeaderValue = 'Tag  Name'\n                secondaryHeaderValue = 'Tag  Description'\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></custom-dnd-list>\n                <hr/>\n                <div  class='property-list'>\n                <div>\n                    <h2> Properties and events handlers</h2>\n                    <div style='display:flex; gap:10px;'>\n                    <div style='max-width:500px'>\n                    <h3>Properties for the custom element</h3>\n                    <p><span style='font-weight:bold'>list * :</span><span> The list of objects to be displayed.</span></p>\n                    <p><span style='font-weight:bold'>primaryAttribute * :</span><span> Object's Primary Attribute</span></p>\n                    <p><span style='font-weight:bold'>uniqueIdAttribute * :</span><span> Object's Unique Identifier Attribute </span></p>\n                    <p><span style='font-weight:bold'>secondaryAttribute :</span><span> Object's Secondary Attribute </span></p>\n                    <p><span style='font-weight:bold'>editable :</span><span>Boolean Property to make list editable </span></p>\n                    <p><span style='font-weight:bold'>_stepSize :</span><span> In case a custom step size if required, default:1024</span></p>\n                    <p><span style='font-weight:bold'>positionAttribute:</span><span> Numeric attribute determine the order of items. Required to allow drag-drop</span></p>\n                    <p><span style='font-weight:bold'>defaultPrimaryAttribute:</span><span> If present in the object , the item cannot be deleted for the object. Also act as default for the primary attribute.</span></p>\n                    <p><span style='font-weight:bold'>primaryHeaderValue *:</span><span> required to display the header </span></p>\n                    <p><span style='font-weight:bold'>secondaryHeaderValue:</span><span> to display the secondary Header </span></p>\n                    </div>\n                    <div>\n                    <h3>Event Handlers</h3>\n                    <p><p style='font-weight:bold'>@item-added: </p><span>contain {name,description,position} of the added object</span></p>\n                    <p><p style='font-weight:bold'>@item-deleted: </p><span>contain details of the deleted object</span></p>\n                    <p><p style='font-weight:bold'>@item-updated: </p><span>contain the updated details of item (fired for details update and position update)</span></p>\n                    </div>\n                    <div>\n                    <h3>List of Object</h3>\n                    <p>[ {</p>\n                    <p>id:\"7s2kjshfn39c8cea31387c33\",</p>\n                    <p>name:\"Notices\",</p>\n                    <p>description:\"Notices Description\",</p>\n                    <p>position:3072,</p>\n                    <p>defaultTagName:\"Notices\"</p>\n                    <p> }  ]</p>\n                    </div>\n                </div>\n                </div>\n                <div>\n                <h2>CSS VARIABLES</h2>\n                <div style='display: inline-grid;\n                            gap: 0px 15px;'>\n                    <p>--header-bottom-border-color</p>  \n                    <p>--header-font-size</p>\n                    <p>--header-border-bottom-size</p>\n                    <p>--header-text-color</p>\n                    <p>--row-item-font-size</p>\n                    <p>--row-item-bottom-color</p>\n                    <p>--border-radius</p>\n                    <p>--row-item-color</p>\n                    <p>--row-item-background</p>\n                    <p>--row-icons-color</p>\n                    <p>--item-border-bottom-size</p>\n                    <p>--add-button-color</p>\n                    <p>--add-button-background</p>\n                    <p>--drag-over-line-color</p>\n                </div>\n                </div>\n            </div>\n                </div>\n            </div>  \n        "])), this.list, true, 1024, function (e) {
-        return _this2.handleDelete(e.detail);
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <style>\n            .property-list{\n                display:flex; flex-grow:1; gap:20px;\n                flex-direction:column;\n                \n            }\n            .property-list  div{\n                grid-template-columns:1fr 1fr 1fr\n            }\n            @media screen and (max-width:700px){\n                .property-list div{\n                    flex-direction:column;\n                    grid-template-columns:1fr 1fr\n                }\n            }\n            hr{\n                border-width:5px\n            }\n        </style>\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Re-orderable/ Custom Tag CRUD List </h2>\n             \n                <h3>The Custom-dnd-list Element</h3>\n                <crud-drag-drop-list\n                .list=", "\n                .editable=", "\n                .stepSize=", "\n                .defaultAttributeHoverMessage=", "\n                primaryAttribute=\"name\"\n                secondaryAttribute=\"description\"\n                idAttribute=\"id\"\n                positionAttribute=\"position\"\n                preventDeleteAttribute=\"defaultName\"\n                primaryHeaderValue=\"Tag Name\"\n                secondaryHeaderValue=\"Tag Description\"\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></crud-drag-drop-list>\n                \n            </div>  \n        "])), this.list, true, 1024, function (tag) {
+        return _this2.hoverMessageForDefaultName(tag);
       }, function (e) {
-        return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleUpdate(e.detail);
-      }, this.list, false, 1024, function (e) {
-        return _this2.handleDelete(e.detail);
-      }, function (e) {
-        return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleUpdate(e.detail);
-      }, this.list, true, function (e) {
-        return _this2.handleDelete(e.detail);
-      }, function (e) {
-        return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleUpdate(e.detail);
-      }, this.list, true, function (e) {
-        return _this2.handleDelete(e.detail);
-      }, function (e) {
-        return _this2.handleAdd(e.detail);
-      }, function (e) {
-        return _this2.handleUpdate(e.detail);
-      }, this.list, true, function (e) {
         return _this2.handleDelete(e.detail);
       }, function (e) {
         return _this2.handleAdd(e.detail);
@@ -693,12 +736,12 @@ var sampleDocumentTags = [{
   id: "7s2kjshfn39c8cea31387c33",
   name: "Notices",
   position: 3072,
-  defaultTagName: "Notices"
+  defaultName: "Notices"
 }, {
   id: "jdn372vbks87cea31387c33",
   name: "Reports",
   position: 7168,
-  defaultTagName: "Reports"
+  defaultName: "Reports"
 }];
 var singleItemList = [{
   id: "5ee9b297cc6c8cea31387c33",
@@ -27384,9 +27427,9 @@ __webpack_require__.r(__webpack_exports__);
 var _templateObject, _templateObject2, _templateObject3;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var CustomDndStyles = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n            .custom-dnd-list-wrapper{\n                padding:5px;\n            }\n            .add-input-wrapper{\n                display: grid;\n                width: 100%;\n                gap: 10px;\n                grid-template-columns: 1fr auto;\n                margin-bottom: 10px;\n                border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n                border-radius: var(--border-radius,10px);\n                padding: 10px 0px;\n                align-items: center;\n            }\n            .add-input-wrapper > .input-fields{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr;\n                gap:10px;\n                margin-left:30px;\n            }\n            .add-input-wrapper > .grid-template-1-column{\n                grid-template-columns:1fr ;\n            }\n            .add-input-wrapper > .add-input-actions-btn{\n                display: inline-grid;\n                grid-template-columns: 40px 40px;\n                gap: 10px;\n            }\n            paper-icon-button{\n                color:var(--row-icons-color,#515151);\n            }\n            paper-button#add-new-item-btn{\n                color:var(--add-button-color,'');\n                background-color:var(--add-button-background,'');\n                width:120px;\n                height:35px;\n            }\n            @media screen and (max-width: 420px) {\n                .add-input-wrapper{\n                    display:inline-grid;\n                    grid-template-columns:1fr minmax(50px,auto);\n                    gap:0px;\n                }\n                .add-input-wrapper > .input-fields{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .add-input-wrapper > .add-input-actions-btn{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .grid-row-2-item{\n                    grid-row:2;\n                }\n                .box.grid-row-2-item{\n                    padding-left:30px;\n                }\n            }\n    </style>\n"])));
-var HeaderRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <style>\n            .header-row{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr auto;\n                gap: 5px;\n                width: calc( 100% - 30px );\n                padding: 0px 0px 5px 30px;\n                border-bottom: var(--header-border-bottom-size,3px) solid var(--header-bottom-border-color,#515151);\n                border-radius: var(--border-radius,10px);\n                font-size: var(--header-font-size,17px);\n                color: var(--header-text-color,'');\n                font-weight: bold;\n                }\n            .grid-template-2-column{\n                grid-template-columns:1fr minmax(70px,auto);\n            }\n            .grid-template-1-column{\n                grid-template-columns:1fr 2fr;\n            }\n            @media screen and (max-width: 420px) {\n                .header-row{\n                    display:inline-grid;\n                    grid-template-columns:1fr auto;\n                    grid-template-rows: auto auto;\n                    gap:0px;\n                }\n            }\n        </style>\n"])));
-var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--row-icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--row-icons-color,#515151);\n        cursor:grabbing;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#80cbc4;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--row-item-font-size,17px);\n        padding: 5px 0px;\n        padding-left:10px;\n        min-height:40px;\n        user-select:text;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        align-items: center;\n        color:var(--row-item-color);\n        background:var(--row-item-background);\n        width: 100%;\n    }\n    .item-bottom-border{\n        border-bottom: var(--item-border-bottom-size,2px) solid var(--row-item-bottom-color,#515151);\n        border-radius: var(--border-radius,10px);\n    }\n    .grid-template-3-column{\n        grid-template-columns:1fr auto auto;\n    }\n    @media screen and (max-width: 420px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr auto;\n            grid-template-rows: auto auto;\n            gap:0px;\n        }\n        .grid-row-2-item{\n            grid-row:2;\n        }\n        .grid-reposition-btn{\n            grid-column:2;\n        }\n    }\n</style>\n"])));
+var CustomDndStyles = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n            .custom-dnd-list-wrapper{\n                padding:5px;\n            }\n            .add-input-wrapper{\n                display: grid;\n                width: 100%;\n                gap: 10px;\n                grid-template-columns: 1fr auto;\n                margin-bottom: 10px;\n                border-bottom: var(--fw-crud-dnd-item-border-size,2px) solid var(--fw-crud-dnd-item-bottom-color,#515151);\n                border-radius: var(--fw-crud-dnd-border-radius,10px);\n                padding: 10px 0px;\n                align-items: center;\n            }\n            .add-input-wrapper > .input-fields{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr;\n                gap:10px;\n                margin-left:30px;\n            }\n            .add-input-wrapper > .input-fields paper-input:invalid{\n                margin-bottom:10px;\n            }\n            .add-input-wrapper > .grid-template-1-column{\n                grid-template-columns:1fr ;\n            }\n            .add-input-wrapper > .add-input-actions-btn{\n                display: inline-grid;\n                grid-template-columns: 40px 40px;\n                gap: 10px;\n            }\n            paper-icon-button{\n                color:var(--fw-crud-dnd-icons-color,#515151);\n            }\n            #add-new-item-btn{\n                color: var(--fw-crud-dnd-add-button-color,'');\n                background: var(--fw-crud-dnd-add-button-background,'');\n                cursor: pointer;\n                gap: 5px;\n                height: 29px;\n                /* position: absolute; */\n                /* top: -2px; */\n                /* right: 15px; */\n            }\n            paper-input.box{\n                --paper-input-container_-_padding: 0px 0px;\n                --paper-input-container-input_-_padding-left:10px;\n            }\n            drag-drop-list{\n                --fw-drag-active-padding:60px;\n            }\n            @media all and (max-width: 500px) {\n                .add-input-wrapper{\n                    display:inline-grid;\n                    grid-template-columns:1fr minmax(50px,auto);\n                    gap:0px;\n                }\n                .add-input-wrapper > .input-fields{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .add-input-wrapper > .add-input-actions-btn{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .grid-row-2-item{\n                    grid-row:2;\n                }\n                .box.grid-row-2-item{\n                    padding-left:30px;\n                }\n                drag-drop-list{\n                --fw-drag-active-padding:120px;\n            }\n            }\n    </style>\n"])));
+var HeaderRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <style>\n            .header-row{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr auto;\n                gap: 5px;\n                width: calc( 100% - 30px );\n                padding: 0px 0px 5px 30px;\n                border-bottom: var(--fw-crud-dnd-header-border-size,3px) solid var(--fw-crud-dnd-header-border-color,transparent);\n                border-radius: var(--fw-crud-dnd-border-radius,10px);\n                font-size: var(--fw-crud-dnd-header-font-size,17px);\n                color: var(--fw-crud-dnd-header-text-color,'');\n                font-weight: bold;\n            }\n            .header-row span{\n                display: inline-flex;\n                align-items: center;                    \n            }\n            .grid-template-2-column{\n                grid-template-columns:1fr minmax(70px,auto);\n            }\n            .grid-template-1-column{\n                grid-template-columns:1fr 2fr;\n            }\n            @media all and (max-width: 500px) {\n                .header-row{\n                    display:inline-grid;\n                    grid-template-columns:1fr auto;\n                    grid-template-rows: auto auto;\n                    gap:0px;\n                }\n            }\n        </style>\n"])));
+var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--icons-color,#515151);\n        cursor:grabbing;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#80cbc4;\n    }\n    .info-btn:hover{\n        cursor:pointer;\n    }\n    .info-btn-text:after {\n        content: attr(title);\n        font-size: 12px;\n        display: block;\n        width: max-content;\n        position: absolute;\n        right: 0;\n        bottom: -4px;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        word-break: break-word;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--fw-crud-dnd-item-font-size,17px);\n        padding: 5px 0px;\n        padding-left:10px;\n        min-height:40px;\n        user-select:text;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        align-items: center;\n        color:var(--fw-crud-dnd-item-color);\n        background:var(--fw-crud-dnd-item-background);\n        width: 100%;\n    }\n    .item-bottom-border{\n        border-bottom: var(--fw-crud-dnd-item-border-size,2px) solid var(--fw-crud-dnd-item-border-color,transparent);\n        border-radius: var(--fw-crud-dnd-border-radius,10px);\n    }\n    .grid-template-3-column{\n        grid-template-columns:1fr auto auto;\n    }\n    .item-block >paper-input.box{\n                --paper-input-container_-_padding: 0px 0px;\n                --paper-input-container-input_-_padding-left:10px;\n        }\n    @media all and (max-width: 500px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr auto;\n            grid-template-rows: auto auto;\n            gap:0px;\n\n        }\n        .info-btn-text:after{\n            font-size:14px;\n        }\n        .grid-row-2-item{\n            grid-row:2;\n        }\n        .grid-reposition-btn{\n            grid-column:2;\n        }\n    }\n</style>\n"])));
 
 /***/ }),
 
