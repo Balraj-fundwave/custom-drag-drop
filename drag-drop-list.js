@@ -18,6 +18,7 @@ class DragDropList extends LitElement {
             endContainer:  String,
             startContainer: String,
             list: Array,
+            dragOverElement: Object,
         }
     }    
 
@@ -33,12 +34,16 @@ class DragDropList extends LitElement {
 
     dragStart(e) {
         this.dragStartElement= e.target;
-        this.dragStartElement.style.opacity=0.3;
         e.dataTransfer.setData("text", e.target);
+        setTimeout(() => {
+            this.dragStartElement.style.opacity=0.2;
+        }, 0);
     }
 
     drop(e) { 
-        let dropzone = e.currentTarget;dropzone.classList.remove('active-drag-over');
+        let dropzone = e.currentTarget;
+        this.dragOverElement.classList.remove('active-drag-over-top');
+        this.dragOverElement.classList.remove('active-drag-over-bottom');
         this.startContainer=this.dragStartElement.getAttribute("containerName");
 
         if(dropzone.className=="drag-container-item"){
@@ -69,12 +74,16 @@ class DragDropList extends LitElement {
                 let draggedItem = this.list[childNodeArray[droppedpos].id];
                 let newIndex = Number(childNodeArray[currentpos].id);
                 let itemReorderEvent = new CustomEvent('item-reordered',{detail:{draggedItem:draggedItem,newIndex:newIndex},bubbles:true,composed:true});
-
+                
                 let reorderedChildNodes = this.reorderList( currentpos,droppedpos, Array.from(childNodes));
                 let updatedList = this.updateDroppedList(reorderedChildNodes);
                 let event = new CustomEvent('list-updated',{detail:{data:updatedList},bubbles : true, composed: true});
+
+                setTimeout(() => {
                 this.dispatchEvent(event);
-                this.dispatchEvent(itemReorderEvent);
+                this.dispatchEvent(itemReorderEvent); 
+                }, 3000);
+                   
             }
         }
     }
@@ -108,11 +117,16 @@ class DragDropList extends LitElement {
             <style>
                 .drag-container-item{
                     cursor: grabbing;
-                    margin-bottom:5px;
+                    background-color:white;
+                    transition-duration:1s;
                 }
-                .active-drag-over{
-                    border-bottom:4px solid var(--drag-over-line-color,transparent);
-                    margin-bottom:1px;
+                .active-drag-over-top{
+                    transition-duration: 1s ;
+                    padding-top: var(--fw-drag-active-padding,50px)
+                }
+                .active-drag-over-bottom{
+                    transition-duration: 1s;
+                    padding-bottom: var(--fw-drag-active-padding,50px)
                 }
             </style>
             <div class="drag-test">
@@ -120,7 +134,15 @@ class DragDropList extends LitElement {
                     ${this.list && this.list.map((item, index) => {
                         return html`
                             <div class="drag-container-item" id=${index} @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  @drop=${(e) => this.drop(e)} 
-                            @dragover=${(e)=>e.currentTarget.classList.add('active-drag-over')} @dragleave=${(e)=>e.currentTarget.classList.remove('active-drag-over')} @dragend=${(e)=> e.currentTarget.style.opacity=''}>
+                            @dragover=${(e)=>this.handleDragOver(e)} 
+                            @dragend=${(e)=> 
+                                {   
+                                    this.dragStartElement.style.opacity='';
+                                    this.dragStartElement.style.border='';
+                                    this.dragOverElement?.classList.remove('active-drag-over-top');
+                                    this.dragOverElement?.classList.remove('active-drag-over-bottom');
+                                }
+                                }>
                                 ${this.dragItemRenderer(item) }
                             </div>
                             
@@ -130,8 +152,23 @@ class DragDropList extends LitElement {
             </div>  
         `; 
     }
-}
 
+    handleDragOver(e){
+        const currentTarget = e.currentTarget;
+        if(currentTarget==this.dragStartElement){return;}   
+        if(this.dragOverElement){
+            this.dragOverElement.classList.remove('active-drag-over-top');
+            this.dragOverElement.classList.remove('active-drag-over-bottom');
+        }
+        
+        this.dragOverElement = currentTarget;
+        if(currentTarget.id < this.dragStartElement.id){
+            currentTarget.classList.add('active-drag-over-top')
+        }else{
+            currentTarget.classList.add('active-drag-over-bottom')
+        }
+    }
+}
 window.customElements.define('drag-drop-list', DragDropList);
 
 

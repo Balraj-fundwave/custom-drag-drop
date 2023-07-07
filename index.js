@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import "./customDragDropList";
+import "./crud-dnd-list.js";
 
 export class IndexClass extends LitElement{
     static get properties(){
@@ -34,6 +34,9 @@ export class IndexClass extends LitElement{
         this.list = this.list.filter((tag)=> tag.id !== updatedTag.id);
         this.list = [...this.list,updatedTag]
     }
+    hoverMessageForDefaultName(tag) {
+        return `Maps this to ${tag.defaultName}`;
+      }
     render(){
         return html`
         <style>
@@ -59,140 +62,23 @@ export class IndexClass extends LitElement{
             <h2 style='margin-left:10px;'> Editable/ Re-orderable/ Custom Tag CRUD List </h2>
              
                 <h3>The Custom-dnd-list Element</h3>
-                <custom-dnd-list
+                <crud-drag-drop-list
                 .list=${this.list}
-                .editable = ${true}
-                ._stepSize=${1024}
-                primaryAttribute= 'name'
-                secondaryAttribute= 'description'
-                uniqueIdAttribute =  'id'
-                positionAttribute =  'position'
-                defaultPrimaryAttribute= 'defaultTagName'
-                primaryHeaderValue = 'Tag  Name'
-                secondaryHeaderValue = 'Tag  Description'
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
-                <h3>The Custom-dnd-list Element with Editable:False </h3>
-                <custom-dnd-list
-                .list=${this.list}
-                .editable = ${false}
-                ._stepSize=${1024}
-                primaryAttribute= 'name'
-                secondaryAttribute= 'description'
-                uniqueIdAttribute =  'id'
-                positionAttribute =  'position'
-                defaultPrimaryAttribute= 'defaultTagName'
-                primaryHeaderValue = 'Tag  Name'
-                secondaryHeaderValue = 'Tag  Description'
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
-                <h3>The Custom-dnd-list Element with Single Attribute </h3>
-                <custom-dnd-list
-                .list=${this.list}
-                .editable = ${true}
-                primaryAttribute= 'name'
-                uniqueIdAttribute =  'id'
-                positionAttribute =  'position'
-                defaultPrimaryAttribute= 'defaultTagName'
-                primaryHeaderValue = 'Tag  Name'
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
-                <h3>The Custom-dnd-list Element without Position Attribute and editable:True</h3>
-                <custom-dnd-list
-                .list=${this.list}
-                .editable = ${true}
-                primaryAttribute= 'name'
-                secondaryAttribute= 'description'
-                uniqueIdAttribute =  'id'
-                defaultPrimaryAttribute= 'defaultTagName'
-                primaryHeaderValue = 'Tag  Name'
-                secondaryHeaderValue = 'Tag  Description'
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
-                <h3>The Custom-dnd-list Element without defaultPrimaryAttribute</h3>
-                <custom-dnd-list
-                .list=${this.list}
-                .editable = ${true}
-                primaryAttribute= 'name'
-                secondaryAttribute= 'description'
-                uniqueIdAttribute =  'id'
-                positionAttribute= 'position'
-                primaryHeaderValue = 'Tag  Name'
-                secondaryHeaderValue = 'Tag  Description'
-                @item-deleted=${(e)=>this.handleDelete(e.detail)}
-                @item-added=${(e)=>this.handleAdd(e.detail)}
-                @item-updated=${(e)=>this.handleUpdate(e.detail)}
-                ></custom-dnd-list>
-                <hr/>
-                <div  class='property-list'>
-                <div>
-                    <h2> Properties and events handlers</h2>
-                    <div style='display:flex; gap:10px;'>
-                    <div style='max-width:500px'>
-                    <h3>Properties for the custom element</h3>
-                    <p><span style='font-weight:bold'>list * :</span><span> The list of objects to be displayed.</span></p>
-                    <p><span style='font-weight:bold'>primaryAttribute * :</span><span> Object's Primary Attribute</span></p>
-                    <p><span style='font-weight:bold'>uniqueIdAttribute * :</span><span> Object's Unique Identifier Attribute </span></p>
-                    <p><span style='font-weight:bold'>secondaryAttribute :</span><span> Object's Secondary Attribute </span></p>
-                    <p><span style='font-weight:bold'>editable :</span><span>Boolean Property to make list editable </span></p>
-                    <p><span style='font-weight:bold'>_stepSize :</span><span> In case a custom step size if required, default:1024</span></p>
-                    <p><span style='font-weight:bold'>positionAttribute:</span><span> Numeric attribute determine the order of items. Required to allow drag-drop</span></p>
-                    <p><span style='font-weight:bold'>defaultPrimaryAttribute:</span><span> If present in the object , the item cannot be deleted for the object. Also act as default for the primary attribute.</span></p>
-                    <p><span style='font-weight:bold'>primaryHeaderValue *:</span><span> required to display the header </span></p>
-                    <p><span style='font-weight:bold'>secondaryHeaderValue:</span><span> to display the secondary Header </span></p>
-                    </div>
-                    <div>
-                    <h3>Event Handlers</h3>
-                    <p><p style='font-weight:bold'>@item-added: </p><span>contain {name,description,position} of the added object</span></p>
-                    <p><p style='font-weight:bold'>@item-deleted: </p><span>contain details of the deleted object</span></p>
-                    <p><p style='font-weight:bold'>@item-updated: </p><span>contain the updated details of item (fired for details update and position update)</span></p>
-                    </div>
-                    <div>
-                    <h3>List of Object</h3>
-                    <p>[ {</p>
-                    <p>id:"7s2kjshfn39c8cea31387c33",</p>
-                    <p>name:"Notices",</p>
-                    <p>description:"Notices Description",</p>
-                    <p>position:3072,</p>
-                    <p>defaultTagName:"Notices"</p>
-                    <p> }  ]</p>
-                    </div>
-                </div>
-                </div>
-                <div>
-                <h2>CSS VARIABLES</h2>
-                <div style='display: inline-grid;
-                            gap: 0px 15px;'>
-                    <p>--header-bottom-border-color</p>  
-                    <p>--header-font-size</p>
-                    <p>--header-border-bottom-size</p>
-                    <p>--header-text-color</p>
-                    <p>--row-item-font-size</p>
-                    <p>--row-item-bottom-color</p>
-                    <p>--border-radius</p>
-                    <p>--row-item-color</p>
-                    <p>--row-item-background</p>
-                    <p>--row-icons-color</p>
-                    <p>--item-border-bottom-size</p>
-                    <p>--add-button-color</p>
-                    <p>--add-button-background</p>
-                    <p>--drag-over-line-color</p>
-                </div>
-                </div>
-            </div>
-                </div>
+                .editable=${true}
+                .stepSize=${1024}
+                .defaultAttributeHoverMessage=${(tag) =>this.hoverMessageForDefaultName(tag)}
+                primaryAttribute="name"
+                secondaryAttribute="description"
+                idAttribute="id"
+                positionAttribute="position"
+                preventDeleteAttribute="defaultName"
+                primaryHeaderValue="Tag Name"
+                secondaryHeaderValue="Tag Description"
+                @item-deleted=${(e) => this.handleDelete(e.detail)}
+                @item-added=${(e) => this.handleAdd(e.detail)}
+                @item-updated=${(e) => this.handleUpdate(e.detail)}
+                ></crud-drag-drop-list>
+                
             </div>  
         `;
     }
@@ -230,13 +116,13 @@ const sampleDocumentTags = [
         id:"7s2kjshfn39c8cea31387c33",
         name:"Notices",
         position:3072,
-        defaultTagName:"Notices"
+        defaultName:"Notices"
     },
     {
       id:"jdn372vbks87cea31387c33",
       name:"Reports",
       position:7168,
-      defaultTagName:"Reports"
+      defaultName:"Reports"
   } 
   ]
 const singleItemList = [{
