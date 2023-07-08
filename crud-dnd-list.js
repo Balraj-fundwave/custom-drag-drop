@@ -5,7 +5,8 @@ import "@polymer/paper-input/paper-input.js";
 import "@polymer/paper-icon-button";
 import { BoxInputStyles } from "./input-styles.js";
 import { CustomDndStyles, HeaderRowStyle, ItemRowStyle} from "./styles/index.js";
-import "./drag-drop-list.js";
+// import "./drag-drop-list-animate.js";
+import "./drag-drop-old.js";
 
 export class crudDragDropList extends LitElement {
   static get properties() {
@@ -238,7 +239,7 @@ export class crudDragDropList extends LitElement {
     const dragDropNode = this.shadowRoot.querySelector("drag-drop-list").shadowRoot;
     dragDropNode.appendChild(styleNode);
     dragDropNode.querySelector("style").insertAdjacentHTML("beforebegin", ItemRowStyle.strings[0]);
-    dragDropNode.querySelector("style").insertAdjacentHTML("beforebegin", BoxInputStyles.strings[1]);
+    dragDropNode.querySelector("style").insertAdjacentHTML("beforebegin", BoxInputStyles.strings[1]); 
   }
 
   willUpdate(changedPropertiesMap) {
@@ -246,7 +247,7 @@ export class crudDragDropList extends LitElement {
       this.list.sort( (a, b) => a[this.positionAttribute] - b[this.positionAttribute]);
 
     if (changedPropertiesMap.has("_editItemFieldVisible") || changedPropertiesMap.has("editable"))
-        this.list = [].concat(this.list);
+      this.list = [].concat(this.list);
   }
 
   _updateActiveEdits(itemId, editedField, newValue) {

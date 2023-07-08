@@ -4,33 +4,33 @@ import "./crud-dnd-list.js";
 export class IndexClass extends LitElement{
     static get properties(){
         return {
-            list:Array
+            list:Array,
+            admin:Boolean
         }
     }
     constructor(){
         super();
         this.list = [...sampleDocumentTags];
+        this.admin=true;
     }
     //GET REQUEST TO DB TO FETCH THE TAGS
     // this.list = request response
 
-    handleDelete(eventDetails){
-        console.log(eventDetails.data)
+    handleDelete(e){
+        console.log(e.detail.data)
         //API CALL TO DELETE THE ITEM
-        const deletedTag = eventDetails.data;
+        const deletedTag = e.detail.data;
         this.list= this.list.filter((tag)=> tag.id !== deletedTag.id);
     }
-    handleAdd(eventDetails){
-        console.log(eventDetails.data)
+    handleAdd(e){
+        console.log(e.detail.data)
         //API CALL TO CREATE NEW TAG    //API RESPONSE with id from server
-        const addedTag = eventDetails.data;
+        const addedTag = e.detail.data;
         addedTag['id']= `randomID${Math.random().toString().slice(2,11)}`
         this.list = [...this.list,addedTag];
     }
-    handleUpdate(eventDetails){
-        console.log(eventDetails.data)
-        //API CALL TO UPDATE THE DETAILS OF THE TAG;
-        const updatedTag = eventDetails.data;
+    handleUpdate(e){
+        const updatedTag = e.detail.data;
         this.list = this.list.filter((tag)=> tag.id !== updatedTag.id);
         this.list = [...this.list,updatedTag]
     }
@@ -60,11 +60,12 @@ export class IndexClass extends LitElement{
         </style>
             <div style='margin:auto; width:85%'>
             <h2 style='margin-left:10px;'> Editable/ Re-orderable/ Custom Tag CRUD List </h2>
-             
+            <button style="margin-bottom:20px;"
+                @click=${() => (this.admin = !this.admin)}> Toggle Admin </button>
                 <h3>The Custom-dnd-list Element</h3>
                 <crud-drag-drop-list
                 .list=${this.list}
-                .editable=${true}
+                .editable=${this.admin}
                 .stepSize=${1024}
                 .defaultAttributeHoverMessage=${(tag) =>this.hoverMessageForDefaultName(tag)}
                 primaryAttribute="name"
@@ -74,9 +75,9 @@ export class IndexClass extends LitElement{
                 preventDeleteAttribute="defaultName"
                 primaryHeaderValue="Tag Name"
                 secondaryHeaderValue="Tag Description"
-                @item-deleted=${(e) => this.handleDelete(e.detail)}
-                @item-added=${(e) => this.handleAdd(e.detail)}
-                @item-updated=${(e) => this.handleUpdate(e.detail)}
+                @item-deleted=${(e) => this.handleDelete(e)}
+                @item-added=${(e) => this.handleAdd(e)}
+                @item-updated=${(e) => this.handleUpdate(e)}
                 ></crud-drag-drop-list>
                 
             </div>  
