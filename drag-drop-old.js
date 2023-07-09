@@ -19,6 +19,7 @@ class DragDropList extends LitElement {
             startContainer: String,
             list: Array,
             dragOverElement: Object,
+            isAddedAbove:Boolean,
         }
     }    
 
@@ -36,7 +37,7 @@ class DragDropList extends LitElement {
         this.dragStartElement= e.target;
         e.dataTransfer.setData("text", e.target);
         setTimeout(() => {
-            this.dragStartElement.style.opacity=0.2;
+            this.dragStartElement.style.display='none';
         }, 0);
     }
 
@@ -54,6 +55,7 @@ class DragDropList extends LitElement {
             this.endContainer=(dropzone.getAttribute("id"));
         }
         if(this.endContainer==this.startContainer){
+            
             if(e.currentTarget.className=="drag-container-item" && e.currentTarget!=this.dragStartElement){
                 let childNodes =e.currentTarget.parentNode.childNodes;
                 let NextSibilingNode;
@@ -70,15 +72,15 @@ class DragDropList extends LitElement {
                     }
                     if (this.dragStartElement == childNodes[i]) { droppedpos = i;}
                 }
-                let childNodeArray = Array.from(childNodes);
-                let draggedItem = this.list[childNodeArray[droppedpos].id];
-                let newIndex = Number(childNodeArray[currentpos].id);
-                let itemReorderEvent = new CustomEvent('item-reordered',{detail:{draggedItem:draggedItem,newIndex:newIndex},bubbles:true,composed:true});
-                
-                let reorderedChildNodes = this.reorderList( currentpos,droppedpos, Array.from(childNodes));
-                let updatedList = this.updateDroppedList(reorderedChildNodes);
-                let event = new CustomEvent('list-updated',{detail:{data:updatedList},bubbles : true, composed: true});
-                this.dispatchEvent(event);
+                                
+                let draggedItem = this.list[Number(this.dragStartElement.id)];
+                let newIndex = this.isAddedAbove ? Number(e.currentTarget.id)-1 : Number(e.currentTarget.id);
+                newIndex = newIndex<this.dragStartElement.id?newIndex+1:newIndex
+                let itemReorderEvent = new CustomEvent('item-reordered',{detail:{draggedItem:draggedItem,newIndex:newIndex<0?0:newIndex},bubbles:true,composed:true});
+                // let reorderedChildNodes = this.reorderList( currentpos,droppedpos, Array.from(childNodes));
+                // let updatedList = this.updateDroppedList(reorderedChildNodes);
+                // let event = new CustomEvent('list-updated',{detail:{data:updatedList},bubbles : true, composed: true});
+                // this.dispatchEvent(event);
                 this.dispatchEvent(itemReorderEvent); 
             }
         }
@@ -114,29 +116,27 @@ class DragDropList extends LitElement {
                 .drag-container-item{
                     cursor: grabbing;
                     background-color:white;
-                    
                 }
                 .active-drag-over-top{
-                    /* transition-duration: 1s ; */
-                    border-top:4px solid green;
-                    /* padding-top: var(--fw-drag-active-padding,50px) */
+                    transition-duration: 0.3s;
+                    padding-top: var(--fw-drag-active-padding,50px)
                 }
                 .active-drag-over-bottom{
-                    /* transition-duration: 1s; */
-                    border-bottom:4px solid green;
-                    /* padding-bottom: var(--fw-drag-active-padding,50px) */
+                    transition-duration: 0.3s;
+                    padding-bottom: var(--fw-drag-active-padding,50px)
                 }
             </style>
             <div class="drag-test">
                 <div class="vertical-container" id=${this.headerName}  @dragover=${(e) =>this.allowDrop(e)} >
                     ${this.list && this.list.map((item, index) => {
                         return html`
-                            <div class="drag-container-item" id=${index} @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  @drop=${(e) => this.drop(e)} 
+                            <div class="drag-container-item" id=${index} 
+                            @dragstart=${(e) => this.dragStart(e)} containerName=${this.headerName} draggable="true"  
+                            @drop=${(e) => this.drop(e)} 
                             @dragover=${(e)=>this.handleDragOver(e)} 
                             @dragend=${(e)=> 
                                 {   
-                                    this.dragStartElement.style.opacity='';
-                                    this.dragStartElement.style.border='';
+                                    this.dragStartElement.style.display='';
                                     this.dragOverElement?.classList.remove('active-drag-over-top');
                                     this.dragOverElement?.classList.remove('active-drag-over-bottom');
                                 }
@@ -150,20 +150,22 @@ class DragDropList extends LitElement {
             </div>  
         `; 
     }
-
+    isAbove(e){
+        const dim = e.currentTarget.getBoundingClientRect();
+        return e.clientY < dim.top + dim.height/2;
+    }
     handleDragOver(e){
-        
+        const addAbove = this.isAbove(e)
+        if(this.dragOverElement==e.currentTarget && this.isAddedAbove===addAbove )return;
         const currentTarget = e.currentTarget;
         if(this.dragOverElement){
             this.dragOverElement.classList.remove('active-drag-over-top');
             this.dragOverElement.classList.remove('active-drag-over-bottom');
         }
-        if(currentTarget==this.dragStartElement){
-            
-            return;
-        }          
+        if(currentTarget==this.dragStartElement){return}          
+        this.isAddedAbove=addAbove;
         this.dragOverElement = currentTarget;
-        if(currentTarget.id < this.dragStartElement.id){
+        if(this.isAddedAbove){
             currentTarget.classList.add('active-drag-over-top')
         }else{
             currentTarget.classList.add('active-drag-over-bottom')

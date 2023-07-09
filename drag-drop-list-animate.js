@@ -118,7 +118,6 @@ class DragDropList extends LitElement {
             const draggingItem = this.shadowRoot.querySelector(".dragging");
             
             let siblings = [...droppableContainer.querySelectorAll(".draggable-item:not(.dragging)")];
-            
             let nextSibling = siblings.find(sibling => {
                 const dim = sibling.getBoundingClientRect();
                 return e.clientY <= dim.top + dim.height/2

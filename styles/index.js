@@ -157,8 +157,8 @@ export const ItemRowStyle = html`
         display: flex;
         cursor: default;
         align-items: center;
-        color:var(--fw-crud-dnd-item-color);
-        background:var(--fw-crud-dnd-item-background);
+        color:var(--fw-crud-dnd-item-color,'');
+        background:var(--fw-crud-dnd-item-background,'transparent');
         width: 100%;
     }
     .item-bottom-border{
