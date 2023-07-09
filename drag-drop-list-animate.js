@@ -120,9 +120,9 @@ class DragDropList extends LitElement {
             let siblings = [...droppableContainer.querySelectorAll(".draggable-item:not(.dragging)")];
             
             let nextSibling = siblings.find(sibling => {
-                return e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
+                const dim = sibling.getBoundingClientRect();
+                return e.clientY <= dim.top + dim.height/2
             });
-            // console.log(nextSibling);
             droppableContainer.insertBefore(draggingItem, nextSibling);
     }
 }
