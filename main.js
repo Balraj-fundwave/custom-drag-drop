@@ -103,7 +103,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _polymer_paper_icon_button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @polymer/paper-icon-button */ "./node_modules/@polymer/paper-icon-button/paper-icon-button.js");
 /* harmony import */ var _input_styles_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./input-styles.js */ "./input-styles.js");
 /* harmony import */ var _styles_index_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/index.js */ "./styles/index.js");
-/* harmony import */ var _drag_drop_list_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./drag-drop-list.js */ "./drag-drop-list.js");
+/* harmony import */ var _drag_drop_list_animate_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./drag-drop-list-animate.js */ "./drag-drop-list-animate.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16;
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -135,6 +135,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+// import "./drag-drop-old.js";
 
 var crudDragDropList = /*#__PURE__*/function (_LitElement) {
   _inherits(crudDragDropList, _LitElement);
@@ -395,10 +397,10 @@ window.customElements.define("crud-drag-drop-list", crudDragDropList);
 
 /***/ }),
 
-/***/ "./drag-drop-list.js":
-/*!***************************!*\
-  !*** ./drag-drop-list.js ***!
-  \***************************/
+/***/ "./drag-drop-list-animate.js":
+/*!***********************************!*\
+  !*** ./drag-drop-list-animate.js ***!
+  \***********************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -406,14 +408,18 @@ window.customElements.define("crud-drag-drop-list", crudDragDropList);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit */ "./node_modules/lit/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-var _templateObject, _templateObject2, _templateObject3;
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+var _templateObject, _templateObject2, _templateObject3, _templateObject4;
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -436,153 +442,123 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
     _this = _super.call(this);
     _this.headerName = "Table-1";
     _this.list = [];
+    _this.loading = false;
     return _this;
   }
   _createClass(DragDropList, [{
-    key: "allowDrop",
-    value: function allowDrop(e) {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <style>\n                .droppable-container{\n                    \n                }\n                .droppable-container .draggable-item {\n                    cursor: grabbing;\n                    background-color:white;\n                }\n                .draggable-item.dragging {\n                    opacity:0.3;\n                    border:1px solid;\n\n                }\n            </style>\n                ", "\n                    \n             \n        "])), this.loading ? '' : Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                    <div class=\"drag-test\">\n                        <div class=\"droppable-container\" id=", "  \n                            @dragenter=", " \n                            @dragover=", " \n                            @drop=", "\n                        >\n                ", "\n                        </div>\n                    </div>  \n                "])), this.headerName, function (e) {
+        return e.preventDefault();
+      }, function (e) {
+        return _this2.reorderListItems(e);
+      }, function (e) {
+        return _this2.handleDrop(e);
+      }, this.list && this.list.map(function (item, index) {
+        return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n                            <div class=\"draggable-item\" id=", " containerName=", "                             \n                            draggable=\"true\"  @dragstart=", " \n                            @dragend=", ">\n                                ", "\n                            </div> "])), index, _this2.headerName, function (e) {
+          return _this2.dragStart(e);
+        }, function (e) {
+          e.currentTarget.classList.remove('dragging');
+          _this2.dragEnded(e);
+        }, _this2.dragItemRenderer(item));
+      })));
+    }
+  }, {
+    key: "handleDrop",
+    value: function handleDrop(e) {
       e.preventDefault();
     }
   }, {
     key: "dragStart",
     value: function dragStart(e) {
-      var _this2 = this;
+      var _this3 = this;
       this.dragStartElement = e.target;
       e.dataTransfer.setData("text", e.target);
       setTimeout(function () {
-        _this2.dragStartElement.style.opacity = 0.2;
+        _this3.dragStartElement.classList.add('dragging');
       }, 0);
     }
   }, {
-    key: "drop",
-    value: function drop(e) {
-      var _this3 = this;
-      var dropzone = e.currentTarget;
-      this.dragOverElement.classList.remove('active-drag-over-top');
-      this.dragOverElement.classList.remove('active-drag-over-bottom');
-      this.startContainer = this.dragStartElement.getAttribute("containerName");
-      if (dropzone.className == "drag-container-item") {
-        this.endContainer = dropzone.getAttribute("containerName");
-        dropzone = this.shadowRoot.getElementById(this.endContainer);
-      } else {
-        this.endContainer = dropzone.getAttribute("id");
-      }
-      if (this.endContainer == this.startContainer) {
-        if (e.currentTarget.className == "drag-container-item" && e.currentTarget != this.dragStartElement) {
-          var childNodes = e.currentTarget.parentNode.childNodes;
-          var NextSibilingNode;
-          var currentpos = 0,
-            droppedpos = 0;
-          for (var i = 0; i < childNodes.length; i++) {
-            if (e.currentTarget == childNodes[i]) {
-              currentpos = i;
-              for (var j = i + 1; j < childNodes.length; j++) {
-                if (JSON.stringify(childNodes[j]) != "{}") {
-                  NextSibilingNode = childNodes[j];
-                  break;
-                }
-              }
-            }
-            if (this.dragStartElement == childNodes[i]) {
-              droppedpos = i;
-            }
-          }
-          var childNodeArray = Array.from(childNodes);
-          var draggedItem = this.list[childNodeArray[droppedpos].id];
-          var newIndex = Number(childNodeArray[currentpos].id);
-          var itemReorderEvent = new CustomEvent('item-reordered', {
-            detail: {
-              draggedItem: draggedItem,
-              newIndex: newIndex
-            },
-            bubbles: true,
-            composed: true
-          });
-          var reorderedChildNodes = this.reorderList(currentpos, droppedpos, Array.from(childNodes));
-          var updatedList = this.updateDroppedList(reorderedChildNodes);
-          var event = new CustomEvent('list-updated', {
-            detail: {
-              data: updatedList
-            },
-            bubbles: true,
-            composed: true
-          });
-          setTimeout(function () {
-            _this3.dispatchEvent(event);
-            _this3.dispatchEvent(itemReorderEvent);
-          }, 3000);
-        }
-      }
-    }
-  }, {
-    key: "reorderList",
-    value: function reorderList(newIndex, oldIndex, originalArray) {
-      var movedItem = originalArray.find(function (item, index) {
-        return index === oldIndex;
-      });
-      var remainingItems = originalArray.filter(function (item, index) {
-        return index !== oldIndex;
-      });
-      var reorderedItems = [].concat(_toConsumableArray(remainingItems.slice(0, newIndex)), [movedItem], _toConsumableArray(remainingItems.slice(newIndex)));
-      return reorderedItems;
-    }
-  }, {
-    key: "updateDroppedList",
-    value: function updateDroppedList(listArray) {
-      var data = [];
-      for (var i = 0; i < listArray.length; i++) {
-        if (listArray[i].className === "drag-container-item") {
-          var id = listArray[i].id;
-          data.push(this.list[id]);
-        }
-      }
-      this.list = data;
-      return data;
-    }
-  }, {
-    key: "render",
-    value: function render() {
+    key: "dragEnded",
+    value: function dragEnded(e) {
       var _this4 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n            <style>\n                .drag-container-item{\n                    cursor: grabbing;\n                    background-color:white;\n                    transition-duration:1s;\n                }\n                .active-drag-over-top{\n                    transition-duration: 1s ;\n                    padding-top: var(--fw-drag-active-padding,50px)\n                }\n                .active-drag-over-bottom{\n                    transition-duration: 1s;\n                    padding-bottom: var(--fw-drag-active-padding,50px)\n                }\n            </style>\n            <div class=\"drag-test\">\n                <div class=\"vertical-container\" id=", "  @dragover=", " >\n                    ", "\n                </div>\n            </div>  \n        "])), this.headerName, function (e) {
-        return _this4.allowDrop(e);
-      }, this.list && this.list.map(function (item, index) {
-        return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n                            <div class=\"drag-container-item\" id=", " @dragstart=", " containerName=", " draggable=\"true\"  @drop=", " \n                            @dragover=", " \n                            @dragend=", ">\n                                ", "\n                            </div>\n                            \n                        "])), index, function (e) {
-          return _this4.dragStart(e);
-        }, _this4.headerName, function (e) {
-          return _this4.drop(e);
-        }, function (e) {
-          return _this4.handleDragOver(e);
-        }, function (e) {
-          var _this4$dragOverElemen, _this4$dragOverElemen2;
-          _this4.dragStartElement.style.opacity = '';
-          _this4.dragStartElement.style.border = '';
-          (_this4$dragOverElemen = _this4.dragOverElement) === null || _this4$dragOverElemen === void 0 ? void 0 : _this4$dragOverElemen.classList.remove('active-drag-over-top');
-          (_this4$dragOverElemen2 = _this4.dragOverElement) === null || _this4$dragOverElemen2 === void 0 ? void 0 : _this4$dragOverElemen2.classList.remove('active-drag-over-bottom');
-        }, _this4.dragItemRenderer(item));
-      }));
-    }
-  }, {
-    key: "handleDragOver",
-    value: function handleDragOver(e) {
-      var currentTarget = e.currentTarget;
-      if (currentTarget == this.dragStartElement) {
+      e.preventDefault();
+      this.startContainer = this.dragStartElement.getAttribute('containerName');
+      this.endContainer = e.currentTarget.getAttribute('containerName');
+      ;
+      if (this.startContainer !== this.endContainer) {
         return;
       }
-      if (this.dragOverElement) {
-        this.dragOverElement.classList.remove('active-drag-over-top');
-        this.dragOverElement.classList.remove('active-drag-over-bottom');
+      var listArray = Array.from(e.currentTarget.parentNode.childNodes);
+      var _this$updateList = this.updateList(listArray),
+        _this$updateList2 = _slicedToArray(_this$updateList, 3),
+        updatedList = _this$updateList2[0],
+        draggedItem = _this$updateList2[1],
+        newIndex = _this$updateList2[2];
+      var oldIndex = this.list.findIndex(function (item) {
+        return item === draggedItem;
+      });
+      if (oldIndex === newIndex) return;
+      this.loading = true;
+      var itemReorderEvent = new CustomEvent('item-reordered', {
+        detail: {
+          draggedItem: draggedItem,
+          newIndex: newIndex
+        },
+        bubbles: true,
+        composed: true
+      });
+      var event = new CustomEvent('list-updated', {
+        detail: {
+          data: updatedList
+        },
+        bubbles: true,
+        composed: true
+      });
+      this.list = updatedList;
+      this.dispatchEvent(event);
+      this.dispatchEvent(itemReorderEvent);
+      setTimeout(function () {
+        _this4.loading = false;
+      }, 0);
+    }
+  }, {
+    key: "updateList",
+    value: function updateList(listArray) {
+      var data = [];
+      var draggedItem, newIndex;
+      var count = 0;
+      for (var i = 0; i < listArray.length; i++) {
+        if (listArray[i].className === "draggable-item") {
+          var id = listArray[i].id;
+          if (id === this.dragStartElement.id) {
+            draggedItem = this.list[id];
+            newIndex = count;
+          }
+          data.push(this.list[id]);
+          count++;
+        }
       }
-      this.dragOverElement = currentTarget;
-      if (currentTarget.id < this.dragStartElement.id) {
-        currentTarget.classList.add('active-drag-over-top');
-      } else {
-        currentTarget.classList.add('active-drag-over-bottom');
-      }
+      return [data, draggedItem, newIndex];
+    }
+  }, {
+    key: "reorderListItems",
+    value: function reorderListItems(e) {
+      e.preventDefault();
+      var droppableContainer = this.shadowRoot.querySelector('.droppable-container');
+      var draggingItem = this.shadowRoot.querySelector(".dragging");
+      var siblings = _toConsumableArray(droppableContainer.querySelectorAll(".draggable-item:not(.dragging)"));
+      var nextSibling = siblings.find(function (sibling) {
+        var dim = sibling.getBoundingClientRect();
+        return e.clientY <= dim.top + dim.height / 2;
+      });
+      droppableContainer.insertBefore(draggingItem, nextSibling);
     }
   }], [{
     key: "styles",
     get: function get() {
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["css"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n            :host,.drag-test{\n                display: block;\n                height :100%;\n            }\n        "])));
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["css"])(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n            :host,.drag-test{\n                display: block;\n                height :100%;\n            }\n        "])));
     }
   }, {
     key: "properties",
@@ -593,7 +569,7 @@ var DragDropList = /*#__PURE__*/function (_LitElement) {
         endContainer: String,
         startContainer: String,
         list: Array,
-        dragOverElement: Object
+        loading: Boolean
       };
     }
   }]);
@@ -646,35 +622,34 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
     _classCallCheck(this, IndexClass);
     _this = _super.call(this);
     _this.list = [].concat(sampleDocumentTags);
+    _this.admin = true;
     return _this;
   }
   //GET REQUEST TO DB TO FETCH THE TAGS
   // this.list = request response
   _createClass(IndexClass, [{
     key: "handleDelete",
-    value: function handleDelete(eventDetails) {
-      console.log(eventDetails.data);
+    value: function handleDelete(e) {
+      console.log(e.detail.data);
       //API CALL TO DELETE THE ITEM
-      var deletedTag = eventDetails.data;
+      var deletedTag = e.detail.data;
       this.list = this.list.filter(function (tag) {
         return tag.id !== deletedTag.id;
       });
     }
   }, {
     key: "handleAdd",
-    value: function handleAdd(eventDetails) {
-      console.log(eventDetails.data);
+    value: function handleAdd(e) {
+      console.log(e.detail.data);
       //API CALL TO CREATE NEW TAG    //API RESPONSE with id from server
-      var addedTag = eventDetails.data;
+      var addedTag = e.detail.data;
       addedTag['id'] = "randomID".concat(Math.random().toString().slice(2, 11));
       this.list = [].concat(_toConsumableArray(this.list), [addedTag]);
     }
   }, {
     key: "handleUpdate",
-    value: function handleUpdate(eventDetails) {
-      console.log(eventDetails.data);
-      //API CALL TO UPDATE THE DETAILS OF THE TAG;
-      var updatedTag = eventDetails.data;
+    value: function handleUpdate(e) {
+      var updatedTag = e.detail.data;
       this.list = this.list.filter(function (tag) {
         return tag.id !== updatedTag.id;
       });
@@ -689,21 +664,24 @@ var IndexClass = /*#__PURE__*/function (_LitElement) {
     key: "render",
     value: function render() {
       var _this2 = this;
-      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <style>\n            .property-list{\n                display:flex; flex-grow:1; gap:20px;\n                flex-direction:column;\n                \n            }\n            .property-list  div{\n                grid-template-columns:1fr 1fr 1fr\n            }\n            @media screen and (max-width:700px){\n                .property-list div{\n                    flex-direction:column;\n                    grid-template-columns:1fr 1fr\n                }\n            }\n            hr{\n                border-width:5px\n            }\n        </style>\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Re-orderable/ Custom Tag CRUD List </h2>\n             \n                <h3>The Custom-dnd-list Element</h3>\n                <crud-drag-drop-list\n                .list=", "\n                .editable=", "\n                .stepSize=", "\n                .defaultAttributeHoverMessage=", "\n                primaryAttribute=\"name\"\n                secondaryAttribute=\"description\"\n                idAttribute=\"id\"\n                positionAttribute=\"position\"\n                preventDeleteAttribute=\"defaultName\"\n                primaryHeaderValue=\"Tag Name\"\n                secondaryHeaderValue=\"Tag Description\"\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></crud-drag-drop-list>\n                \n            </div>  \n        "])), this.list, true, 1024, function (tag) {
+      return Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        <style>\n            .property-list{\n                display:flex; flex-grow:1; gap:20px;\n                flex-direction:column;\n                \n            }\n            .property-list  div{\n                grid-template-columns:1fr 1fr 1fr\n            }\n            @media screen and (max-width:700px){\n                .property-list div{\n                    flex-direction:column;\n                    grid-template-columns:1fr 1fr\n                }\n            }\n            hr{\n                border-width:5px\n            }\n        </style>\n            <div style='margin:auto; width:85%'>\n            <h2 style='margin-left:10px;'> Editable/ Re-orderable/ Custom Tag CRUD List </h2>\n            <button style=\"margin-bottom:20px;\"\n                @click=", "> Toggle Admin </button>\n                <h3>The Custom-dnd-list Element</h3>\n                <crud-drag-drop-list\n                .list=", "\n                .editable=", "\n                .stepSize=", "\n                .defaultAttributeHoverMessage=", "\n                primaryAttribute=\"name\"\n                secondaryAttribute=\"description\"\n                idAttribute=\"id\"\n                positionAttribute=\"position\"\n                preventDeleteAttribute=\"defaultName\"\n                primaryHeaderValue=\"Tag Name\"\n                secondaryHeaderValue=\"Tag Description\"\n                @item-deleted=", "\n                @item-added=", "\n                @item-updated=", "\n                ></crud-drag-drop-list>\n                \n            </div>  \n        "])), function () {
+        return _this2.admin = !_this2.admin;
+      }, this.list, this.admin, 1024, function (tag) {
         return _this2.hoverMessageForDefaultName(tag);
       }, function (e) {
-        return _this2.handleDelete(e.detail);
+        return _this2.handleDelete(e);
       }, function (e) {
-        return _this2.handleAdd(e.detail);
+        return _this2.handleAdd(e);
       }, function (e) {
-        return _this2.handleUpdate(e.detail);
+        return _this2.handleUpdate(e);
       });
     }
   }], [{
     key: "properties",
     get: function get() {
       return {
-        list: Array
+        list: Array,
+        admin: Boolean
       };
     }
   }]);
@@ -27429,7 +27407,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var CustomDndStyles = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n            .custom-dnd-list-wrapper{\n                padding:5px;\n            }\n            .add-input-wrapper{\n                display: grid;\n                width: 100%;\n                gap: 10px;\n                grid-template-columns: 1fr auto;\n                margin-bottom: 10px;\n                border-bottom: var(--fw-crud-dnd-item-border-size,2px) solid var(--fw-crud-dnd-item-bottom-color,#515151);\n                border-radius: var(--fw-crud-dnd-border-radius,10px);\n                padding: 10px 0px;\n                align-items: center;\n            }\n            .add-input-wrapper > .input-fields{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr;\n                gap:10px;\n                margin-left:30px;\n            }\n            .add-input-wrapper > .input-fields paper-input:invalid{\n                margin-bottom:10px;\n            }\n            .add-input-wrapper > .grid-template-1-column{\n                grid-template-columns:1fr ;\n            }\n            .add-input-wrapper > .add-input-actions-btn{\n                display: inline-grid;\n                grid-template-columns: 40px 40px;\n                gap: 10px;\n            }\n            paper-icon-button{\n                color:var(--fw-crud-dnd-icons-color,#515151);\n            }\n            #add-new-item-btn{\n                color: var(--fw-crud-dnd-add-button-color,'');\n                background: var(--fw-crud-dnd-add-button-background,'');\n                cursor: pointer;\n                gap: 5px;\n                height: 29px;\n                /* position: absolute; */\n                /* top: -2px; */\n                /* right: 15px; */\n            }\n            paper-input.box{\n                --paper-input-container_-_padding: 0px 0px;\n                --paper-input-container-input_-_padding-left:10px;\n            }\n            drag-drop-list{\n                --fw-drag-active-padding:60px;\n            }\n            @media all and (max-width: 500px) {\n                .add-input-wrapper{\n                    display:inline-grid;\n                    grid-template-columns:1fr minmax(50px,auto);\n                    gap:0px;\n                }\n                .add-input-wrapper > .input-fields{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .add-input-wrapper > .add-input-actions-btn{\n                    grid-template: 1fr 1fr / auto;\n                }\n                .grid-row-2-item{\n                    grid-row:2;\n                }\n                .box.grid-row-2-item{\n                    padding-left:30px;\n                }\n                drag-drop-list{\n                --fw-drag-active-padding:120px;\n            }\n            }\n    </style>\n"])));
 var HeaderRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n            <style>\n            .header-row{\n                display: inline-grid;\n                grid-template-columns: 1fr 2fr auto;\n                gap: 5px;\n                width: calc( 100% - 30px );\n                padding: 0px 0px 5px 30px;\n                border-bottom: var(--fw-crud-dnd-header-border-size,3px) solid var(--fw-crud-dnd-header-border-color,transparent);\n                border-radius: var(--fw-crud-dnd-border-radius,10px);\n                font-size: var(--fw-crud-dnd-header-font-size,17px);\n                color: var(--fw-crud-dnd-header-text-color,'');\n                font-weight: bold;\n            }\n            .header-row span{\n                display: inline-flex;\n                align-items: center;                    \n            }\n            .grid-template-2-column{\n                grid-template-columns:1fr minmax(70px,auto);\n            }\n            .grid-template-1-column{\n                grid-template-columns:1fr 2fr;\n            }\n            @media all and (max-width: 500px) {\n                .header-row{\n                    display:inline-grid;\n                    grid-template-columns:1fr auto;\n                    grid-template-rows: auto auto;\n                    gap:0px;\n                }\n            }\n        </style>\n"])));
-var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--icons-color,#515151);\n        cursor:grabbing;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#80cbc4;\n    }\n    .info-btn:hover{\n        cursor:pointer;\n    }\n    .info-btn-text:after {\n        content: attr(title);\n        font-size: 12px;\n        display: block;\n        width: max-content;\n        position: absolute;\n        right: 0;\n        bottom: -4px;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        word-break: break-word;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--fw-crud-dnd-item-font-size,17px);\n        padding: 5px 0px;\n        padding-left:10px;\n        min-height:40px;\n        user-select:text;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        align-items: center;\n        color:var(--fw-crud-dnd-item-color);\n        background:var(--fw-crud-dnd-item-background);\n        width: 100%;\n    }\n    .item-bottom-border{\n        border-bottom: var(--fw-crud-dnd-item-border-size,2px) solid var(--fw-crud-dnd-item-border-color,transparent);\n        border-radius: var(--fw-crud-dnd-border-radius,10px);\n    }\n    .grid-template-3-column{\n        grid-template-columns:1fr auto auto;\n    }\n    .item-block >paper-input.box{\n                --paper-input-container_-_padding: 0px 0px;\n                --paper-input-container-input_-_padding-left:10px;\n        }\n    @media all and (max-width: 500px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr auto;\n            grid-template-rows: auto auto;\n            gap:0px;\n\n        }\n        .info-btn-text:after{\n            font-size:14px;\n        }\n        .grid-row-2-item{\n            grid-row:2;\n        }\n        .grid-reposition-btn{\n            grid-column:2;\n        }\n    }\n</style>\n"])));
+var ItemRowStyle = Object(lit__WEBPACK_IMPORTED_MODULE_0__["html"])(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n<style>\n    paper-icon-button{\n        color:var(--icons-color,#515151);\n    }\n    iron-icon{\n        color:var(--icons-color,#515151);\n        cursor:grabbing;\n    }\n    .delete-btn:hover{\n        color:#fa3636;\n    }\n    .edit-btn:hover{\n        color:#80cbc4;\n    }\n    .info-btn:hover{\n        cursor:pointer;\n    }\n    .info-btn-text:after {\n        content: attr(title);\n        font-size: 12px;\n        display: block;\n        width: max-content;\n        position: absolute;\n        right: 0;\n        bottom: -4px;\n    }\n    .item-block{\n        width: 100%;\n        display:inline-grid;\n        gap:10px;\n        word-break: break-word;\n        align-items:center;\n        grid-template-columns: 1fr 2fr auto auto;\n        font-size: var(--fw-crud-dnd-item-font-size,17px);\n        padding: 5px 0px;\n        padding-left:10px;\n        min-height:40px;\n        user-select:text;\n        }\n    .item-row-wrapper{\n        display: flex;\n        cursor: default;\n        align-items: center;\n        color:var(--fw-crud-dnd-item-color,'');\n        background:var(--fw-crud-dnd-item-background,'transparent');\n        width: 100%;\n    }\n    .item-bottom-border{\n        border-bottom: var(--fw-crud-dnd-item-border-size,2px) solid var(--fw-crud-dnd-item-border-color,transparent);\n        border-radius: var(--fw-crud-dnd-border-radius,10px);\n    }\n    .grid-template-3-column{\n        grid-template-columns:1fr auto auto;\n    }\n    .item-block >paper-input.box{\n                --paper-input-container_-_padding: 0px 0px;\n                --paper-input-container-input_-_padding-left:10px;\n        }\n    @media all and (max-width: 500px) {\n        .item-block{\n            display:inline-grid;\n            grid-template-columns:1fr auto;\n            grid-template-rows: auto auto;\n            gap:0px;\n\n        }\n        .info-btn-text:after{\n            font-size:14px;\n        }\n        .grid-row-2-item{\n            grid-row:2;\n        }\n        .grid-reposition-btn{\n            grid-column:2;\n        }\n    }\n</style>\n"])));
 
 /***/ }),
 
