@@ -47,13 +47,13 @@ class DragDropList extends LitElement {
                 html`
                     <div class="drag-test">
                         <div class="droppable-container" id=${this.headerName}  
-                            @dragover=${(e) =>this.reorderListItems(e)} 
                             @dragenter=${(e) =>e.preventDefault()} 
+                            @dragover=${(e) =>this.reorderListItems(e)} 
                             @drop=${(e)=> this.handleDrop(e)}
                         >
                 ${this.list && this.list.map((item, index) => {
                         return html`
-                            <div class="draggable-item" id=${index} containerName=${this.headerName} 
+                            <div class="draggable-item" id=${index} containerName=${this.headerName}                             
                             draggable="true"  @dragstart=${(e) => this.dragStart(e)} 
                             @dragend=${(e)=> { e.currentTarget.classList.remove('dragging'); this.dragEnded(e) } }>
                                 ${this.dragItemRenderer(item) }
@@ -79,16 +79,18 @@ class DragDropList extends LitElement {
 
     dragEnded(e){
         e.preventDefault();
-        this.loading=true;
         this.startContainer= this.dragStartElement.getAttribute('containerName');
         this.endContainer = e.currentTarget.getAttribute('containerName');;
         if(this.startContainer !== this.endContainer){return;}
         const listArray = Array.from(e.currentTarget.parentNode.childNodes);
         const [updatedList,draggedItem,newIndex]= this.updateList(listArray);
+        const oldIndex = this.list.findIndex((item)=> item===draggedItem);
+        if(oldIndex===newIndex)return;
+        this.loading=true;
         let itemReorderEvent = new CustomEvent('item-reordered',{detail:{draggedItem:draggedItem,newIndex:newIndex},bubbles:true,composed:true});
         let event = new CustomEvent('list-updated',{detail:{data:updatedList},bubbles : true, composed: true});
         this.list = updatedList;
-        console.log(updatedList,draggedItem,newIndex)
+        
         this.dispatchEvent(event);
         this.dispatchEvent(itemReorderEvent); 
         setTimeout(() => {  this.loading=false;}, 0);
@@ -115,11 +117,12 @@ class DragDropList extends LitElement {
             const droppableContainer = this.shadowRoot.querySelector('.droppable-container');
             const draggingItem = this.shadowRoot.querySelector(".dragging");
             
-            let siblings = [...droppableContainer.querySelectorAll(".draggable-item")];
+            let siblings = [...droppableContainer.querySelectorAll(".draggable-item:not(.dragging)")];
             
             let nextSibling = siblings.find(sibling => {
                 return e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2;
             });
+            // console.log(nextSibling);
             droppableContainer.insertBefore(draggingItem, nextSibling);
     }
 }

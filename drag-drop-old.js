@@ -78,12 +78,8 @@ class DragDropList extends LitElement {
                 let reorderedChildNodes = this.reorderList( currentpos,droppedpos, Array.from(childNodes));
                 let updatedList = this.updateDroppedList(reorderedChildNodes);
                 let event = new CustomEvent('list-updated',{detail:{data:updatedList},bubbles : true, composed: true});
-
-                setTimeout(() => {
                 this.dispatchEvent(event);
                 this.dispatchEvent(itemReorderEvent); 
-                }, 3000);
-                   
             }
         }
     }
@@ -118,15 +114,17 @@ class DragDropList extends LitElement {
                 .drag-container-item{
                     cursor: grabbing;
                     background-color:white;
-                    transition-duration:1s;
+                    
                 }
                 .active-drag-over-top{
-                    transition-duration: 1s ;
-                    padding-top: var(--fw-drag-active-padding,50px)
+                    /* transition-duration: 1s ; */
+                    border-top:4px solid green;
+                    /* padding-top: var(--fw-drag-active-padding,50px) */
                 }
                 .active-drag-over-bottom{
-                    transition-duration: 1s;
-                    padding-bottom: var(--fw-drag-active-padding,50px)
+                    /* transition-duration: 1s; */
+                    border-bottom:4px solid green;
+                    /* padding-bottom: var(--fw-drag-active-padding,50px) */
                 }
             </style>
             <div class="drag-test">
@@ -154,13 +152,16 @@ class DragDropList extends LitElement {
     }
 
     handleDragOver(e){
+        
         const currentTarget = e.currentTarget;
-        if(currentTarget==this.dragStartElement){return;}   
         if(this.dragOverElement){
             this.dragOverElement.classList.remove('active-drag-over-top');
             this.dragOverElement.classList.remove('active-drag-over-bottom');
         }
-        
+        if(currentTarget==this.dragStartElement){
+            
+            return;
+        }          
         this.dragOverElement = currentTarget;
         if(currentTarget.id < this.dragStartElement.id){
             currentTarget.classList.add('active-drag-over-top')
