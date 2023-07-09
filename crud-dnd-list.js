@@ -5,8 +5,8 @@ import "@polymer/paper-input/paper-input.js";
 import "@polymer/paper-icon-button";
 import { BoxInputStyles } from "./input-styles.js";
 import { CustomDndStyles, HeaderRowStyle, ItemRowStyle} from "./styles/index.js";
-// import "./drag-drop-list-animate.js";
-import "./drag-drop-old.js";
+import "./drag-drop-list-animate.js";
+// import "./drag-drop-old.js";
 
 export class crudDragDropList extends LitElement {
   static get properties() {

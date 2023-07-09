@@ -40,7 +40,9 @@ class DragDropList extends LitElement {
                     background-color:white;
                 }
                 .draggable-item.dragging {
-                    visibility:hidden
+                    opacity:0.3;
+                    border:1px solid;
+
                 }
             </style>
                 ${this.loading?'':

@@ -115,14 +115,13 @@ class DragDropList extends LitElement {
             <style>
                 .drag-container-item{
                     cursor: grabbing;
-                    background-color:white;
                 }
                 .active-drag-over-top{
-                    transition-duration: 0.3s;
+                    transition-duration: 0.6s;
                     padding-top: var(--fw-drag-active-padding,50px)
                 }
                 .active-drag-over-bottom{
-                    transition-duration: 0.3s;
+                    transition-duration: 0.6s;
                     padding-bottom: var(--fw-drag-active-padding,50px)
                 }
             </style>
